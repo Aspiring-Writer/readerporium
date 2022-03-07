@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% block title %}Users{% endblock %}{% block content %}
 <form
-  action="{{ url_for('update_user', id=user.id) }}"
+  action="{{ url_for('update_user', id=update_user.id) }}"
   METHOD="POST"
   class="max-w-4xl p-6 mx-auto text-left"
 >
@@ -11,7 +11,7 @@
         type="text"
         class="form-field"
         name="name"
-        value="{{ user.name }}"
+        value="{{ update_user.name }}"
       />
     </div>
     <div>
@@ -20,13 +20,13 @@
         type="text"
         class="form-field"
         name="username"
-        value="{{ user.username }}"
+        value="{{ update_user.username }}"
       />
     </div>
     <div>
       <label for="level">Level</label>
       <select name="level" class="form-field">
-        <option selected>{{ user.level }}</option>
+        <option selected>{{ update_user.level }}</option>
         <option value="1">Child</option>
         <option value="2">Teen</option>
         <option value="3">Adult</option>

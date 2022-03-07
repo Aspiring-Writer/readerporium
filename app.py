@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from jinja_markdown import MarkdownExtension
@@ -23,6 +24,7 @@ app.jinja_env.add_extension(MarkdownExtension)
 
 # Intialize the database
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 #book_tags = db.Table('book_tags',
 #    db.Column('book_id', db.Integer, db.ForeignKey('books.id')),
@@ -40,16 +42,11 @@ class Users(db.Model, UserMixin):
 class Books(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(5000), nullable=False)
-	#author = db.Column(db.String(200), nullable=False)
 	author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
-	#series = db.Column(db.String(500))
 	series_id = db.Column(db.Integer, db.ForeignKey('series.id'))
 	series_index = db.Column(db.Float)
-	#tags = db.Column(db.String(125))
 	tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
-	#tags = db.relationship('Tags', secondary=book_tags, backref='tags')
-	isbn = db.Column(db.Integer)
-	#publisher = db.Column(db.String(150))
+	isbn = db.Column(db.String(13))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('publishers.id'))
 	pubyear = db.Column(db.Integer)
 	description = db.Column(db.Text)
@@ -547,6 +544,40 @@ def delete_publisher(id):
 
 	return redirect(url_for('publishers'))
 
+# Reading Levels
+@app.route('/levels')
+@login_required
+def levels():
+	return render_template('levels.html')
+
+@app.route('/levels/1')
+@login_required
+def level1():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('level1.html', books=books, authors=authors)
+
+@app.route('/levels/2')
+@login_required
+def level2():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('level2.html', books=books, authors=authors)
+
+@app.route('/levels/3')
+@login_required
+def level3():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('level3.html', books=books, authors=authors)
+
+@app.route('/levels/4')
+@login_required
+def level4():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('level4.html', books=books, authors=authors)
+
 # Admin
 @app.route('/admin/')
 @login_required
@@ -598,6 +629,24 @@ def add_user():
 	#else:
 	#	flash('Only admins can create users.', category='error')
 	#	return redirect(url_for('index'))
+
+@app.route('/admin/update/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_user(id):
+    update_user = Users.query.get_or_404(id)
+    if request.method == "POST":
+        update_user.name = request.form['name']
+        update_user.username = request.form['username']
+        update_user.level = request.form['level']
+        try:
+            db.session.commit()
+            flash('User updated successfully!')
+            return redirect(url_for('admin'))
+        except:
+            flash('Error updating user')
+            return render_template('update-user.html', update_user=update_user)
+    else:
+        return render_template('update-user.html', update_user=update_user)
 
 @app.route('/admin/delete/<int:id>')
 @login_required

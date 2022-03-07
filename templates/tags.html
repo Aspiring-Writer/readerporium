@@ -9,7 +9,7 @@
 {% endif %}
 <div class="columns-2xs text-left">
   <ul>
-    {% for tag in tags %}
+    {% for tag in tags | sort(attribute="name") %}
     <li>
       <span>
         <svg

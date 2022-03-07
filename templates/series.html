@@ -9,7 +9,7 @@
 {% endif %}
 <div class="columns-xs text-left">
   <ul>
-    {% for series in series %}
+    {% for series in series | sort(attribute="name") %}
     <li>
       <span>
         <svg

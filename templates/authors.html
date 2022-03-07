@@ -9,7 +9,7 @@
 {% endif %}
 <div class="columns-xs text-left">
   <ul>
-    {% for author in authors %}
+    {% for author in authors | sort(attribute="name") %}
     <li>
       <span>
         <svg

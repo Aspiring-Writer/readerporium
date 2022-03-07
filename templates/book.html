@@ -2,8 +2,8 @@
 {{ book.author.name }}{% endblock %} {% block content %}
 <div class="max-w-4xl p-6 mx-auto text-left">
   <img
-    src="{% if book.image %}{{
-      book.image
+    src="{% if book.cover %}{{
+      book.cover
     }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}"
     alt="book cover image"
   />
@@ -25,7 +25,8 @@
     <a href="{{ url_for('tags') }}/{{ book.tag.id }}">{{ book.tag.name }}</a>
   </p>
   <p>
-    Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}
+    Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{%
+    elif book.level == 3 %}Adult{% else %}Mature{% endif %}
   </p>
   <p>ISBN: {{ book.isbn }}</p>
   <p>
@@ -73,7 +74,82 @@
         </svg>
       </a>
       {% endif %}
-      <a href="#" class="btn"> Download </a>
+    </div>
+  </div>
+  <div class="flex items-center justify-center mt-4">
+    <div class="inline-flex first:rounded-l last:rounded-r" role="group">
+      <a
+        href="/static/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{
+          book.author.name
+        }}/{% if book.series %}{{ book.series.name }} - {{
+          book.series_index
+        }} - {% endif %}{{ book.title }}.epub"
+        class="btn"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        </svg>
+        EPUB
+      </a>
+      <a
+        href="/static/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{
+          book.author.name
+        }}/{% if book.series %}{{ book.series.name }} - {{
+          book.series_index
+        }} - {% endif %}{{ book.title }}.kepub.epub"
+        class="btn"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        </svg>
+        KEPUB
+      </a>
+      <a
+        href="/static/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{
+          book.author.name
+        }}/{% if book.series %}{{ book.series.name }} - {{
+          book.series_index
+        }} - {% endif %}{{ book.title }}.mobi"
+        class="btn"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+          />
+        </svg>
+        MOBI
+      </a>
     </div>
   </div>
 </div>

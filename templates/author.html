@@ -40,8 +40,8 @@ block content %}
 {% endif %}
 <div class="columns-sm text-left">
   <ul>
-    {% for book in books %}{% if book.author.id == author.id and book.level <= current_user.level %}
-    <li>
+    {% for book in books | sort(attribute="title") %}{% if book.author.id == author.id and book.level <= current_user.level %}
+    <li class="break-inside-avoid">
       <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -59,8 +59,7 @@ block content %}
         </svg>
       </span>
       <a href="{{ url_for('books') }}/{{ book.id }}">
-        {% if book.series %}{{ book.series.name }} #{{ book.series_index }}: {% endif
-        %}{{ book.title }}
+        {{ book.title }} {% if book.series %}<span class="text-sm">({{ book.series.name }} #{{ book.series_index }})</span>{% endif %}
       </a>
     </li>
     {% endif %}{% endfor %}

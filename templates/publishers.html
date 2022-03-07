@@ -9,7 +9,7 @@ content %} {% if current_user.id == 1 %}
 {% endif %}
 <div class="columns-xs text-left">
   <ul>
-    {% for publisher in publishers %}
+    {% for publisher in publishers | sort(attribute="name") %}
     <li>
       <span>
         <svg

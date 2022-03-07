@@ -1,8 +1,8 @@
-{% extends 'base.html' %}{% block title %}👋 Welcome {{ current_user.name }}! 🥳{% endblock %} {% block content %}
-<h3 class="text-lg md:text-xl lg:text-2xl mb-4">Recently Added</h3>
+{% extends 'base.html' %} {% block title %}Reading Level: Adult{% endblock %} {%
+block content %}
 <div class="columns-sm text-left">
   <ul>
-    {% for book in books %}{% if book.level <= current_user.level %}
+    {% for book in books | sort(attribute="title") %}{% if book.level == 3 %}
     <li class="break-inside-avoid">
       <span>
         <svg
@@ -21,7 +21,10 @@
         </svg>
       </span>
       <a href="{{ url_for('books') }}/{{ book.id }}">
-        {{ book.title }} by {{ book.author.name }} {% if book.series %}<span class="text-sm">({{ book.series.name }} #{{ book.series_index }})</span>{% endif %}
+        {{ book.title }} by {{ book.author.name }} {% if book.series %}<span
+          class="text-sm"
+          >({{ book.series.name }} #{{ book.series_index }})</span
+        >{% endif %}
       </a>
     </li>
     {% endif %}{% endfor %}
