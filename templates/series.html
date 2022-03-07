@@ -1,0 +1,36 @@
+{% extends 'base.html' %} {% block title %}Series{% endblock %} {% block content
+%} {% if current_user.id == 1%}
+<div class="mb-5">
+  <form METHOD="POST" class="inline-flex">
+    <input name="name" type="text" />
+    <button type="submit" class="btn">Add Series</button>
+  </form>
+</div>
+{% endif %}
+<div class="columns-xs text-left">
+  <ul>
+    {% for series in series %}
+    <li>
+      <span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M4 6h16M4 10h16M4 14h16M4 18h16"
+          />
+        </svg>
+      </span>
+      <a href="{{ url_for('series') }}/{{ series.id }}">{{ series.name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

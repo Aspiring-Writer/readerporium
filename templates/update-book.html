@@ -1,0 +1,105 @@
+{% extends 'base.html' %}{% block title %}Update {{ book.title }} by
+{{ book.author.name }}{% endblock %} {% block content %}
+<form
+  action="{{ url_for('update_book', id=book.id) }}"
+  METHOD="POST"
+  class="max-w-4xl p-6 mx-auto text-left"
+>
+  <div class="grid grid-cols-2 gap-6">
+    <div>
+      <label for="title">Title</label>
+      <input
+        name="title"
+        type="text"
+        value="{{ book.title }}"
+        class="form-field"
+      />
+    </div>
+    <div>
+      <label for="author">Author</label>
+      <select name="author" class="form-field">
+        {% for author in authors %}
+        <option value="{{ author.id }}">{{ author.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="series">Series</label>
+      <select name="series" class="form-field">
+        {% for series in series %}
+        <option value="{{ series.id }}">{{ series.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="series_index">Series Index</label>
+      <input
+        name="series_index"
+        type="text"
+        class="form-field"
+        value="{{ book.series_index }}"
+      />
+    </div>
+    <div>
+      <label for="tag">Tag</label>
+      <select name="tag" class="form-field">
+        {% for tag in tags %}
+        <option value="{{ tag.id }}">{{ tag.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="level">Level</label>
+      <select name="level" class="form-field">
+        <option selected>{{ book.level }}</option>
+        <option value="1">Child</option>
+        <option value="2">Teen</option>
+        <option value="3">Adult</option>
+        <option value="4">Mature</option>
+      </select>
+    </div>
+    <div>
+      <label for="cover">Cover</label>
+      <input
+        name="cover"
+        type="text"
+        class="form-field"
+        value="{{ book.cover }}"
+      />
+    </div>
+    <div>
+      <label for="isbn">ISBN</label>
+      <input name="isbn" type="number" class="form-field" />
+    </div>
+    <div>
+      <label for="publisher">Publisher</label>
+      <select name="publisher" class="form-field">
+        {% for publisher in publishers %}
+        <option value="{{ publisher.id }}">{{ publisher.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label for="pubyear">Year Published</label>
+      <input
+        name="pubyear"
+        type="number"
+        class="form-field"
+        value="{{ book.pubyear }}"
+      />
+    </div>
+  </div>
+  <div class="mt-6">
+    <label for="description">Description</label>
+    <textarea
+      name="description"
+      type="textarea"
+      class="block w-full h-96 px-4 py-2 mt-2 border border-gray-300 rounded-md"
+      >{{ book.description }}</textarea
+    >
+  </div>
+  <div class="flex justify-center mt-6">
+    <button type="submit" class="btn">Update Book</button>
+  </div>
+</form>
+{% endblock %}

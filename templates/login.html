@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link href="/static/styles.css" rel="stylesheet" />
+    <title>Readerporium</title>
+  </head>
+  <body>
+    {% for message in get_flashed_messages() %}
+    <div
+      class="{% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %} rounded-lg py-5 px-6 mb-3 text-base w-max-sm"
+      role="alert"
+    >
+      {{ message }}
+    </div>
+    {% endfor %}
+    <div class="flex h-screen">
+      <div class="m-auto text-center border border-gray-300 rounded p-5">
+        <span class="text-2xl block mb-3">Welcome to Readerporium!</span>
+        <form method="POST">
+          <label for="username">Username</label>
+          <input type="text" class="form-field" name="username" />
+          <label for="password" class="block text-lg">Password</label>
+          <input type="password" class="form-field" name="password" />
+          <div class="flex justify-center mt-6">
+            <button type="submit" class="btn">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %} {% block title %}Publishers{% endblock %} {% block
+content %} {% if current_user.id == 1 %}
+<div class="mb-5">
+  <form METHOD="POST" class="inline-flex">
+    <input name="name" type="text" />
+    <button type="submit" class="btn">Add Publisher</button>
+  </form>
+</div>
+{% endif %}
+<div class="columns-xs text-left">
+  <ul>
+    {% for publisher in publishers %}
+    <li>
+      <span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
+          />
+        </svg>
+      </span>
+      <a href="{{ url_for('publishers') }}/{{ publisher.id }}">{{
+        publisher.name
+      }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

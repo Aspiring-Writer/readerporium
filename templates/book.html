@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% block title %}{{ book.title }} by
+{{ book.author.name }}{% endblock %} {% block content %}
+<div class="max-w-4xl p-6 mx-auto text-left">
+  <img
+    src="{% if book.image %}{{
+      book.image
+    }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}"
+    alt="book cover image"
+  />
+  <p>Title: {{ book.title }}</p>
+  <p>
+    Author:
+    <a href="{{ url_for('authors') }}/{{ book.author.id }}">{{
+      book.author.name
+    }}</a>
+  </p>
+  <p>
+    Series:
+    <a href="{{ url_for('series') }}/{{ book.series.id }}"
+      >{{ book.series.name }} #{{ book.series_index }}</a
+    >
+  </p>
+  <p>
+    Tag:
+    <a href="{{ url_for('tags') }}/{{ book.tag.id }}">{{ book.tag.name }}</a>
+  </p>
+  <p>
+    Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}
+  </p>
+  <p>ISBN: {{ book.isbn }}</p>
+  <p>
+    Publisher:
+    <a href="{{ url_for('publishers') }}/{{ book.publisher.id }}">
+      {{ book.publisher.name }} ({{ book.pubyear }})
+    </a>
+  </p>
+
+  <div class="mt-8">{% markdown %}{{ book.description }}{% endmarkdown %}</div>
+
+  <div class="flex items-center justify-center mt-4">
+    <div class="inline-flex first:rounded-l last:rounded-r" role="group">
+      {% if current_user.id == 1 %}
+      <a href="{{ url_for('update_book', id=book.id) }}" class="btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+          />
+        </svg>
+      </a>
+      <a href="{{ url_for('delete_book', id=book.id) }}" class="btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
+      </a>
+      {% endif %}
+      <a href="#" class="btn"> Download </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
