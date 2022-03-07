@@ -45,30 +45,6 @@ class Users(db.Model, UserMixin):
 	password = db.Column(db.String(128))
 	date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
-class Books(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	title = db.Column(db.String(5000), nullable=False)
-	#author = db.Column(db.String(200), nullable=False)
-	author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
-	#series = db.Column(db.String(500))
-	series_id = db.Column(db.Integer, db.ForeignKey('series.id'))
-	series_index = db.Column(db.Float)
-	#tags = db.Column(db.String(125))
-	tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
-	#tags = db.relationship('Tags', secondary=book_tags, backref='tags')
-	isbn = db.Column(db.Integer)
-	#publisher = db.Column(db.String(150))
-	publisher_id = db.Column(db.Integer, db.ForeignKey('publishers.id'))
-	pubyear = db.Column(db.Integer)
-	description = db.Column(db.Text)
-	cover = db.Column(db.String(100))
-	date_created = db.Column(db.DateTime, default=datetime.utcnow)
-	level = db.Column(db.Integer, nullable=False)
-
-	# Return what we just added
-	def __repr__(self):
-		return '<Title %r>' % self.id
-
 class Authors(db.Model):
 	__bind_key__ = 'authors'
 	id = db.Column(db.Integer, primary_key=True)
@@ -113,6 +89,30 @@ class Publishers(db.Model):
 	# Return what we just added
 	def __repr__(self):
 		return '<Name %r>' % self.id
+
+class Books(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.String(5000), nullable=False)
+	#author = db.Column(db.String(200), nullable=False)
+	author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
+	#series = db.Column(db.String(500))
+	series_id = db.Column(db.Integer, db.ForeignKey('series.id'))
+	series_index = db.Column(db.Float)
+	#tags = db.Column(db.String(125))
+	tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
+	#tags = db.relationship('Tags', secondary=book_tags, backref='tags')
+	isbn = db.Column(db.Integer)
+	#publisher = db.Column(db.String(150))
+	publisher_id = db.Column(db.Integer, db.ForeignKey('publishers.id'))
+	pubyear = db.Column(db.Integer)
+	description = db.Column(db.Text)
+	cover = db.Column(db.String(100))
+	date_created = db.Column(db.DateTime, default=datetime.utcnow)
+	level = db.Column(db.Integer, nullable=False)
+
+	# Return what we just added
+	def __repr__(self):
+		return '<Title %r>' % self.id
 
 # Home
 @app.route('/')
