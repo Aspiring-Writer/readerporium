@@ -9,13 +9,13 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '1128f4e988dedaaaceeec011b02f0539d10d3d4ac0532c2e2553532de3e8234e'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jnzmjubjkelumc:660b1462de5737fc1aeb2658cc7e01f65031d376c48cdc5ca5fefd941dbf8676@ec2-3-230-238-86.compute-1.amazonaws.com:5432/deqrkrugj3u8bj'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://jnzmjubjkelumc:660b1462de5737fc1aeb2658cc7e01f65031d376c48cdc5ca5fefd941dbf8676@ec2-3-230-238-86.compute-1.amazonaws.com:5432/deqrkrugj3u8bj'
 app.config['SQLALCHEMY_BINDS'] = {
-	'users': 'postgres://rldeusoqzpcsvg:1c9c15a29af9d0f4a95385081c8a83626c77ef854b25308a475c1b0ac5877878@ec2-3-230-238-86.compute-1.amazonaws.com:5432/dacsguo96b7b8f', #BROWN
-	'authors': 'postgres://ujvyypcvxvgljt:b50aaa63e553ce68ff21b8659cc162c7a1fe3d94d9913cd51f3a325b01112399@ec2-34-205-217-14.compute-1.amazonaws.com:5432/d2l5hmh9hf6dnv', #BRONZE
-	'series': 'postgres://gmusdlhxsazwjm:9cd31e6b62cc1377dcff12d4214f8c920c5ace32d8d15f7edd2915fb52c4ce97@ec2-3-230-238-86.compute-1.amazonaws.com:5432/datk6vd8rjsuks', #TEAL
-	'tags': 'postgres://xoxztmneofbxwc:1fc527eeec8f72478166ea755caa7ca464d0fabdab45e6099894eabe8dc9bf1b@ec2-3-230-238-86.compute-1.amazonaws.com:5432/d3g3s6o8eadc7s', #AMBER
-	'publishers': 'postgres://mwgqoquwplksel:89f6382d71643eb597d4e02a1200e24d051a58d941ae3f05fb3911382d877bc8@ec2-54-174-172-218.compute-1.amazonaws.com:5432/dekuaqniqmbmbs' #CHARCOAL
+	'users': 'postgresql://rldeusoqzpcsvg:1c9c15a29af9d0f4a95385081c8a83626c77ef854b25308a475c1b0ac5877878@ec2-3-230-238-86.compute-1.amazonaws.com:5432/dacsguo96b7b8f', #BROWN
+	'authors': 'postgresql://ujvyypcvxvgljt:b50aaa63e553ce68ff21b8659cc162c7a1fe3d94d9913cd51f3a325b01112399@ec2-34-205-217-14.compute-1.amazonaws.com:5432/d2l5hmh9hf6dnv', #BRONZE
+	'series': 'postgresql://gmusdlhxsazwjm:9cd31e6b62cc1377dcff12d4214f8c920c5ace32d8d15f7edd2915fb52c4ce97@ec2-3-230-238-86.compute-1.amazonaws.com:5432/datk6vd8rjsuks', #TEAL
+	'tags': 'postgresql://xoxztmneofbxwc:1fc527eeec8f72478166ea755caa7ca464d0fabdab45e6099894eabe8dc9bf1b@ec2-3-230-238-86.compute-1.amazonaws.com:5432/d3g3s6o8eadc7s', #AMBER
+	'publishers': 'postgresql://mwgqoquwplksel:89f6382d71643eb597d4e02a1200e24d051a58d941ae3f05fb3911382d877bc8@ec2-54-174-172-218.compute-1.amazonaws.com:5432/dekuaqniqmbmbs' #CHARCOAL
 }
 
 login_manager = LoginManager()
