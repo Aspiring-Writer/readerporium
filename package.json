@@ -1,0 +1,23 @@
+{
+  "name": "readerporium",
+  "version": "1.0.0",
+  "description": "An e-book server using Python and PostGres",
+  "main": "app.py",
+  "scripts": {
+    "vercel-install": "./vercel-submodule-workaround.sh && yarn --ignore-scripts --production=false"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aspiring-Writer/readerporium.git"
+  },
+  "keywords": [
+    "e-book",
+    "server"
+  ],
+  "author": "Aspiring-Writer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aspiring-Writer/readerporium/issues"
+  },
+  "homepage": "https://github.com/Aspiring-Writer/readerporium#readme"
+}
