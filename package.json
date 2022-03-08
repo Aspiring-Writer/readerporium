@@ -4,7 +4,7 @@
   "description": "An e-book server using Python and PostGres",
   "main": "app.py",
   "scripts": {
-    "vercel-install": "./vercel-submodule-workaround.sh && yarn --ignore-scripts --production=false"
+    "vercel-install": "./vercel-submodule-workaround.sh && npm --production=false"
   },
   "repository": {
     "type": "git",
