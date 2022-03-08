@@ -8,9 +8,11 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 
 app = Flask(__name__)
 
+DATABASE_URL = os.environ['DATABASE_URL']
+
 app.config['SECRET_KEY'] = '1128f4e988dedaaaceeec011b02f0539d10d3d4ac0532c2e2553532de3e8234e'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://jnzmjubjkelumc:660b1462de5737fc1aeb2658cc7e01f65031d376c48cdc5ca5fefd941dbf8676@ec2-3-230-238-86.compute-1.amazonaws.com:5432/deqrkrugj3u8bj'
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -666,3 +668,6 @@ def delete_user(id):
 		flash('You are not authorized to delete users', category='error')
 
 	return redirect(url_for('admin'))
+
+if __name__ == "__main__":
+    app.run(debug=True)

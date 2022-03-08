@@ -4,7 +4,8 @@
   "description": "An e-book server using Python and PostGres",
   "main": "app.py",
   "scripts": {
-    "vercel-install": "./vercel-submodule-workaround.sh && yarn"
+    "build": "tailwindcss -i style.css -o tailwind.css --minify",
+    "vercel-install": "./vercel-submodule-workaround.sh && npm run build"
   },
   "repository": {
     "type": "git",
