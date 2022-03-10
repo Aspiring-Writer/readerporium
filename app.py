@@ -10,11 +10,10 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 
 app = Flask(__name__)
 
-DATABASE_URL = os.environ['DATABASE_URL']
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
-app.config['SECRET_KEY'] = '1128f4e988dedaaaceeec011b02f0539d10d3d4ac0532c2e2553532de3e8234e'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -29,11 +28,6 @@ app.jinja_env.add_extension(MarkdownExtension)
 # Intialize the database
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-
-#book_tags = db.Table('book_tags',
-#    db.Column('book_id', db.Integer, db.ForeignKey('books.id')),
-#    db.Column('tags_id', db.Integer, db.ForeignKey('tags.id'))
-#)
 
 class Users(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
