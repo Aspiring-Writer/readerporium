@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
+load_dotenv()
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['GITHUB_LOGIN'] = os.environ.get('GITHUB_LOGIN')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
