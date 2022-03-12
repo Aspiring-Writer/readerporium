@@ -7,14 +7,10 @@ from datetime import datetime
 from jinja_markdown import MarkdownExtension
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-load_dotenv()
-
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['GITHUB_LOGIN'] = os.environ.get('GITHUB_LOGIN')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
