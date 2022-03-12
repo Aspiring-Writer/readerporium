@@ -1,4 +1,4 @@
 
 [submodule "static/books"]
 	path = static/books
-	url = https://Aspiring-Writer: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@github.com/Aspiring-Writer/books
+	url = https://{GITHUB_LOGIN}@github.com/Aspiring-Writer/books
