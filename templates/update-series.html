@@ -4,6 +4,13 @@ block content %}
   <div class="m-auto text-center border border-gray-300 rounded p-5">
     <form method="POST">
       <input type="text" class="form-field" name="name" value="{{ series.name }}"/>
+      <select name="level" class="form-field">
+    		<option value="{{ series.level }}">{{ series.level }}</option>
+        <option value="1">Child</option>
+        <option value="2">Teen</option>
+        <option value="3">Adult</option>
+        <option value="4">Mature</option>
+      </select>
       <div class="flex justify-center mt-6">
         <button type="submit" class="btn">Update Series</button>
       </div>

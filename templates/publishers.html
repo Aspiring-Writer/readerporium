@@ -1,15 +1,31 @@
 {% extends 'base.html' %} {% block title %}Publishers{% endblock %} {% block
 content %} {% if current_user.id == 1 %}
 <div class="mb-5">
-  <form METHOD="POST" class="inline-flex">
-    <input name="name" type="text" />
-    <button type="submit" class="btn">Add Publisher</button>
+  <form METHOD="POST" class="max-w-4xl py-6 mx-auto text-left">
+    <div class="grid grid-cols-2 gap-6">
+      <div>
+        <label for="name">Name</label>
+        <input type="text" class="form-field" name="name" />
+      </div>
+      <div>
+        <label for="level">Level</label>
+        <select name="level" class="form-field">
+          <option value="1">Child</option>
+          <option value="2">Teen</option>
+          <option value="3">Adult</option>
+          <option value="4">Mature</option>
+        </select>
+      </div>
+    </div>
+    <div class="flex justify-center mt-6">
+      <button type="submit" class="btn">Submit</button>
+    </div>
   </form>
 </div>
 {% endif %}
 <div class="columns-xs text-left">
   <ul>
-    {% for publisher in publishers | sort(attribute="name") %}
+    {% for publisher in publishers | sort(attribute="name") %}{% if publisher.level <= current_user.level %}
     <li>
       <span>
         <svg
@@ -31,7 +47,7 @@ content %} {% if current_user.id == 1 %}
         publisher.name
       }}</a>
     </li>
-    {% endfor %}
+    {% endif %}{% endfor %}
   </ul>
 </div>
 

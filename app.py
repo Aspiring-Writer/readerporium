@@ -1,17 +1,17 @@
 import os
 import psycopg2
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_migrate import Migrate
 from jinja_markdown import MarkdownExtension
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+app.config['SECRET_KEY'] = '1128f4e988dedaaaceeec011b02f0539d10d3d4ac0532c2e2553532de3e8234e' #os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bhwjysdtjsxucp:13c77aa547a5a8461fca218491d684d2edb154117ea2190bee9867852e51f8e6@ec2-54-85-113-73.compute-1.amazonaws.com:5432/dfr36i48q1nctf' #os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 login_manager = LoginManager()
@@ -32,7 +32,7 @@ class Users(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(200), nullable=False)
 	username = db.Column(db.String(20), nullable=False, unique=True)
-	level = db.Column(db.Integer, nullable=False)
+	level = db.Column(db.Integer)
 	password = db.Column(db.String(128))
 	date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -49,7 +49,7 @@ class Books(db.Model):
 	description = db.Column(db.Text)
 	cover = db.Column(db.String(100))
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
-	level = db.Column(db.Integer, nullable=False)
+	level = db.Column(db.Integer)
 
 	# Return what we just added
 	def __repr__(self):
@@ -60,7 +60,7 @@ class Authors(db.Model):
 	name = db.Column(db.String(150), nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
 	books = db.relationship('Books', backref='author')
-	level = db.Column(db.Integer, nullable=False)
+	level = db.Column(db.Integer)
 
 	# Return what we just added
 	def __repr__(self):
@@ -72,7 +72,7 @@ class Series(db.Model):
 	index = db.Column(db.Float)
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
 	books = db.relationship('Books', backref='series')
-	level = db.Column(db.Integer, nullable=False)
+	level = db.Column(db.Integer)
 
 	# Return what we just added
 	def __repr__(self):
@@ -93,7 +93,7 @@ class Publishers(db.Model):
 	name = db.Column(db.String(250), nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
 	books = db.relationship('Books', backref='publisher')
-	level = db.Column(db.Integer, nullable=False)
+	level = db.Column(db.Integer)
 
 	# Return what we just added
 	def __repr__(self):
@@ -251,8 +251,9 @@ def authors():
 
 	if request.method == "POST":
 		name = request.form['name']
+		level = request.form['level']
 
-		author = Authors(name=name)
+		author = Authors(name=name, level=level)
 		
 		# Push to Database
 		try:
@@ -283,6 +284,7 @@ def update_author(id):
 	if id == 1:
 		if request.method == "POST":
 			author.name = request.form['name']
+			author.level = request.form['level']
 
 			# Push to Database
 			try:
@@ -402,8 +404,9 @@ def series():
 
 	if request.method == "POST":
 		name = request.form['name']
+		level = request.form['level']
 
-		series = Series(name=name)
+		series = Series(name=name, level=level)
 		
 		# Push to Database
 		try:
@@ -435,6 +438,7 @@ def update_series(id):
 	if id == 1:
 		if request.method == "POST":
 			series.name = request.form['name']
+			series.level = request.form['level']
 
 			# Push to Database
 			try:
@@ -477,8 +481,9 @@ def publishers():
 
 	if request.method == "POST":
 		name = request.form['name']
+		level = request.form['level']
 
-		publisher = Publishers(name=name)
+		publisher = Publishers(name=name, level=level)
 		
 		# Push to Database
 		try:
@@ -510,6 +515,7 @@ def update_publisher(id):
 	if id == 1:
 		if request.method == "POST":
 			publisher.name = request.form['name']
+			publisher.level = request.form['level']
 
 			# Push to Database
 			try:
@@ -593,9 +599,9 @@ def admin():
 @app.route('/admin/add', methods=['POST', 'GET'])
 #@login_required
 def add_user():
-	#id = current_user.id
+	id = current_user.id
 
-	#if id == 1:
+	if id == 1:
 		if request.method == "POST":
 			name = request.form['name']
 			username = request.form['username']
@@ -626,27 +632,27 @@ def add_user():
 
 		return render_template('add-user.html')
 
-	#else:
-	#	flash('Only admins can create users.', category='error')
-	#	return redirect(url_for('index'))
+	else:
+		flash('Only admins can create users.', category='error')
+		return redirect(url_for('index'))
 
 @app.route('/admin/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_user(id):
-    update_user = Users.query.get_or_404(id)
-    if request.method == "POST":
-        update_user.name = request.form['name']
-        update_user.username = request.form['username']
-        update_user.level = request.form['level']
-        try:
-            db.session.commit()
-            flash('User updated successfully!')
-            return redirect(url_for('admin'))
-        except:
-            flash('Error updating user')
-            return render_template('update-user.html', update_user=update_user)
-    else:
-        return render_template('update-user.html', update_user=update_user)
+	update_user = Users.query.get_or_404(id)
+	if request.method == "POST":
+		update_user.name = request.form['name']
+		update_user.username = request.form['username']
+		update_user.level = request.form['level']
+		try:
+			db.session.commit()
+			flash('User updated successfully!')
+			return redirect(url_for('admin'))
+		except:
+			flash('Error updating user')
+			return render_template('update-user.html', update_user=update_user)
+	else:
+		return render_template('update-user.html', update_user=update_user)
 
 @app.route('/admin/delete/<int:id>')
 @login_required
@@ -668,4 +674,4 @@ def delete_user(id):
 	return redirect(url_for('admin'))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+	app.run(debug=True)
