@@ -1,17 +1,19 @@
 import os
 import psycopg2
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_migrate import Migrate
-from jinja_markdown import MarkdownExtension
-from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from jinja_markdown import MarkdownExtension
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = '1128f4e988dedaaaceeec011b02f0539d10d3d4ac0532c2e2553532de3e8234e' #os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://bhwjysdtjsxucp:13c77aa547a5a8461fca218491d684d2edb154117ea2190bee9867852e51f8e6@ec2-54-85-113-73.compute-1.amazonaws.com:5432/dfr36i48q1nctf' #os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+load_dotenv()
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 login_manager = LoginManager()
@@ -133,7 +135,6 @@ def logout():
 	logout_user()
 	return redirect(url_for('login'))
 
-# Books
 @app.route('/books')
 @login_required
 def books():
@@ -243,7 +244,6 @@ def delete_book(id):
 
 	return redirect(url_for('books'))
 
-# Authors
 @app.route('/authors', methods=['POST', 'GET'])
 @login_required
 def authors():
