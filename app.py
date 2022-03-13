@@ -60,6 +60,7 @@ class Authors(db.Model):
 	name = db.Column(db.String(150), nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
 	books = db.relationship('Books', backref='author')
+	level = db.Column(db.Integer, nullable=False)
 
 	# Return what we just added
 	def __repr__(self):
@@ -71,6 +72,7 @@ class Series(db.Model):
 	index = db.Column(db.Float)
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
 	books = db.relationship('Books', backref='series')
+	level = db.Column(db.Integer, nullable=False)
 
 	# Return what we just added
 	def __repr__(self):
@@ -91,6 +93,7 @@ class Publishers(db.Model):
 	name = db.Column(db.String(250), nullable=False)
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
 	books = db.relationship('Books', backref='publisher')
+	level = db.Column(db.Integer, nullable=False)
 
 	# Return what we just added
 	def __repr__(self):
