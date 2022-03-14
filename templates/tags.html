@@ -1,12 +1,9 @@
 {% extends 'base.html' %} {% block title %}Tags{% endblock %} {% block content
 %} {% if current_user.id == 1 %}
 <div class="mb-5">
-  <form METHOD="POST" class="max-w-4xl py-6 mx-auto text-left">
-    <div class="grid grid-cols-2 gap-6">
-      <div>
-        <label for="name">Name</label>
-        <input type="text" class="form-field" name="name" />
-      </div>
+  <form METHOD="POST" class="max-w-md py-6 mx-auto text-left">
+    <div class="flex justify-center">
+      <input type="text" class="form-field" name="name" />
     </div>
     <div class="flex justify-center mt-6">
       <button type="submit" class="btn">Submit</button>
@@ -17,7 +14,7 @@
 <div class="columns-2xs text-left">
   <ul>
     {% for tag in tags | sort(attribute="name") %}
-    <li>
+    <li class="break-inside-avoid">
       <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"

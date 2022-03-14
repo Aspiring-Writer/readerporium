@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block title %}Reading Level: Mature{% endblock %}
-{% block content %}
+{% block content %}{% if current_user.level == 4 %}
 <div class="columns-sm text-left">
   <ul>
     {% for book in books | sort(attribute="title") %}{% if book.level == 4 %}
@@ -30,4 +30,7 @@
     {% endif %}{% endfor %}
   </ul>
 </div>
+{% else %}
+<div class="alert" role="alert">You are not authorized to view this level</div>
+{% endif %}
 {% endblock %}

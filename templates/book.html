@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block title %}{{ book.title }} by
 {{ book.author.name }}{% endblock %} {% block content %}
 <div class="max-w-4xl p-6 mx-auto text-left">
+	{% if book.level <= current_user.level %}
   <img
     src="{% if book.cover %}{{
       book.cover
@@ -152,5 +153,8 @@
       </a>
     </div>
   </div>
+	{% else %}
+	<div class="alert" role="alert">You are not authorized to view this book</div>
+	{% endif %}
 </div>
 {% endblock %}

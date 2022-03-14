@@ -13,7 +13,7 @@ content %}
     <div>
       <label for="author">Author</label>
       <select name="author" class="form-field">
-        {% for author in authors %}
+        {% for author in authors | sort(attribute="name") %}
         <option value="{{ author.id }}">{{ author.name }}</option>
         {% endfor %}
       </select>
@@ -21,7 +21,7 @@ content %}
     <div>
       <label for="series">Series</label>
       <select name="series" class="form-field">
-        {% for series in series %}
+        {% for series in series | sort(attribute="name") %}
         <option value="{{ series.id }}">{{ series.name }}</option>
         {% endfor %}
       </select>
@@ -33,7 +33,7 @@ content %}
     <div>
       <label for="tag">Tag</label>
       <select name="tag" class="form-field">
-        {% for tag in tags %}
+        {% for tag in tags | sort(attribute="name") %}
         <option value="{{ tag.id }}">{{ tag.name }}</option>
         {% endfor %}
       </select>
@@ -58,7 +58,7 @@ content %}
     <div>
       <label for="publisher">Publisher</label>
       <select name="publisher" class="form-field">
-        {% for publisher in publishers %}
+        {% for publisher in publishers | sort(attribute="name") %}
         <option value="{{ publisher.id }}">{{ publisher.name }}</option>
         {% endfor %}
       </select>

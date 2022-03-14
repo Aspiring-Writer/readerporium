@@ -10,10 +10,7 @@
   </head>
   <body class="container mx-auto py-8 font-mono">
     {% for message in get_flashed_messages() %}
-    <div
-      class="bg-yellow-100 text-yellow-700 rounded-lg py-5 px-6 mb-3 text-base w-max-sm"
-      role="alert"
-    >
+    <div class="alert" role="alert">
       {{ message }}
     </div>
     {% endfor %}

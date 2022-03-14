@@ -10,10 +10,7 @@
   </head>
   <body>
     {% for message in get_flashed_messages() %}
-    <div
-      class="{% if category == 'error' %}bg-red-100 text-red-700{% else %}bg-green-100 text-green-700{% endif %} rounded-lg py-5 px-6 mb-3 text-base w-max-sm"
-      role="alert"
-    >
+    <div class="alert" role="alert">
       {{ message }}
     </div>
     {% endfor %}
@@ -23,7 +20,7 @@
         <form method="POST">
           <label for="username">Username</label>
           <input type="text" class="form-field" name="username" />
-          <label for="password" class="block text-lg">Password</label>
+          <label for="password" >Password</label>
           <input type="password" class="form-field" name="password" />
           <div class="flex justify-center mt-6">
             <button type="submit" class="btn">Login</button>

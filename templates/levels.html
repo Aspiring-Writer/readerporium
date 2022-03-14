@@ -21,7 +21,7 @@ content %}
       </span>
       <a href="{{ url_for('level1') }}">Child</a>
     </li>
-    {% if current_user.id <= 2 %}
+    {% if current_user.level >= 2 %}
     <li class="break-inside-avoid">
       <span class="inline-flex">
         <svg
@@ -55,7 +55,7 @@ content %}
       </span>
       <a href="{{ url_for('level2') }}">Teen</a>
     </li>
-    {% endif %} {% if current_user.id <= 3 %}
+    {% endif %} {% if current_user.level >= 3 %}
     <li class="break-inside-avoid">
       <span class="inline-flex">
         <svg
@@ -103,7 +103,7 @@ content %}
       </span>
       <a href="{{ url_for('level3') }}">Adult</a>
     </li>
-    {% endif %} {% if current_user.id <= 4 %}
+    {% endif %} {% if current_user.level == 4 %}
     <li class="break-inside-avoid">
       <span class="inline-flex">
         <svg
