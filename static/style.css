@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .alert {
-	@apply bg-yellow-100 text-yellow-700 rounded-lg py-5 px-6 mb-3 text-base max-w-lg mx-auto;
+	@apply bg-yellow-100 text-yellow-700 rounded-lg py-7 px-6 mb-3 text-base max-w-lg mx-auto;
 }
 li {
   @apply flex gap-2 py-2;

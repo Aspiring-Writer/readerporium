@@ -24,15 +24,14 @@
     Tag:
     <a href="{{ url_for('tags') }}/{{ book.tag.id }}">{{ book.tag.name }}</a>
   </p>
-  <p>
-    Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{%
-    elif book.level == 3 %}Adult{% else %}Mature{% endif %}
-  </p>
+  <p>Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{%
+    elif book.level == 3 %}Adult{% else %}Mature{% endif %}</p>
+  <p>Words: {{ book.wordcount }}</p>
   <p>ISBN: {{ book.isbn }}</p>
   <p>
     Publisher:
     <a href="{{ url_for('publishers') }}/{{ book.publisher.id }}">
-      {{ book.publisher.name }} ({{ book.pubyear }})
+      {{ book.publisher.name }}
     </a>
   </p>
 

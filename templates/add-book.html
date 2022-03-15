@@ -48,6 +48,10 @@ content %}
       </select>
     </div>
     <div>
+      <label for="wordcount">Word Count</label>
+      <input name="wordcount" type="number" class="form-field" />
+    </div>
+    <div>
       <label for="cover">Cover</label>
       <input name="cover" type="text" class="form-field" />
     </div>
@@ -62,10 +66,6 @@ content %}
         <option value="{{ publisher.id }}">{{ publisher.name }}</option>
         {% endfor %}
       </select>
-    </div>
-    <div>
-      <label for="pubyear">Year Published</label>
-      <input name="pubyear" type="number" class="form-field" />
     </div>
   </div>
   <div class="mt-6">

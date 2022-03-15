@@ -47,7 +47,7 @@ class Books(db.Model):
 	tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
 	isbn = db.Column(db.String(13))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('publishers.id'))
-	pubyear = db.Column(db.Integer)
+	wordcount = db.Column(db.Integer)
 	description = db.Column(db.Text)
 	cover = db.Column(db.String(100))
 	date_created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -133,6 +133,7 @@ def login():
 @login_required
 def logout():
 	logout_user()
+	flash('Logged out successfully!', category='error')
 	return redirect(url_for('login'))
 
 @app.route('/books')
@@ -170,12 +171,12 @@ def add_book():
 			tag = request.form['tag']
 			isbn = request.form['isbn']
 			publisher = request.form['publisher']
-			pubyear = request.form['pubyear']
+			wordcount = request.form['wordcount']
 			cover = request.form['cover']
 			description = request.form['description']
 			level = request.form['level']
 
-			book = Books(title=title, author_id=author, series_id=series, series_index=series_index, tag_id=tag, isbn=isbn, publisher_id=publisher, pubyear=pubyear, cover=cover, description=description, level=level)
+			book = Books(title=title, author_id=author, series_id=series, series_index=series_index, tag_id=tag, isbn=isbn, publisher_id=publisher, wordcount=wordcount, cover=cover, description=description, level=level)
 			
 			# Push to Database
 			try:
@@ -210,7 +211,7 @@ def update_book(id):
 			book.tag_id = request.form['tag']
 			book.isbn = request.form['isbn']
 			book.publisher_id = request.form['publisher']
-			book.pubyear = request.form['pubyear']
+			book.wordcount = request.form['wordcount']
 			book.cover = request.form['cover']
 			book.description = request.form['description']
 			book.level = request.form['level']
