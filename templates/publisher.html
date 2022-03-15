@@ -40,7 +40,7 @@ block content %}
 {% endif %}
 <div class="columns-sm text-left">
   <ul>
-    {% for book in books | sort(attribute="title") %}{% if book.publisher.id == publisher.id and book.level <= current_user.level %}
+    {% for book in books | sort(attribute="title") %}{% if book.publisher.id == publisher.id %}
     <li class="break-inside-avoid">
       <span>
         <svg

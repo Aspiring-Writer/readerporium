@@ -146,7 +146,11 @@ def books():
 def book(id):
 	book = Books.query.get_or_404(id)
 	author = Authors.query.all()
-	return render_template('book.html', book=book, author=author)
+	level = current_user.level
+	if book.level <= level:
+		return render_template('book.html', book=book, author=author)
+	else:
+		return render_template('404.html'), 404
 
 @app.route('/books/add', methods=['POST', 'GET'])
 @login_required
@@ -273,7 +277,12 @@ def authors():
 def author(id):
 	author = Authors.query.get_or_404(id)
 	books = Books.query.all()
-	return render_template('author.html', author=author, books=books)
+	level = current_user.level
+	
+	if author.level <= level:
+		return render_template('author.html', books=books, author=author)
+	else:
+		return render_template('404.html'), 404
 
 @app.route('/authors/update/<int:id>', methods=['POST', 'GET'])
 @login_required
@@ -427,7 +436,12 @@ def serie(id):
 	series = Series.query.get_or_404(id)
 	books = Books.query.order_by(Books.series_index).all()
 	authors = Authors.query.all()
-	return render_template('serie.html', series=series, books=books, authors=authors)
+	level = current_user.level
+	
+	if series.level <= level:
+		return render_template('serie.html', series=series, books=books, authors=authors)
+	else:
+		return render_template('404.html'), 404
 
 @app.route('/series/update/<int:id>', methods=['POST', 'GET'])
 @login_required
@@ -504,7 +518,12 @@ def publisher(id):
 	publisher = Publishers.query.get_or_404(id)
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('publisher.html', publisher=publisher, books=books, authors=authors)
+	level = current_user.level
+	
+	if publisher.level <= level:
+		return render_template('publisher.html', publisher=publisher, books=books, authors=authors)
+	else:
+		return render_template('404.html'), 404
 
 @app.route('/publishers/update/<int:id>', methods=['POST', 'GET'])
 @login_required
@@ -568,21 +587,33 @@ def level1():
 def level2():
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('level2.html', books=books, authors=authors)
+	id = current_user.id
+	if id == 1 or 2:
+		return render_template('level2.html', books=books, authors=authors)
+	else:
+		return render_template('404.html'), 404
 
 @app.route('/levels/3')
 @login_required
 def level3():
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('level3.html', books=books, authors=authors)
+	id = current_user.id
+	if id == 1 or 2 or 3:
+		return render_template('level3.html', books=books, authors=authors)
+	else:
+		return render_template('404.html'), 404
 
 @app.route('/levels/4')
 @login_required
 def level4():
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('level4.html', books=books, authors=authors)
+	id = current_user.id
+	if id == 4:
+		return render_template('level4.html', books=books, authors=authors)
+	else:
+		return render_template('404.html'), 404
 
 # Admin
 @app.route('/admin/')
@@ -671,7 +702,16 @@ def delete_user(id):
 	else:
 		flash('You are not authorized to delete users', category='error')
 
-	return redirect(url_for('admin'))
+	return redirect(url_for('index'))
 
+# Error pages
+@app.errorhandler(404)
+def not_found(e):
+	return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def server_error(e):
+	return render_template("500.html"), 500
+	
 if __name__ == "__main__":
 	app.run(debug=True)
