@@ -24,9 +24,20 @@
     Tag:
     <a href="{{ url_for('tags') }}/{{ book.tag.id }}">{{ book.tag.name }}</a>
   </p>
-  <p>Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{%
-    elif book.level == 3 %}Adult{% else %}Mature{% endif %}</p>
-  <p>Words: {{ book.wordcount }}</p>
+  <p>
+  	Reading Level: {% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{%
+    elif book.level == 3 %}Adult{% else %}Mature{% endif %}
+  </p>
+  <p>
+  	Words: {{ book.wordcount }} (
+  	{% if book.wordcount <= 3500 %}<a href="{{ url_for('flash_fiction') }}">flash fiction</a>
+  	{% elif book.wordcount <= 7500  %}<a href="{{ url_for('short_stories') }}">short story</a>
+  	{% elif book.wordcount <= 17000 %}<a href="{{ url_for('novellettes') }}">novellette</a>
+  	{% elif book.wordcount <= 40000 %}<a href="{{ url_for('novellas') }}">novella</a>
+  	{% else %}<a href="{{ url_for('novels') }}">novel</a>
+  	{% endif %}
+  	)
+	</p>
   <p>ISBN: {{ book.isbn }}</p>
   <p>
     Publisher:
@@ -35,9 +46,9 @@
     </a>
   </p>
 
-  <div class="mt-8">{% markdown %}{{ book.description }}{% endmarkdown %}</div>
+  <div class="my-8">{% markdown %}{{ book.description }}{% endmarkdown %}</div>
 
-  <div class="flex items-center justify-center mt-4">
+  <div class="flex items-center justify-center mb-4">
     <div class="inline-flex first:rounded-l last:rounded-r" role="group">
       {% if current_user.id == 1 %}
       <a href="{{ url_for('update_book', id=book.id) }}" class="btn">
@@ -75,81 +86,55 @@
       {% endif %}
     </div>
   </div>
-  <div class="flex items-center justify-center mt-4">
-    <div class="inline-flex first:rounded-l last:rounded-r" role="group">
-      <a
-        href="/static/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{
-          book.author.name
-        }}/{% if book.series %}{{ book.series.name }} - {{
-          book.series_index
-        }} - {% endif %}{{ book.title }}.epub"
-        class="btn"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-          />
-        </svg>
-        EPUB
-      </a>
-      <a
-        href="/static/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{
-          book.author.name
-        }}/{% if book.series %}{{ book.series.name }} - {{
-          book.series_index
-        }} - {% endif %}{{ book.title }}.kepub.epub"
-        class="btn"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-          />
-        </svg>
-        KEPUB
-      </a>
-      <a
-        href="/static/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{
-          book.author.name
-        }}/{% if book.series %}{{ book.series.name }} - {{
-          book.series_index
-        }} - {% endif %}{{ book.title }}.mobi"
-        class="btn"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-          />
-        </svg>
-        MOBI
-      </a>
-    </div>
-  </div>
+	<div class="flex flex-col">
+	  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+	    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+	      <div
+	        class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+	      >
+	        <table class="min-w-full divide-y divide-gray-200">
+	          <thead class="bg-gray-50">
+	            <tr>
+	              <th scope="col">Format</th>
+	              <th scope="col">Description</th>
+	            </tr>
+	          </thead>
+	          <tbody class="bg-white divide-y divide-gray-200">
+		          <tr>
+					      <td>
+					      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
+					      		EPUB
+					      	</a>
+					      </td>
+					      <td>
+					      	Supported by most e-readers, smartphones, tablets, and computers.
+					      </td>
+					    </tr>
+					    <tr>
+					      <td>
+					      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
+					      		KEPUB
+					      	</a>
+					      </td>
+					      <td>
+					      	This is the recommended format for Kobo e-readers.
+					      </td>
+					    </tr>
+					    <tr>
+					      <td>
+					      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
+					      		MOBI
+					      	</a>
+					      </td>
+					      <td>
+					      	Legacy format for Kindles.
+					      </td>
+					    </tr>
+	          </tbody>
+	        </table>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
 {% endblock %}

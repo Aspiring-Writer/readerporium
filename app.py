@@ -183,7 +183,7 @@ def add_book():
 				db.session.add(book)
 				db.session.commit()
 				flash("Book added successfully!", category='success')
-				return redirect(url_for('books'))
+				return render_template('add-book.html', authors=authors, series=series, tags=tags, publishers=publishers)
 			except:
 				flash("Error adding book", category='error')
 
@@ -220,7 +220,7 @@ def update_book(id):
 			try:
 				db.session.commit()
 				flash('Book updated!', category='success')
-				return redirect(url_for('books'))
+				return render_template('update-book.html', book=book, authors=authors, series=series, tags=tags, publishers=publishers)
 			except:
 				flash("There was an error updating the book.", category='error')
 				return render_template('update-book.html', book=book, authors=authors, series=series, tags=tags, publishers=publishers)
@@ -615,6 +615,42 @@ def level4():
 		return render_template('level4.html', books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
+
+# Word Counts
+@app.route('/tags/flash-fiction')
+@login_required
+def flash_fiction():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('flash-fiction.html', books=books, authors=authors)
+
+@app.route('/tags/short-stories')
+@login_required
+def short_stories():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('short-stories.html', books=books, authors=authors)
+
+@app.route('/tags/novellettes')
+@login_required
+def novellettes():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('novellettes.html', books=books, authors=authors)
+
+@app.route('/tags/novella')
+@login_required
+def novellas():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('novellas.html', books=books, authors=authors)
+
+@app.route('/tags/novels')
+@login_required
+def novels():
+	books = Books.query.all()
+	authors = Authors.query.all()
+	return render_template('novels.html', books=books, authors=authors)
 
 # Admin
 @app.route('/admin/')

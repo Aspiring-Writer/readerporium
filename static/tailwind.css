@@ -686,6 +686,11 @@ select {
   margin-bottom: -0.5rem;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -704,10 +709,6 @@ select {
 
 .mt-4 {
   margin-top: 1rem;
-}
-
-.mt-8 {
-  margin-top: 2rem;
 }
 
 .mb-4 {
@@ -1018,9 +1019,14 @@ p {
   padding-bottom: 1rem;
 }
 
-a:hover {
+a {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
+  -webkit-text-decoration-color: #60a5fa;
+          text-decoration-color: #60a5fa;
+  -webkit-text-decoration-style: wavy;
+          text-decoration-style: wavy;
+  text-underline-offset: 2px;
 }
 
 img {
@@ -1109,8 +1115,7 @@ table thead tr th {
 
 table tbody tr td {
   white-space: nowrap;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding: 1rem;
 }
 
 .first\:rounded-l:first-child {
