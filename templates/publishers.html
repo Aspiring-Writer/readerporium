@@ -10,10 +10,10 @@ content %} {% if current_user.id == 1 %}
       <div>
         <label for="level">Level</label>
         <select name="level" class="form-field">
-          <option value="1">Child</option>
-          <option value="2">Teen</option>
-          <option value="3">Adult</option>
-          <option value="4">Mature</option>
+          <option>1</option>
+	        <option>2</option>
+	        <option>3</option>
+	        <option>4</option>
         </select>
       </div>
     </div>
@@ -23,32 +23,24 @@ content %} {% if current_user.id == 1 %}
   </form>
 </div>
 {% endif %}
-<div class="columns-xs text-left">
-  <ul>
-    {% for publisher in publishers | sort(attribute="name") %}{% if publisher.level <= current_user.level %}
-    <li>
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('publishers') }}/{{ publisher.id }}">{{
-        publisher.name
-      }}</a>
-    </li>
-    {% endif %}{% endfor %}
-  </ul>
+<div class="flex justify-center">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-x-auto shadow sm:rounded-lg">
+        <table>
+          <tbody>
+            {% for publisher in publishers | sort(attribute="name") %}{% if publisher.level <= current_user.level %}<tr>
+              <td>
+	              <a href="{{ url_for('publishers') }}/{{ publisher.id }}">
+					        <i class='fa-solid fa-user'></i>
+	              	{{ publisher.name }}
+              	</a>
+              </td>
+            </tr>{% endif %}{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

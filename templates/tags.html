@@ -11,125 +11,54 @@
   </form>
 </div>
 {% endif %}
-<div class="columns-2xs text-left">
-  <ul>
-  	<li class="break-inside-avoid">
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('flash_fiction') }}">Flash Fiction (< 3,500 words)</a>
-    </li>
-    <li class="break-inside-avoid">
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('short_stories') }}">Short Stories (3,500—7,500 words)</a>
-    </li>
-    <li class="break-inside-avoid">
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('novellettes') }}">Novellettes (7,500—17k words)</a>
-    </li>
-    <li class="break-inside-avoid">
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('novellas') }}">Novellas (17k-40k words)</a>
-    </li>
-    <li class="break-inside-avoid">
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('novels') }}">Novels (40k+ words)</a>
-    </li>
-    {% for tag in tags | sort(attribute="name") %}
-    <li class="break-inside-avoid">
-      <span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
-          />
-        </svg>
-      </span>
-      <a href="{{ url_for('tags') }}/{{ tag.id }}">{{ tag.name }}</a>
-    </li>
-    {% endfor %}
-  </ul>
+<div class="flex justify-center">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-x-auto shadow sm:rounded-lg">
+        <table>
+          <tbody>
+          	<tr>
+          		<td>
+          			<i class='fa-solid fa-tag'></i>
+          			<a href="{{ url_for('flash_fiction') }}">Flash Fiction (< 3,500 words)</a>
+          		</td>
+          	</tr>
+          	<tr>
+          		<td>
+          			<i class='fa-solid fa-tag'></i>
+          			<a href="{{ url_for('short_stories') }}">Short Stories (3,500—7,500 words)</a>
+          		</td>
+          	</tr>
+          	<tr>
+          		<td>
+          			<i class='fa-solid fa-tag'></i>
+          			<a href="{{ url_for('novellettes') }}">Novellettes (7,500—17k words)</a>
+          		</td>
+          	</tr>
+          	<tr>
+          		<td>
+          			<i class='fa-solid fa-tag'></i>
+          			<a href="{{ url_for('novellas') }}">Novellas (17k―40k words)</a>
+          		</td>
+          	</tr>
+          	<tr>
+          		<td>
+          			<i class='fa-solid fa-tag'></i>
+          			<a href="{{ url_for('novels') }}">Novels (40k+ words)</a>
+          		</td>
+          	</tr>
+            {% for tag in tags | sort(attribute="name") %}<tr>
+              <td>
+	              <a href="{{ url_for('tags') }}/{{ tag.id }}">
+					        <i class='fa-solid fa-tag'></i>
+	              	{{ tag.name }}
+              	</a>
+              </td>
+            </tr>{% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

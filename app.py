@@ -579,40 +579,44 @@ def levels():
 @app.route('/levels/1')
 @login_required
 def level1():
-	books = Books.query.all()
+	title = 'Child'
+	books = Books.query.filter(Books.level==1)
 	authors = Authors.query.all()
-	return render_template('level1.html', books=books, authors=authors)
+	return render_template('level.html', title=title, books=books, authors=authors)
 
 @app.route('/levels/2')
 @login_required
 def level2():
-	books = Books.query.all()
+	title = 'Teen'
+	books = Books.query.filter(Books.level==2)
 	authors = Authors.query.all()
 	id = current_user.id
-	if id == 1 or 2:
-		return render_template('level2.html', books=books, authors=authors)
+	if id == 2 or 3 or 4:
+		return render_template('level.html', title=title, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
 
 @app.route('/levels/3')
 @login_required
 def level3():
-	books = Books.query.all()
+	title = 'Adult'
+	books = Books.query.filter(Books.level==3)
 	authors = Authors.query.all()
 	id = current_user.id
-	if id == 1 or 2 or 3:
-		return render_template('level3.html', books=books, authors=authors)
+	if id == 3 or 4:
+		return render_template('level.html', title=title, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
 
 @app.route('/levels/4')
 @login_required
 def level4():
-	books = Books.query.all()
+	title = 'Mature'
+	books = Books.query.filter(Books.level==4)
 	authors = Authors.query.all()
 	id = current_user.id
 	if id == 4:
-		return render_template('level4.html', books=books, authors=authors)
+		return render_template('level.html', title=title, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
 
@@ -620,37 +624,51 @@ def level4():
 @app.route('/tags/flash-fiction')
 @login_required
 def flash_fiction():
+	title = 'Flash Fiction'
+	min = 0
+	max = 3500
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('flash-fiction.html', books=books, authors=authors)
+	return render_template('wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/short-stories')
 @login_required
 def short_stories():
+	title = 'Short Stories'
+	min = 3500
+	max = 7500
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('short-stories.html', books=books, authors=authors)
+	return render_template('wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/novellettes')
 @login_required
 def novellettes():
+	title = 'Novellettes'
+	min = 7500
+	max = 17000
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('novellettes.html', books=books, authors=authors)
+	return render_template('wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/novella')
 @login_required
 def novellas():
+	title = 'Novellas'
+	min = 17000
+	max = 40000
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('novellas.html', books=books, authors=authors)
+	return render_template('wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/novels')
 @login_required
 def novels():
+	title = 'Novels'
+	min = 40000
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('novels.html', books=books, authors=authors)
+	return render_template('wordcount.html', title=title, min=min, books=books, authors=authors)
 
 # Admin
 @app.route('/admin/')
@@ -667,42 +685,42 @@ def admin():
 @app.route('/admin/add', methods=['POST', 'GET'])
 #@login_required
 def add_user():
-	id = current_user.id
+	#id = current_user.id
 
-	if id == 1:
-		if request.method == "POST":
-			name = request.form['name']
-			username = request.form['username']
-			level = request.form['level']
-			password1 = request.form['password1']
-			password2 = request.form['password2']
+	#if id == 1:
+	if request.method == "POST":
+		name = request.form['name']
+		username = request.form['username']
+		level = request.form['level']
+		password1 = request.form['password1']
+		password2 = request.form['password2']
 
-			username_exists = Users.query.filter_by(username=username).first()
+		username_exists = Users.query.filter_by(username=username).first()
 
-			if username_exists:
-				flash('Username already exists.', category='error')
-			elif password1 != password2:
-				flash('Passwords don\'t match!', category='error')
-			elif len(username) < 5:
-				flash('Username is too short.', category='error')
-			elif len(password1) < 7:
-				flash('Password is too short.', category='error')
-			else:
-				new_user = Users(name=name, username=username, level=level, password=generate_password_hash(password1, method='sha256'))
-				try:
-					db.session.add(new_user)
-					db.session.commit()
-					#login_user(new_user, remember=True)
-					flash('User created!')
-					return redirect(url_for('admin'))
-				except:
-					flash('Error adding user.', category='error')
+		if username_exists:
+			flash('Username already exists.', category='error')
+		elif password1 != password2:
+			flash('Passwords don\'t match!', category='error')
+		elif len(username) < 5:
+			flash('Username is too short.', category='error')
+		elif len(password1) < 7:
+			flash('Password is too short.', category='error')
+		else:
+			new_user = Users(name=name, username=username, level=level, password=generate_password_hash(password1, method='sha256'))
+			try:
+				db.session.add(new_user)
+				db.session.commit()
+				#login_user(new_user, remember=True)
+				flash('User created!')
+				return redirect(url_for('admin'))
+			except:
+				flash('Error adding user.', category='error')
 
-		return render_template('add-user.html')
+	return render_template('add-user.html')
 
-	else:
-		flash('Only admins can create users.', category='error')
-		return redirect(url_for('index'))
+	#else:
+		#flash('Only admins can create users.', category='error')
+		#return redirect(url_for('index'))
 
 @app.route('/admin/update/<int:id>', methods=['GET', 'POST'])
 @login_required
