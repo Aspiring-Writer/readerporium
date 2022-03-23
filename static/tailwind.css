@@ -668,6 +668,10 @@ select {
   }
 }
 
+.clear-left {
+  clear: left;
+}
+
 .m-1 {
   margin: 0.25rem;
 }
@@ -827,9 +831,9 @@ select {
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
-.bg-gray-300 {
+.bg-gray-100 {
   --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 .bg-contain {
@@ -1032,11 +1036,8 @@ table thead {
 
 table thead tr th {
   --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+  padding: 1rem;
   font-weight: 500;
   text-transform: uppercase;
 }
@@ -1056,17 +1057,12 @@ table tbody tr:hover {
 }
 
 table tbody tr td {
-  white-space: nowrap;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  white-space: normal;
+  padding: 1rem;
   font-weight: 300;
 }
 
 img {
-  margin-left: auto;
-  margin-right: auto;
   margin-bottom: 2rem;
   width: 60%;
   border-radius: 0.25rem;
@@ -1074,7 +1070,15 @@ img {
 
 @media (min-width: 768px) {
   img {
+    float: left;
+  }
+
+  img {
     margin-bottom: 1.25rem;
+  }
+
+  img {
+    margin-right: 1.25rem;
   }
 
   img {
@@ -1163,9 +1167,9 @@ img {
   padding-bottom: 0.5rem;
 }
 
-.hover\:bg-gray-300:hover {
+.hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
 @media (min-width: 640px) {

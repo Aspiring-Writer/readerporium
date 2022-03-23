@@ -1,148 +1,147 @@
 {% extends 'base.html' %} {% block title %}{{ book.title }} by
 {{ book.author.name }}{% endblock %} {% block content %}
-<img
-  src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}"
-  alt="cover img"
-/>
-<div class="flex justify-center">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="overflow-x-auto shadow sm:rounded-lg">
-        <table class="text-center">
-          <thead>
-            <tr>
-              <th scope="col">
-                Series
-              </th>
-              <th scope="col">
-                Tag
-              </th>
-              <th scope="col">
-              	Level
-              </th>
-              <th scope="col">
-              	Words
-              </th>
-              <th scope="col">
-              	ISBN
-              </th>
-              <th scope="col">
-              	Publisher
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-              	<a href="{{ url_for('series') }}/{{ book.series.id }}">
-              		<i class="fa-solid fa-list-ol"></i>
-	                {{ book.series.name }} #{{ book.series_index }}
-	              </a>
-              </td>
-              <td>
-              	<a href="{{ url_for('tags') }}/{{ book.tag.id }}">
-              		<i class="fa-solid fa-tag"></i>
-	                {{ book.tag.name }}
-                </a>
-              </td>
-              <td>
-              	<a href="{{ url_for('levels') }}/{{ book.level }}">
-	              	<i class="fa-solid fa-star"></i>
-	              	{{ book.level }}
-              	</a>
-              </td>
-              <td>
-              	<i class="fa-solid fa-number"></i>
-              	{{ book.wordcount }}
-              	{% if book.wordcount <= 3500 %}<a href="{{ url_for('flash_fiction') }}"> (flash fiction)</a>
-              	{% elif book.wordcount <= 7500  %}<a href="{{ url_for('short_stories') }}"> (short story)</a>
-              	{% elif book.wordcount <= 17000 %}<a href="{{ url_for('novellettes') }}"> (novellette)</a>
-              	{% elif book.wordcount <= 40000 %}<a href="{{ url_for('novellas') }}"> (novella)</a>
-              	{% else %}<a href="{{ url_for('novels') }}"> (novel)</a>{% endif %}
-              </td>
-              <td>
-              	<i class="fa-solid fa-number"></i>
-              	{{ book.isbn }}
-              </td>
-              <td>
-              	<a href="{{ url_for('publishers') }}/{{ book.publisher.id }}">
-              		<i class="fa-solid fa-building"></i>
-						      {{ book.publisher.name }}
-						    </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
 <div class="max-w-4xl p-6 mx-auto">
-  <div class="my-8">{% markdown %}{{ book.description }}{% endmarkdown %}</div>
-</div>
-{% if current_user.id == 1 %}
-<div class="flex justify-center gap-2 mb-6">
-  <a href="{{ url_for('update_book', id=book.id) }}">
-    <i class="fa-solid fa-pencil fa-xl"></i>
-  </a>
-  <a href="{{ url_for('delete_book', id=book.id) }}">
-		<i class="fa-solid fa-trash fa-lg"></i>
-  </a>
-</div>
-{% endif %}
-<div class="flex justify-center">
-  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="overflow-x-auto shadow sm:rounded-lg">
-        <table>
-          <thead>
-            <tr>
-              <th scope="col">
-                Format
-              </th>
-              <th scope="col">
-                Description
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-				      <td>
-				      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
-				      		<i class="fa-solid fa-download"></i>
-				      		EPUB
-				      	</a>
-				      </td>
-				      <td>
-				      	Supported by most e-readers, smartphones, tablets, and computers.
-				      </td>
-				    </tr>
-				    <tr>
-				      <td>
-				      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
-				      		<i class="fa-solid fa-download"></i>
-				      		KEPUB
-				      	</a>
-				      </td>
-				      <td>
-				      	This is the recommended format for Kobo e-readers.
-				      </td>
-				    </tr>
-				    <tr>
-				      <td>
-				      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
-				      		<i class="fa-solid fa-download"></i>
-				      		MOBI
-				      	</a>
-				      </td>
-				      <td>
-				      	Legacy format for Kindles.
-				      </td>
-				    </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+	<img
+	  src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}"
+	  alt="cover img"
+	/>
+	<div class="flex justify-center">
+	  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+	    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+	      <div class="overflow-x-auto shadow sm:rounded-lg">
+	        <table>
+	          <tbody>
+	          	<tr>
+	          		<td>
+	          			<a href="{{ url_for('authors') }}/{{ book.author.id }}">
+	          				<i class="fa-solid fa-user"></i>
+	          				View more by {{ book.author.name }}
+	          			</a>
+	          		</td>
+	          	</tr>
+	            <tr>
+	              <td>
+	              	<a href="{{ url_for('series') }}/{{ book.series.id }}">
+	              		<i class="fa-solid fa-list-ol"></i>
+		                {{ book.series.name }} #{{ book.series_index }}
+		              </a>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td>
+	              	<a href="{{ url_for('tags') }}/{{ book.tag.id }}">
+	              		<i class="fa-solid fa-tag"></i>
+		                {{ book.tag.name }}
+	                </a>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td>
+	              	<a href="{{ url_for('levels') }}/{{ book.level }}">
+		              	<i class="fa-solid fa-star"></i>
+		              	{{ book.level }}
+	              	</a>
+	              </td>
+	            </tr>
+	            <tr>
+	              <td>
+	              	<i class="fa-solid fa-arrow-down-1-9"></i>
+	              	{{ book.wordcount }}
+	              	{% if book.wordcount <= 3500 %}<a href="{{ url_for('flash_fiction') }}"> (flash fiction)</a>
+	              	{% elif book.wordcount <= 7500  %}<a href="{{ url_for('short_stories') }}"> (short story)</a>
+	              	{% elif book.wordcount <= 17000 %}<a href="{{ url_for('novellettes') }}"> (novellette)</a>
+	              	{% elif book.wordcount <= 40000 %}<a href="{{ url_for('novellas') }}"> (novella)</a>
+	              	{% else %}<a href="{{ url_for('novels') }}"> (novel)</a>{% endif %}
+	              </td>
+	            </tr>
+	            <tr>
+	              <td>
+	              	<i class="fa-solid fa-hashtag"></i>
+	              	{{ book.isbn }}
+	              </td>
+	            </tr>
+	            <tr>
+	              <td>
+	              	<a href="{{ url_for('publishers') }}/{{ book.publisher.id }}">
+	              		<i class="fa-solid fa-building"></i>
+							      {{ book.publisher.name }}
+							    </a>
+	              </td>
+	            </tr>
+	          </tbody>
+	        </table>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+  <div class="my-8 clear-left">
+  	{% markdown %}{{ book.description }}{% endmarkdown %}
   </div>
+	{% if current_user.id == 1 %}
+	<div class="flex justify-center gap-2 mb-6">
+	  <a href="{{ url_for('update_book', id=book.id) }}">
+	    <i class="fa-solid fa-pencil fa-xl"></i>
+	  </a>
+	  <a href="{{ url_for('delete_book', id=book.id) }}">
+			<i class="fa-solid fa-trash fa-lg"></i>
+	  </a>
+	</div>
+	{% endif %}
+	<div class="flex justify-center">
+	  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+	    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+	      <div class="overflow-x-auto shadow sm:rounded-lg">
+	        <table>
+	          <thead>
+	            <tr>
+	              <th scope="col">
+	                Format
+	              </th>
+	              <th scope="col">
+	                Description
+	              </th>
+	            </tr>
+	          </thead>
+	          <tbody>
+	            <tr>
+					      <td>
+					      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
+					      		<i class="fa-solid fa-download"></i>
+					      		EPUB
+					      	</a>
+					      </td>
+					      <td>
+					      	Supported by most e-readers, smartphones, tablets, and computers.
+					      </td>
+					    </tr>
+					    <tr>
+					      <td>
+					      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
+					      		<i class="fa-solid fa-download"></i>
+					      		KEPUB
+					      	</a>
+					      </td>
+					      <td>
+					      	This is the recommended format for Kobo e-readers.
+					      </td>
+					    </tr>
+					    <tr>
+					      <td>
+					      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
+					      		<i class="fa-solid fa-download"></i>
+					      		MOBI
+					      	</a>
+					      </td>
+					      <td>
+					      	Legacy format for Kindles.
+					      </td>
+					    </tr>
+	          </tbody>
+	        </table>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>
 {% endblock %}

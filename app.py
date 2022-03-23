@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 load_dotenv()
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1) #os.environ.get('LOCAL_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 login_manager = LoginManager()
@@ -590,8 +590,8 @@ def level2():
 	title = 'Teen'
 	books = Books.query.filter(Books.level==2)
 	authors = Authors.query.all()
-	id = current_user.id
-	if id == 2 or 3 or 4:
+	level = current_user.level
+	if level == 2 or 3 or 4:
 		return render_template('level.html', title=title, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
@@ -602,8 +602,8 @@ def level3():
 	title = 'Adult'
 	books = Books.query.filter(Books.level==3)
 	authors = Authors.query.all()
-	id = current_user.id
-	if id == 3 or 4:
+	level = current_user.level
+	if level == 3 or 4:
 		return render_template('level.html', title=title, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
@@ -614,8 +614,8 @@ def level4():
 	title = 'Mature'
 	books = Books.query.filter(Books.level==4)
 	authors = Authors.query.all()
-	id = current_user.id
-	if id == 4:
+	level = current_user.level
+	if level == 4:
 		return render_template('level.html', title=title, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
@@ -666,9 +666,10 @@ def novellas():
 def novels():
 	title = 'Novels'
 	min = 40000
+	max = 1000000
 	books = Books.query.all()
 	authors = Authors.query.all()
-	return render_template('wordcount.html', title=title, min=min, books=books, authors=authors)
+	return render_template('wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
 
 # Admin
 @app.route('/admin/')

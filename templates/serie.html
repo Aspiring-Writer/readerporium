@@ -2,10 +2,10 @@
 block content %}
 {% if current_user.id == 1 %}
 <div class="flex justify-center gap-2 mb-6">
-  <a href="{{ url_for('update_series', id=series.id) }}" class="btn">
+  <a href="{{ url_for('update_series', id=series.id) }}">
     <i class="fa-solid fa-pencil fa-xl"></i>
   </a>
-  <a href="{{ url_for('delete_series', id=series.id) }}" class="btn">
+  <a href="{{ url_for('delete_series', id=series.id) }}">
     <i class="fa-solid fa-trash fa-lg"></i>
   </a>
 </div>
@@ -15,49 +15,20 @@ block content %}
     <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
       <div class="overflow-x-auto shadow sm:rounded-lg">
         <table>
-          <thead>
-            <tr>
-              <th scope="col">
-                Title
-              </th>
-              <th scope="col">
-                Author
-              </th>
-              <th scope="col">
-                Series
-              </th>
-              <th scope="col">
-                Tag
-              </th>
-            </tr>
-          </thead>
           <tbody>
-            {% for book in books | sort(attribute="title") %}{% if book.series.id == series.id %}<tr>
+            {% for book in books | sort(attribute="series_index") %}{% if book.series.id == series.id %}
+            <tr>
+            	<td>
+            		{{ book.series_index }}
+            	</td>
               <td>
 	              <a href="{{ url_for('books') }}/{{ book.id }}">
 					        <i class='fa-solid fa-book'></i>
-	              	{{ book.title }}
+	              	{{ book.title }} by {{ book.author.name }}
               	</a>
               </td>
-              <td>
-              	<a href="{{ url_for('authors') }}/{{ book.author.id }}">
-              		<i class="fa-solid fa-user"></i>
-	                {{ book.author.name }}
-                </a>
-              </td>
-              <td>
-              	<a href="{{ url_for('series') }}/{{ book.series.id }}">
-              		<i class="fa-solid fa-list-ol"></i>
-	                {{ book.series.name }} #{{ book.series_index }}
-	              </a>
-              </td>
-              <td>
-              	<a href="{{ url_for('tags') }}/{{ book.tag.id }}">
-              		<i class="fa-solid fa-tag"></i>
-	                {{ book.tag.name }}
-                </a>
-              </td>
-            </tr>{% endif %}{% endfor %}
+            </tr>
+            {% endif %}{% endfor %}
           </tbody>
         </table>
       </div>
