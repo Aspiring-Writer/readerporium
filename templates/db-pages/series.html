@@ -8,7 +8,7 @@
 				</tr>
 			</thead>
 		  <tbody>
-	      {% for series in series | sort(attribute="name") %}
+	      {% for series in series.items %}
 	      <tr>
 	        <td>
 	          <a href="{{ url_for('series') }}/{{ series.id }}">
@@ -20,6 +20,21 @@
 	      {% endfor %}
 	    </tbody>
 		</table>
+		<!-- Pagination Links-->
+		<div class="u-pull-right">
+			{% if series.has_prev %}
+		  <a href="{{ url_for('series', page=series.prev_num) }}" class="button">
+				<i class="fa-solid fa-angles-left"></i>
+		  </a>
+		  {% endif %}{% if series.has_next %}
+		  <a href="{{ url_for('series', page=series.next_num) }}" class="button">
+		  	<i class="fa-solid fa-angles-right"></i>
+		  </a>
+		  {% endif %}
+		</div>
+		<p>
+			Page {{ series.page }} of {{ series.pages }}
+		</p>
 	</div>
 </div>
 {% endblock %}

@@ -48,7 +48,7 @@
     				</a>
       		</td>
       	</tr>
-        {% for tag in tags %}
+        {% for tag in tags.items %}
         <tr>
           <td>
             <a href="{{ url_for('tags') }}/{{ tag.id }}">
@@ -60,6 +60,21 @@
         {% endfor %}
       </tbody>
 		</table>
+		<!-- Pagination Links-->
+		<div class="u-pull-right">
+			{% if tags.has_prev %}
+		  <a href="{{ url_for('tags', page=tags.prev_num) }}" class="button">
+				<i class="fa-solid fa-angles-left"></i>
+		  </a>
+		  {% endif %}{% if tags.has_next %}
+		  <a href="{{ url_for('tags', page=tags.next_num) }}" class="button">
+		  	<i class="fa-solid fa-angles-right"></i>
+		  </a>
+		  {% endif %}
+		</div>
+		<p>
+			Page {{ tags.page }} of {{ tags.pages }}
+		</p>
 	</div>
 </div>
 {% endblock %}

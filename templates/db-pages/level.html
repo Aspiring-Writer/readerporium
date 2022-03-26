@@ -7,7 +7,7 @@
 		</tr>
 	</thead>
   <tbody>
-    {% for book in books %}
+    {% for book in books.items %}
     <tr>
       <td>
         <a href="{{ url_for('books') }}/{{ book.id }}">
@@ -25,4 +25,19 @@
     {% endfor %}
   </tbody>
 </table>
+<!-- Pagination Links-->
+<div class="u-pull-right">
+	{% if books.has_prev %}
+  <a href="?page={{ books.prev_num }}" class="button">
+		<i class="fa-solid fa-angles-left"></i>
+  </a>
+  {% endif %}{% if books.has_next %}
+  <a href="?page={{ books.next_num }}" class="button">
+  	<i class="fa-solid fa-angles-right"></i>
+  </a>
+  {% endif %}
+</div>
+<p>
+	Page {{ books.page }} of {{ books.pages }}
+</p>
 {% endblock %}

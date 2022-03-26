@@ -17,6 +17,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('LOCAL_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+ROWS_PER_PAGE = 15
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -138,7 +140,8 @@ def logout():
 @app.route('/books')
 @login_required
 def books():
-	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.date_created.desc())
+	page = request.args.get('page', 1, type=int)
+	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.date_created.desc()).paginate(page=page, per_page=ROWS_PER_PAGE)
 	return render_template('db-pages/books.html', books=books)
 
 @app.route('/books/<int:id>', methods=['GET'])
@@ -156,7 +159,8 @@ def book(id):
 @app.route('/authors', methods=['POST', 'GET'])
 @login_required
 def authors():
-	authors = Authors.query.filter(Authors.level<=current_user.level).order_by('name')
+	page = request.args.get('page', 1, type=int)
+	authors = Authors.query.filter(Authors.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	return render_template('db-pages/authors.html', authors=authors)
 
 @app.route('/authors/<int:id>')
@@ -171,26 +175,12 @@ def author(id):
 	else:
 		return render_template('404.html'), 404
 
-# Tags
-@app.route('/tags', methods=['POST', 'GET'])
-@login_required
-def tags():
-	tags = Tags.query.order_by('name')
-	return render_template('db-pages/tags.html', tags=tags)
-
-@app.route('/tags/<int:id>')
-@login_required
-def tag(id):
-	tag = Tags.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level)
-	authors = Authors.query.all()
-	return render_template('db-pages/tag.html', tag=tag, books=books, authors=authors)
-
 # Series
 @app.route('/series', methods=['POST', 'GET'])
 @login_required
 def series():
-	series = Series.query.filter(Series.level<=current_user.level).order_by('name')
+	page = request.args.get('page', 1, type=int)
+	series = Series.query.filter(Series.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	return render_template('db-pages/series.html', series=series)
 
 @app.route('/series/<int:id>')
@@ -206,11 +196,28 @@ def serie(id):
 	else:
 		return render_template('404.html'), 404
 
+# Tags
+@app.route('/tags', methods=['POST', 'GET'])
+@login_required
+def tags():
+	page = request.args.get('page', 1, type=int)
+	tags = Tags.query.order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	return render_template('db-pages/tags.html', tags=tags)
+
+@app.route('/tags/<int:id>')
+@login_required
+def tag(id):
+	tag = Tags.query.get_or_404(id)
+	books = Books.query.filter(Books.level<=current_user.level)
+	authors = Authors.query.all()
+	return render_template('db-pages/tag.html', tag=tag, books=books, authors=authors)
+
 # Publishers
 @app.route('/publishers', methods=['POST', 'GET'])
 @login_required
 def publishers():
-	publishers = Publishers.query.filter(Publishers.level<=current_user.level).order_by('name')
+	page = request.args.get('page', 1, type=int)
+	publishers = Publishers.query.filter(Publishers.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	return render_template('db-pages/publishers.html', publishers=publishers)
 
 @app.route('/publishers/<int:id>')
@@ -235,44 +242,44 @@ def levels():
 @app.route('/levels/1')
 @login_required
 def level1():
-	title = 'Child'
-	books = Books.query.filter(Books.level==1).order_by('title')
+	page = request.args.get('page', 1, type=int)
+	books = Books.query.filter(Books.level==1).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
-	return render_template('db-pages/level.html', title=title, books=books, authors=authors)
+	return render_template('db-pages/level.html', title=1, books=books, authors=authors)
 
 @app.route('/levels/2')
 @login_required
 def level2():
-	title = 'Teen'
-	books = Books.query.filter(Books.level==2).order_by('title')
+	page = request.args.get('page', 1, type=int)
+	books = Books.query.filter(Books.level==2).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
 	level = current_user.level
 	if level == 2 or 3 or 4:
-		return render_template('db-pages/level.html', title=title, books=books, authors=authors)
+		return render_template('db-pages/level.html', title=2, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
 
 @app.route('/levels/3')
 @login_required
 def level3():
-	title = 'Adult'
-	books = Books.query.filter(Books.level==3).order_by('title')
+	page = request.args.get('page', 1, type=int)
+	books = Books.query.filter(Books.level==3).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
 	level = current_user.level
 	if level == 3 or 4:
-		return render_template('db-pages/level.html', title=title, books=books, authors=authors)
+		return render_template('db-pages/level.html', title=3, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
 
 @app.route('/levels/4')
 @login_required
 def level4():
-	title = 'Mature'
-	books = Books.query.filter(Books.level==4).order_by('title')
+	page = request.args.get('page', 1, type=int)
+	books = Books.query.filter(Books.level==4).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
 	level = current_user.level
 	if level == 4:
-		return render_template('db-pages/level.html', title=title, books=books, authors=authors)
+		return render_template('db-pages/level.html', title=4, books=books, authors=authors)
 	else:
 		return render_template('404.html'), 404
 
@@ -280,52 +287,52 @@ def level4():
 @app.route('/tags/flash-fiction')
 @login_required
 def flash_fiction():
-	title = 'Flash Fiction'
+	page = request.args.get('page', 1, type=int)
 	min = 0
 	max = 3500
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title')
+	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
-	return render_template('db-pages/wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
+	return render_template('db-pages/wordcount.html', title='Flash Fiction', min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/short-stories')
 @login_required
 def short_stories():
-	title = 'Short Stories'
+	page = request.args.get('page', 1, type=int)
 	min = 3500
 	max = 7500
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title')
+	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
-	return render_template('db-pages/wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
+	return render_template('db-pages/wordcount.html', title='Short Stories', min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/novellettes')
 @login_required
 def novellettes():
-	title = 'Novellettes'
+	page = request.args.get('page', 1, type=int)
 	min = 7500
 	max = 17000
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title')
+	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
-	return render_template('db-pages/wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
+	return render_template('db-pages/wordcount.html', title='Novellettes', min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/novella')
 @login_required
 def novellas():
-	title = 'Novellas'
+	page = request.args.get('page', 1, type=int)
 	min = 17000
 	max = 40000
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title')
+	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
-	return render_template('db-pages/wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
+	return render_template('db-pages/wordcount.html', title='Novellas', min=min, max=max, books=books, authors=authors)
 
 @app.route('/tags/novels')
 @login_required
 def novels():
-	title = 'Novels'
+	page = request.args.get('page', 1, type=int)
 	min = 40000
 	max = 1000000
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title')
+	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	authors = Authors.query.all()
-	return render_template('db-pages/wordcount.html', title=title, min=min, max=max, books=books, authors=authors)
+	return render_template('db-pages/wordcount.html', title='Novels', min=min, max=max, books=books, authors=authors)
 
 # Admin Pages
 @app.route('/admin/')

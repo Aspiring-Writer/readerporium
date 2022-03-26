@@ -7,7 +7,7 @@
 		</tr>
 	</thead>
   <tbody>
-    {% for book in books %}{% if book.wordcount < min %}{% elif book.wordcount <= max %}
+    {% for book in books.items %}{% if book.wordcount < min %}{% elif book.wordcount <= max %}
     <tr>
       <td>
         <a href="{{ url_for('books') }}/{{ book.id }}">
@@ -23,4 +23,19 @@
     {% endif %}{% endfor %}
   </tbody>
 </table>
+<!-- Pagination Links-->
+<div class="u-pull-right">
+	{% if books.has_prev %}
+  <a href="?page={{ books.prev_num }}" class="button">
+		<i class="fa-solid fa-angles-left"></i>
+  </a>
+  {% endif %}{% if books.has_next %}
+  <a href="?page={{ books.next_num }}" class="button">
+  	<i class="fa-solid fa-angles-right"></i>
+  </a>
+  {% endif %}
+</div>
+<p>
+	Page {{ books.page }} of {{ books.pages }}
+</p>
 {% endblock %}
