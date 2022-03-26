@@ -1,0 +1,57 @@
+{% extends 'base.html' %} {% block title %}Reading Levels{% endblock %} {% block content %}
+<div class="row">
+	<div class="offset-by-one-third one-third column">
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th></th>
+				</tr>
+			</thead>
+		  <tbody>
+	      <tr>
+	        <td>
+	          <a href="{{ url_for('level1') }}">
+			        <i class='fa-solid fa-star'></i>
+	          	Child
+	        	</a>
+	        </td>
+	      </tr>
+	      {% if current_user.level >= 2 %}
+	      <tr>
+	        <td>
+	          <a href="{{ url_for('level2') }}">
+			        <i class='fa-solid fa-star'></i>
+			        <i class='fa-solid fa-star'></i>
+	          	Teen
+	        	</a>
+	        </td>
+	      </tr>
+	      {% endif %}{% if current_user.level >= 3 %}
+	      <tr>
+	        <td>
+	          <a href="{{ url_for('level3') }}">
+			        <i class='fa-solid fa-star'></i>
+			        <i class='fa-solid fa-star'></i>
+			        <i class='fa-solid fa-star'></i>
+	          	Adult
+	        	</a>
+	        </td>
+	      </tr>
+	      {% endif %}{% if current_user.level == 4 %}
+	      <tr>
+	        <td>
+	          <a href="{{ url_for('level4') }}">
+			        <i class='fa-solid fa-star'></i>
+			        <i class='fa-solid fa-star'></i>
+			        <i class='fa-solid fa-star'></i>
+			        <i class='fa-solid fa-star'></i>
+	          	Mature
+	        	</a>
+	        </td>
+	      </tr>
+	      {% endif %}
+	    </tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

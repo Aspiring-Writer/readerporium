@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block title %}{{ title }}{% endblock %} {% block content %}
+<form METHOD="POST">
+  <div class="row">
+    <div class="six columns">
+      <label for="name">Name</label>
+      <input class="u-full-width" type="text" name='name'>
+    </div>
+    <div class="six columns">
+      <label for="level">Level</label>
+      <select name='level' class="u-full-width">
+				<option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+  	<div class="offset-by-five two columns">
+  		<input class="button" type="submit" value="Submit">
+  	</div>
+  </div>
+</form>
+{% endblock %}

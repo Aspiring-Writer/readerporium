@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %}Publishers{% endblock %} {% block content %}
+<div class="row">
+	<div class="offset-by-one-third one-third column">
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+		  <tbody>
+		    {% for publisher in publishers %}
+        <tr>
+          <td>
+            <a href="{{ url_for('publishers') }}/{{ publisher.id }}">
+            	<i class='fa-solid fa-building'></i>
+            	{{ publisher.name }}
+          	</a>
+          </td>
+        </tr>
+        {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

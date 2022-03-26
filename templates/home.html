@@ -1,24 +1,32 @@
 {% extends 'base.html' %}{% block title %}👋 Welcome {{ current_user.name }}! 🥳{% endblock %} {% block content %}
 <h3>Recently Added</h3>
-<div class="flex justify-center">
-  <div class="sm:-mx-6 lg:-mx-8">
-    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-      <div class="shadow sm:rounded-lg">
-        <table>
-          <tbody>
-            {% for book in books %}{% if book.level <= current_user.level %}<tr>
-              <td>{{ book.id }}</td>
-              <td>
-	              <a href="{{ url_for('books') }}/{{ book.id }}">
-					        <i class='fa-solid fa-book'></i>
-	              	{{ book.title }} by {{ book.author.name }}
-              	</a>
-              </td>
-            </tr>{% endif %}{% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Series</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for book in books %}
+    <tr>
+      <td>{{ book.id }}</td>
+      <td>
+      	<a href="{{ url_for('books') }}/{{ book.id }}">
+      		<i class='fa-solid fa-book'></i>
+		    	{{ book.title }} by {{ book.author.name }}
+		  	</a>
+      </td>
+      <td>
+      	<a href="{{ url_for('series') }}/{{ book.series.id }}">
+      		<i class='fa-solid fa-list-ol'></i>
+		    	{{ book.series.name }} #{{ book.series_index }}
+		  	</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

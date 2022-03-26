@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block title %}Reading Level: {{ title }}{% endblock %} {% block content %}
+<table class="u-full-width">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Series</th>
+		</tr>
+	</thead>
+  <tbody>
+    {% for book in books %}
+    <tr>
+      <td>
+        <a href="{{ url_for('books') }}/{{ book.id }}">
+	        <i class='fa-solid fa-book'></i>
+        	{{ book.title }} by {{ book.author.name }}
+      	</a>
+      </td>
+      <td>
+      	<a href="{{ url_for('series') }}/{{ book.series.id }}">
+      		<i class="fa-solid fa-list-ol"></i>
+      		{{ book.series.name }} #{{ book.series_index }}
+      	</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

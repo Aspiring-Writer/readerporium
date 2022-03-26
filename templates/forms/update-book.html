@@ -1,0 +1,87 @@
+{% extends 'base.html' %}{% block title %}Update {{ book.title }} by {{ book.author.name }}{% endblock %} {% block content %}
+<form METHOD="POST">
+  <div class="row">
+    <div class="six columns">
+      <label for="title">Title</label>
+      <input class="u-full-width" type="text" name='title' value="{{ book.title }}">
+    </div>
+    <div class="six columns">
+      <label for="author">Author</label>
+      <select name='author' class="u-full-width">
+      	<option value="{{ book.author.id }}" selected>{{ book.author.name }}</option>
+				{% for author in authors %}
+        <option value="{{ author.id }}">{{ author.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="four columns">
+      <label for="series">Series</label>
+      <select name="series" class="u-full-width">
+      	<option value="{{ book.series.id }}" selected>{{ book.series.name }}</option>
+        {% for series in series | sort(attribute='name') %}
+        <option value="{{ series.id }}">{{ series.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="two columns">
+      <label for="series_index">#</label>
+      <input name="series_index" type="text" class="u-full-width" value="{{ book.series_index }}" />
+    </div>
+    <div class="two columns">
+      <label for="level">Level</label>
+      <select name="level" class="u-full-width">
+      	<option selected>{{ book.level }}</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+    </div>
+    <div class="two columns">
+      <label for="wordcount">Word Count</label>
+      <input name="wordcount" type="number" class="u-full-width" value="{{ book.wordcount }}" />
+    </div>
+    <div class="two columns">
+      <label for="isbn">ISBN</label>
+      <input name="isbn" type="number" class="u-full-width" value="{{ book.isbn }}" />
+    </div>
+  </div>
+  <div class="row">
+  	<div class="four columns">
+      <label for="tag">Tag</label>
+      <select name="tag" class="u-full-width">
+      	<option value="{{ book.tag.id }}" selected>{{ book.tag.name }}</option>
+        {% for tag in tags %}
+        <option value="{{ tag.id }}">{{ tag.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="three columns">
+      <label for="publisher">Publisher</label>
+      <select name="publisher" class="u-full-width">
+      	<option value="{{ book.publisher.id }}" selected>{{ book.publisher.name }}</option>
+        {% for publisher in publishers %}
+        <option value="{{ publisher.id }}">{{ publisher.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="five columns">
+      <label for="cover">Cover</label>
+      <input name="cover" type="text" class="u-full-width" value="{{ book.cover }}" />
+    </div>
+  </div>
+  <label for="description">Description</label>
+  <textarea
+    name="description"
+    type="textarea"
+    class="u-full-width"
+  >{{ book.description }}</textarea>
+  <div class="row">
+  	<div class="offset-by-five two columns">
+  		<input class="button" type="submit" value="Submit">
+  	</div>
+  </div>
+</form>
+{% endblock %}

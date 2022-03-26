@@ -1,0 +1,75 @@
+{% extends 'base.html' %}{% block title %}Admin{% endblock %}{% block content %}
+<div class="row" style="margin-bottom: 2%;">
+	<div class="one column">
+		<a href="{{ url_for('add_user') }}" class="button">
+			<i class="fa-solid fa-user-plus"></i>
+	  </a>
+	</div>
+	<div class="offset-by-one one column">
+		<a href="{{ url_for('add_book') }}" class="button">
+			<i class="fa-solid fa-plus"></i><i class="fa-solid fa-book"></i>
+	  </a>
+	</div>
+	<div class="offset-by-one one column">
+		<a href="{{ url_for('add_author') }}" class="button">
+			<i class="fa-solid fa-plus"></i><i class="fa-solid fa-user"></i>
+	  </a>
+	</div>
+	<div class="offset-by-one one column">
+		<a href="{{ url_for('add_series') }}" class="button">
+			<i class="fa-solid fa-plus"></i><i class="fa-solid fa-list-ol"></i>
+	  </a>
+	</div>
+	<div class="offset-by-one one column">
+		<a href="{{ url_for('add_tag') }}" class="button">
+			<i class="fa-solid fa-plus"></i><i class="fa-solid fa-tag"></i>
+	  </a>
+	</div>
+	<div class="offset-by-one one column">
+		<a href="{{ url_for('add_publisher') }}" class="button">
+			<i class="fa-solid fa-plus"></i><i class="fa-solid fa-building"></i>
+	  </a>
+	</div>
+</div>
+<table class="u-full-width users">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Level</th>
+      <th>Date Added</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <td>
+        {{ user.id }}
+      </td>
+      <td>
+        {{ user.name }}
+      </td>
+      <td>
+        {{ user.username }}
+      </td>
+      <td>
+        {{ user.level }}
+      </td>
+      <td>
+      	{{ user.date_added }}
+      </td>
+      <td>
+        <a href="{{ url_for('update_user', id=user.id) }}" style="margin-right: 1rem;">
+          <i class="fa-solid fa-pencil fa-xl"></i>
+        </a>
+        <a href="{{ url_for('delete_user', id=user.id) }}">
+          <i class="fa-solid fa-trash"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

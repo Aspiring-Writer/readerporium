@@ -1,95 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" type="image/svg+xml" href="/static/favicon.ico" />
-    <link href="/static/tailwind.css" rel="stylesheet" />
-    <title>Readerporium</title>
-    <!--<script src="https://kit.fontawesome.com/42f6f50d63,js" crossorigin="anonymous"></script>-->
-    <link href="/static/fontawesome/css/all.min.css" rel="stylesheet">
-  </head>
-  <body class="container mx-auto py-8 font-mono">
-    {% for message in get_flashed_messages() %}
-    <div class="alert" role="alert">
-      {{ message }}
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Readerporium</title>
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/static/css/normalize.css">
+  <link rel="stylesheet" href="/static/css/skeleton.css">
+  <link rel="stylesheet" href="/static/css/custom.css">
+  
+  <!-- Font Awesome
+  -------------------------------------------------- -->
+  <link href="/static/fontawesome/css/all.min.css" rel="stylesheet">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.ico" />
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+  	<section class="header">
+	  	{% for message in get_flashed_messages() %}
+	    <div class="alert" role="alert">
+	      {{ message }}
+	    </div>
+	    {% endfor %}
+  		<h1>Readerporium</h1>
+  		<!-- Navbar
+	  	------------------------------------------------- -->
+	    <nav class="navbar">
+	      <ul class="navbar-list">
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('index') }}" class="navbar-link">
+	          	<i class="fa-solid fa-house"></i>
+	          	Home
+	        	</a>
+	      	</li>
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('books') }}" class="navbar-link">
+	          	<i class="fa-solid fa-book"></i>
+	          	Titles
+	          </a>
+	      	</li>
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('authors') }}" class="navbar-link">
+	          	<i class="fa-solid fa-users"></i>
+	          	Authors
+	          </a>
+	      	</li>
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('series') }}" class="navbar-link">
+	          	<i class="fa-solid fa-list-ol"></i>
+	          	Series
+	        	</a>
+	      	</li>
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('tags') }}" class="navbar-link">
+	          	<i class="fa-solid fa-tags"></i>
+	          	Tags
+	        	</a>
+	      	</li>
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('publishers') }}" class="navbar-link">
+	          	<i class="fa-solid fa-building"></i>
+	          	Publishers
+	        	</a>
+	      	</li>
+	      	<li class="navbar-item">
+	      		<a href="{{ url_for('levels') }}" class="navbar-link">
+	          	<i class="fa-solid fa-star"></i>
+	          	Levels
+	        	</a>
+	      	</li>
+	      	<li class="navbar-item">
+						<a href="{{ url_for('logout') }}" class="navbar-link">
+		        	<i class="fa-solid fa-arrow-right-from-bracket"></i>
+		          Logout
+		        </a>
+	      	</li>
+	      </ul>
+	    </nav>
+  	</section>
+  	
+    <!-- Content
+    ------------------------------------------------ -->
+    <div class="content">
+    	<h2>{% block title %}{% endblock %}</h2>
+		  {% block content %} {% endblock %}
     </div>
-    {% endfor %}
-    <h1>Readerporium</h1>
-    <div class="mt-4">
-    	<div class="flex justify-center">
-			  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mb-6">
-			    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-			      <div class="overflow-x-auto shadow rounded-lg">
-			        <table>
-			          <tbody>
-			            <tr class="border-none font-medium bg-gray-100 hover:bg-gray-100 px-6 py-4">
-			            	<td>
-						          <a href="{{ url_for('index') }}">
-						          	<i class="fa-solid fa-house"></i>
-						          	Home
-					          	</a>
-						        </td>
-						        <td>
-						          <a href="{{ url_for('books') }}">
-						          	<i class="fa-solid fa-book"></i>
-						          	Titles
-						          </a>
-						        </td>
-						        <td>
-						          <a href="{{ url_for('authors') }}">
-						          	<i class="fa-solid fa-users"></i>
-						          	Authors
-						          </a>
-						        </td>
-						        <td>
-						          <a href="{{ url_for('tags') }}">
-						          	<i class="fa-solid fa-tags"></i>
-						          	Tags
-					          	</a>
-						        </td>
-						        <td>
-						          <a href="{{ url_for('series') }}">
-						          	<i class="fa-solid fa-list-ol"></i>
-						          	Series
-					          	</a>
-						        </td>
-						        <td>
-						          <a href="{{ url_for('publishers') }}">
-						          	<i class="fa-solid fa-building"></i>
-						          	Publishers
-					          	</a>
-						        </td>
-						        <td>
-						          <a href="{{ url_for('levels') }}">
-						          	<i class="fa-solid fa-star"></i>
-						          	Levels
-					          	</a>
-						        </td>
-						        {% if current_user.id == 1 %}
-						        <td>
-						          <a href="{{ url_for('admin') }}">
-						          	<i class="fa-solid fa-circle-user"></i>
-						          	Admin
-					          	</a>
-						        </td>
-						        {% endif %}
-						        <td>
-						          <a href="{{ url_for('logout') }}">
-						          	<i class="fa-solid fa-arrow-right-from-bracket"></i>
-						            Logout {{ current_user.username }}
-						          </a>
-						        </td>
-			            </tr>
-			          </tbody>
-			        </table>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-      <h2>{% block title %}{% endblock %}</h2>
-      {% block content %} {% endblock %}
-    </div>
-  </body>
+	  
+  </div>
+
+<!-- End Document
+–––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
 </html>

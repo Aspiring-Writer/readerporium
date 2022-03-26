@@ -1,0 +1,120 @@
+{% extends 'base.html' %} {% block title %}{{ book.title }} by {{ book.author.name }}{% endblock %} {% block content %}
+<div class="row">
+	<div class="one-third column">
+		<img src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="cover img" class="u-max-full-width" />
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th></th>
+				</tr>
+			</thead>
+      <tbody>
+      	<tr>
+      		<td>
+      			<a href="{{ url_for('authors') }}/{{ book.author.id }}">
+      				<i class="fa-solid fa-user"></i>
+      				View more by {{ book.author.name }}
+      			</a>
+      		</td>
+      	</tr>
+        <tr>
+          <td>
+          	<a href="{{ url_for('series') }}/{{ book.series.id }}">
+          		<i class="fa-solid fa-list-ol"></i>
+              {{ book.series.name }} #{{ book.series_index }}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          	<a href="{{ url_for('tags') }}/{{ book.tag.id }}">
+          		<i class="fa-solid fa-tag"></i>
+              {{ book.tag.name }}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          	<a href="{{ url_for('levels') }}/{{ book.level }}">
+            	<i class="fa-solid fa-star"></i>
+            	{{ book.level }}
+          	</a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          	<i class="fa-solid fa-arrow-down-1-9"></i>
+          	{% if book.wordcount <= 3500 %}<a href="{{ url_for('flash_fiction') }}">{{ book.wordcount }} (flash fiction)</a>
+          	{% elif book.wordcount <= 7500  %}<a href="{{ url_for('short_stories') }}">{{ book.wordcount }} (short story)</a>
+          	{% elif book.wordcount <= 17000 %}<a href="{{ url_for('novellettes') }}">{{ book.wordcount }} (novellette)</a>
+          	{% elif book.wordcount <= 40000 %}<a href="{{ url_for('novellas') }}">{{ book.wordcount }} (novella)</a>
+          	{% else %}<a href="{{ url_for('novels') }}">{{ book.wordcount }} (novel)</a>{% endif %}
+          </td>
+        </tr>
+        <tr>
+          <td>
+          	<i class="fa-solid fa-hashtag"></i>
+          	<strong>{{ book.isbn }}</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          	<a href="{{ url_for('publishers') }}/{{ book.publisher.id }}">
+          		<i class="fa-solid fa-building"></i>
+				      {{ book.publisher.name }}
+				    </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+	</div>
+	<div class="two-thirds column">
+		{% markdown %}{{ book.description }}{% endmarkdown %}
+		<table class="u-full-width">
+		  <thead>
+		    <tr>
+		      <th>Format</th>
+		      <th>Description</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td>
+		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
+		      		<i class="fa-solid fa-download"></i>
+		      		EPUB
+		      	</a>
+		      </td>
+		      <td>
+		      	Supported by most e-readers, smartphones, tablets, and computers.
+		      </td>
+		    </tr>
+		    <tr>
+		      <td>
+		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
+		      		<i class="fa-solid fa-download"></i>
+		      		KEPUB
+		      	</a>
+		      </td>
+		      <td>
+		      	This is the recommended format for Kobo e-readers.
+		      </td>
+		    </tr>
+		    <tr>
+		      <td>
+		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
+		      		<i class="fa-solid fa-download"></i>
+		      		MOBI
+		      	</a>
+		      </td>
+		      <td>
+		      	Legacy format for Kindles.
+		      </td>
+		    </tr>
+		  </tbody>
+		</table>
+	</div>
+</div>
+
+
+{% endblock %}

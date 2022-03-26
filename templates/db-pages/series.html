@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block title %}Series{% endblock %} {% block content %}
+<div class="row">
+	<div class="offset-by-one-third one-third column">
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+		  <tbody>
+	      {% for series in series | sort(attribute="name") %}
+	      <tr>
+	        <td>
+	          <a href="{{ url_for('series') }}/{{ series.id }}">
+	          	<i class='fa-solid fa-list-ol'></i>
+	          	{{ series.name }}
+	        	</a>
+	        </td>
+	      </tr>
+	      {% endfor %}
+	    </tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

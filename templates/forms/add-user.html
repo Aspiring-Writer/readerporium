@@ -1,0 +1,38 @@
+{% extends 'base.html' %}{% block title %}Add User{% endblock %}{% block content %}
+<form METHOD="POST">
+  <div class="row">
+    <div class="four columns">
+      <label for="name">Name</label>
+      <input type="text" class="u-full-width" name="name" />
+    </div>
+    <div class="four columns">
+      <label for="username">Username</label>
+      <input type="text" class="u-full-width" name="username" />
+    </div>
+    <div class="four columns">
+      <label for="level">Level</label>
+      <select name="level" class="u-full-width">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+  	<div class="six columns">
+      <label for="password">Password</label>
+      <input type="password" class="u-full-width" name="password1" />
+    </div>
+    <div class="six columns">
+      <label for="password2">Confirm Password</label>
+      <input type="password" class="u-full-width" name="password2" />
+    </div>
+  </div>
+  <div class="row">
+  	<div class="offset-by-five two columns">
+  		<input class="button" type="submit" value="Submit">
+  	</div>
+  </div>
+</form>
+{% endblock %}
