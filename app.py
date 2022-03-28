@@ -9,15 +9,18 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, log
 from werkzeug.security import generate_password_hash, check_password_hash
 from jinja_markdown import MarkdownExtension
 
+from webforms import *
+
 app = Flask(__name__)
 
 load_dotenv()
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('LOCAL_DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+#app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('LOCAL_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 ROWS_PER_PAGE = 15
+ADMINS_ONLY = 'Restricted! Are you an admin?'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -43,7 +46,7 @@ class Users(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(200), nullable=False)
 	username = db.Column(db.String(20), nullable=False, unique=True)
-	level = db.Column(db.Integer, default=1)
+	level = db.Column(db.Integer)
 	password = db.Column(db.String(128))
 	date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -53,7 +56,6 @@ class Books(db.Model):
 	author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
 	series_id = db.Column(db.Integer, db.ForeignKey('series.id'))
 	series_index = db.Column(db.Float)
-	#tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'))
 	tags = db.relationship('Tags', secondary=book_tags, backref='books')
 	isbn = db.Column(db.String(13))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('publishers.id'))
@@ -91,7 +93,6 @@ class Tags(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(150), nullable=False)
 	level = db.Column(db.Integer, default=1)
-	#books = db.relationship('Books', backref='tag')
 
 	# Return what we just added
 	def __repr__(self):
@@ -353,422 +354,363 @@ def admin():
 		flash('Sorry, but you must be an admin to access this page.')
 		return redirect(url_for('index'))
 	
-@app.route('/admin/add-user', methods=['POST', 'GET'])
+@app.route('/admin/add-user', methods=['GET', 'POST'])
 #@login_required
 def add_user():
-	#if current_user.id == 1:
-	if request.method == "POST":
-		name = request.form['name']
-		username = request.form['username']
-		level = request.form['level']
-		password1 = request.form['password1']
-		password2 = request.form['password2']
-
-		username_exists = Users.query.filter_by(username=username).first()
-
-		if username_exists:
+	form = AddUserForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		user = Users.query.filter_by(username=form.username.data).first()
+		
+		if user:
 			flash('Username already exists.')
-		elif password1 != password2:
-			flash('Passwords don\'t match!')
-		elif len(username) < 5:
-			flash('Username is too short.')
-		elif len(password1) < 7:
-			flash('Password is too short.')
 		else:
-			new_user = Users(name=name, username=username, level=level, password=generate_password_hash(password1, method='sha256'))
+			user = Users(name=form.name.data, username=form.username.data, level=form.level.data, password=generate_password_hash(form.password1.data, method='sha256'))
 			try:
-				db.session.add(new_user)
+				db.session.add(user)
 				db.session.commit()
-				#login_user(new_user, remember=True)
 				flash('User created!')
 				return redirect(url_for('admin'))
 			except:
 				flash('Error adding user.')
 
-	return render_template('forms/add-user.html')
-
-	#else:
-		#flash('Only admins can create users.')
-		#return redirect(url_for('index'))
+	return render_template('forms/add-user.html', form=form)
 
 @app.route('/admin/update-user/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update_user(id):
-	update_user = Users.query.get_or_404(id)
+	user = Users.query.get_or_404(id)
+	form = UpdateUserForm()
 	
-	if request.method == "POST":
-		update_user.name = request.form['name']
-		update_user.username = request.form['username']
-		update_user.level = request.form['level']
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
 		try:
 			db.session.commit()
-			flash('User updated successfully!')
+			flash('User updated!')
 			return redirect(url_for('admin'))
 		except:
-			flash('Error updating user')
-			return render_template('forms/update-user.html', update_user=update_user)
-	
-	return render_template('forms/update-user.html', update_user=update_user)
+			flash('Error updating user.')
+
+	return render_template('forms/update-user.html', form=form, user=user)
 
 @app.route('/admin/delete-user/<int:id>')
 @login_required
 def delete_user(id):
 	delete_user = Users.query.get_or_404(id)
 
-	if current_user.id == 1:
-		try:
-			db.session.delete(delete_user)
-			db.session.commit()
-			flash("User deleted!")
-			return redirect(url_for('admin'))
-		except:
-			flash("There was an error deleting the user.")
-	
-	flash('You are not authorized to delete users')
-	return redirect(url_for('index'))
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	try:
+		db.session.delete(delete_user)
+		db.session.commit()
+		flash("User deleted!")
+		return redirect(url_for('admin'))
+	except:
+		flash("There was an error deleting the user.")
 
 @app.route('/admin/add-book', methods=['POST', 'GET'])
 @login_required
 def add_book():
-	authors = Authors.query.order_by('name')
-	series = Series.query.order_by('name')
-	tags = Tags.query.order_by('name')
-	publishers = Publishers.query.order_by('name')
+	form = AddBookForm()
+	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by('name')]
+	form.series.choices = [(s.id, s.name) for s in Series.query.order_by('name')]
+	form.tags.choices = [(t.id, t.name) for t in Tags.query.order_by('name')]
+	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by('name')]
 
-	if current_user.id == 1:
-		if request.method == "POST":
-			title = request.form['title']
-			author = request.form['author']
-			series = request.form['series']
-			series_index = request.form['series_index']
-			#tag = request.form['tag']
-			isbn = request.form['isbn']
-			publisher = request.form['publisher']
-			wordcount = request.form['wordcount']
-			cover = request.form['cover']
-			description = request.form['description']
-			level = request.form['level']
-
-			book = Books(title=title, author_id=author, series_id=series, series_index=series_index, isbn=isbn, publisher_id=publisher, wordcount=wordcount, cover=cover, description=description, level=level)
-			
-			# Push to Database
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	
+	elif form.validate_on_submit():
+		book = Books.query.filter_by(isbn=form.isbn.data).first()
+		
+		if book:
+			flash('ISBN already exists.')
+		else:
+			book = Books(title=form.title.data, author_id=form.author.data, series_id=form.series.data, series_index=form.series_index.data, isbn=form.isbn.data, publisher_id=form.publisher.data, wordcount=form.wordcount.data, cover=form.cover.data, description=form.description.data, level=form.level.data)
 			try:
 				db.session.add(book)
 				db.session.commit()
-				flash("Book added successfully!")
-				return render_template('forms/add-book.html', authors=authors, series=series, tags=tags, publishers=publishers)
+				flash('Book added successfully!')
+				return redirect(url_for('book', id=book.id))
 			except:
-				flash("Error adding book")
+				flash('Error adding book.')
 
-		return render_template('forms/add-book.html', authors=authors, series=series, tags=tags, publishers=publishers)
-
-	flash('Only admins can add to the database')
+	return render_template('forms/add-book.html', form=form)
 
 @app.route('/admin/update-book/<int:id>', methods=['POST', 'GET'])
 @login_required
 def update_book(id):
 	book = Books.query.get_or_404(id)
-	authors = Authors.query.all()
-	series = Series.query.all()
-	tags = Tags.query.all()
-	publishers = Publishers.query.all()
+	form = UpdateBookForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		try:
+			db.session.commit()
+			flash('Book updated!')
+			return redirect(url_for('book', id=book.id))
+		except:
+			flash('Error updating book.')
 
-	if current_user.id == 1:
-		if request.method == "POST":
-			book.title = request.form['title']
-			book.author_id = request.form['author']
-			book.series_id = request.form['series']
-			book.series_index = request.form['series_index']
-			book.isbn = request.form['isbn']
-			book.publisher_id = request.form['publisher']
-			book.wordcount = request.form['wordcount']
-			book.cover = request.form['cover']
-			book.description = request.form['description']
-			book.level = request.form['level']
-
-			# Push to Database
-			try:
-				db.session.commit()
-				flash('Book updated!')
-				return render_template('forms/update-book.html', book=book, authors=authors, series=series, publishers=publishers)
-			except:
-				flash("There was an error updating the book.")
-				return render_template('forms/update-book.html', book=book, authors=authors, series=series, publishers=publishers)
-
-		return render_template('forms/update-book.html', book=book, authors=authors, series=series, publishers=publishers)
-
-	flash("You are not authorized to edit books")
+	return render_template('forms/update-book.html', form=form, book=book)
 
 @app.route('/admin/delete-book/<int:id>')
 @login_required
 def delete_book(id):
 	delete_book = Books.query.get_or_404(id)
 
-	if current_user.id == 1:
-		try:
-			db.session.delete(delete_book)
-			db.session.commit()
-			flash("Book deleted!")
-			return redirect(url_for('books'))
-		except:
-			flash("There was an error deleting the book.")
-	
-	flash('You are not authorized to delete books')
-	return redirect(url_for('books'))
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	try:
+		db.session.delete(delete_book)
+		db.session.commit()
+		flash("Book deleted!")
+		return redirect(url_for('books'))
+	except:
+		flash("There was an error deleting the book.")
 
 @app.route('/admin/add-author', methods=['POST', 'GET'])
 @login_required
 def add_author():
-	if current_user.id == 1:
-		if request.method == "POST":
-			name = request.form['name']
-			level = request.form['level']
-
-			author = Authors(name=name, level=level)
-			
-			# Push to Database
+	form = AddASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		author = Authors.query.filter_by(name=form.name.data).first()
+		
+		if author:
+			flash('Author already exists.')
+		else:
+			author = Authors(name=form.name.data, level=form.level.data)
 			try:
 				db.session.add(author)
 				db.session.commit()
-				flash("Author added successfully!")
-				return render_template('forms/add.html', title='Add Author')
+				flash('Author created!')
+				return redirect(url_for('author', id=author.id))
 			except:
-				flash("Error adding Author")
+				flash('Error adding author.')
 
-		return render_template('forms/add.html', title='Add Author')
-
-	flash('Only admins can add to the database')
+	return render_template('forms/add-astp.html', form=form, title='Add Author')
 
 @app.route('/admin/update-author/<int:id>', methods=['POST', 'GET'])
 @login_required
 def update_author(id):
-	author = Authors.query.get_or_404(id)
+	astp = Authors.query.get_or_404(id)
+	form = UpdateASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		try:
+			db.session.commit()
+			flash('Author updated!')
+			return redirect(url_for('author', id=book.id))
+		except:
+			flash('Error updating author.')
 
-	if current_user.id == 1:
-		if request.method == "POST":
-			author.name = request.form['name']
-			author.level = request.form['level']
-
-			# Push to Database
-			try:
-				db.session.commit()
-				flash('Author updated!')
-				return redirect(url_for('authors'))
-			except:
-				flash("There was an error updating the author.")
-				return render_template('forms/update-author.html', author=author)
-
-		return render_template('forms/update-author.html', author=author)
-
-	flash("You are not authorized to edit authors")
+	return render_template('forms/update-astp.html', form=form, author=author)
 
 @app.route('/admin/delete-author/<int:id>')
 @login_required
 def delete_author(id):
-	author = Authors.query.get_or_404(id)
+	delete_author = Authors.query.get_or_404(id)
 
-	if current_user.id == 1:
-		try:
-			db.session.delete(author)
-			db.session.commit()
-			flash("Author deleted!")
-			return redirect(url_for('authors'))
-		except:
-			flash("There was an error deleting the author.")
-	
-	flash('You are not authorized to delete author')
-	return redirect(url_for('authors'))
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	try:
+		db.session.delete(delete_author)
+		db.session.commit()
+		flash("Author deleted!")
+		return redirect(url_for('authors'))
+	except:
+		flash("There was an error deleting the author.")
 
 @app.route('/admin/add-series', methods=['POST', 'GET'])
 @login_required
 def add_series():
-	if current_user.id == 1:
-		if request.method == "POST":
-			name = request.form['name']
-			level = request.form['level']
-
-			series = Series(name=name, level=level)
-			
-			# Push to Database
+	form = AddASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		series = Series.query.filter_by(name=form.name.data).first()
+		
+		if series:
+			flash('Series already exists.')
+		else:
+			series = Series(name=form.name.data, level=form.level.data)
 			try:
 				db.session.add(series)
 				db.session.commit()
-				flash("Series added successfully!")
-				return render_template('forms/add.html', title='Add Series')
+				flash('Series created!')
+				return redirect(url_for('serie', id=serie.id))
 			except:
-				flash("Error adding series")
+				flash('Error adding series.')
 
-		return render_template('forms/add.html', title='Add Series')
-
-	flash('Only admins can add to the database')
+	return render_template('forms/add-astp.html', form=form, title='Add Series')
 
 @app.route('/admin/update-series/<int:id>', methods=['POST', 'GET'])
 @login_required
 def update_series(id):
-	series = Series.query.get_or_404(id)
+	astp = Series.query.get_or_404(id)
+	form = UpdateASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		try:
+			db.session.commit()
+			flash('Series updated!')
+			return redirect(url_for('serie', id=series.id))
+		except:
+			flash('Error updating series.')
 
-	if current_user.id == 1:
-		if request.method == "POST":
-			series.name = request.form['name']
-			series.level = request.form['level']
-
-			# Push to Database
-			try:
-				db.session.commit()
-				flash('Series updated!')
-				return redirect(url_for('series'))
-			except:
-				flash("There was an error updating the series.")
-				return render_template('forms/update-series.html', series=series)
-
-		return render_template('forms/update-series.html', series=series)
-
-	flash("You are not authorized to edit series")
+	return render_template('forms/update-astp.html', form=form, series=series)
 
 @app.route('/admin/delete-series/<int:id>')
 @login_required
 def delete_series(id):
-	series = Series.query.get_or_404(id)
-	id = current_user.id
+	delete_series = Series.query.get_or_404(id)
 
-	if id == 1:
-		try:
-			db.session.delete(series)
-			db.session.commit()
-			flash("Series deleted!")
-			return redirect(url_for('series'))
-		except:
-			flash("There was an error deleting the series.")
-	
-	flash('You are not authorized to delete series')
-	return redirect(url_for('series'))
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	try:
+		db.session.delete(delete_series)
+		db.session.commit()
+		flash("Series deleted!")
+		return redirect(url_for('series'))
+	except:
+		flash("There was an error deleting the series.")
 
 @app.route('/admin/add-tag', methods=['POST', 'GET'])
 @login_required
 def add_tag():
-	if current_user.id == 1:
-		if request.method == "POST":
-			name = request.form['name']
-			#level = request.form['level']
-
-			tag = Tags(name=name)
-			
-			# Push to Database
+	form = AddASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		tag = Tags.query.filter_by(name=form.name.data).first()
+		
+		if tag:
+			flash('Tag already exists.')
+		else:
+			tag = Tags(name=form.name.data, level=form.level.data)
 			try:
 				db.session.add(tag)
 				db.session.commit()
-				flash("Tag added successfully!")
-				return render_template('forms/add.html', title='Add Tag')
+				flash('Tag created!')
+				return redirect(url_for('tag', id=tag.id))
 			except:
-				flash("Error adding tag")
+				flash('Error adding tag.')
 
-		return render_template('forms/add.html', title='Add Tag')
-
-	flash('Only admins can add to the database')
+	return render_template('forms/add-astp.html', form=form, title='Add Tag')
 
 @app.route('/admin/update-tag/<int:id>', methods=['POST', 'GET'])
 @login_required
 def update_tag(id):
-	tag = Tags.query.get_or_404(id)
-	id = current_user.id
+	astp = Tags.query.get_or_404(id)
+	form = UpdateASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		try:
+			db.session.commit()
+			flash('Tag updated!')
+			return redirect(url_for('tag', id=tag.id))
+		except:
+			flash('Error updating tag.')
 
-	if id == 1:
-		if request.method == "POST":
-			tag.name = request.form['name']
-
-			# Push to Database
-			try:
-				db.session.commit()
-				flash('Tag updated!')
-				return redirect(url_for('tags'))
-			except:
-				flash("There was an error updating the tag.")
-				return render_template('forms/update-tag.html', tag=tag)
-
-		return render_template('forms/update-tag.html', tag=tag)
-
-	flash("You are not authorized to edit tags")
-	return redirect(url_for('tags'))
+	return render_template('forms/update-astp.html', form=form, tag=tag)
 
 @app.route('/admin/delete-tag/<int:id>')
 @login_required
 def delete_tag(id):
-	tag = Tags.query.get_or_404(id)
+	delete_tag = Tags.query.get_or_404(id)
 
-	if current_user.id == 1:
-		try:
-			db.session.delete(tag)
-			db.session.commit()
-			flash("Tag deleted!")
-			return redirect(url_for('tags'))
-		except:
-			flash("There was an error deleting the tag.")
-	
-	flash('You are not authorized to delete tags')
-	return redirect(url_for('tags'))
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	try:
+		db.session.delete(delete_tag)
+		db.session.commit()
+		flash("Tag deleted!")
+		return redirect(url_for('tags'))
+	except:
+		flash("There was an error deleting the tag.")
 
 @app.route('/admin/add-publisher', methods=['POST', 'GET'])
 @login_required
 def add_publisher():
-	if current_user.id == 1:
-		if request.method == "POST":
-			name = request.form['name']
-			level = request.form['level']
-
-			publisher = Publishers(name=name, level=level)
-			
-			# Push to Database
+	form = AddASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		publisher = Publishers.query.filter_by(name=form.name.data).first()
+		
+		if publisher:
+			flash('Author already exists.')
+		else:
+			publisher = Publishers(name=form.name.data, level=form.level.data)
 			try:
 				db.session.add(publisher)
 				db.session.commit()
-				flash("Publisher added successfully!")
-				return render_template('forms/add.html', title='Add Publisher')
+				flash('Publisher created!')
+				return redirect(url_for('publisher', id=publisher.id))
 			except:
-				flash("Error adding publisher")
+				flash('Error adding publisher.')
 
-		return render_template('forms/add.html', title='Add Publisher')
-
-	flash('Only admins can add to the database')
+	return render_template('forms/add-astp.html', form=form, title='Add Publisher')
 
 @app.route('/admin/update-publisher/<int:id>', methods=['POST', 'GET'])
 @login_required
 def update_publisher(id):
-	publisher = Publishers.query.get_or_404(id)
+	astp = Publishers.query.get_or_404(id)
+	form = UpdateASTPForm()
+	
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+		
+	elif form.validate_on_submit():
+		try:
+			db.session.commit()
+			flash('Publisher updated!')
+			return redirect(url_for('publisher', id=publisher.id))
+		except:
+			flash('Error updating publisher.')
 
-	if current_user.id == 1:
-		if request.method == "POST":
-			publisher.name = request.form['name']
-			publisher.level = request.form['level']
-
-			# Push to Database
-			try:
-				db.session.commit()
-				flash('Publisher updated!')
-				return redirect(url_for('publishers'))
-			except:
-				flash("There was an error updating the publisher.")
-				return render_template('forms/update-publisher.html', publisher=publisher)
-
-		return render_template('forms/update-publisher.html', publisher=publisher)
-
-	flash("You are not authorized to edit publishers")
+	return render_template('forms/update-astp.html', form=form, publisher=publisher)
 
 @app.route('/admin/delete-publisher/<int:id>')
 @login_required
 def delete_publisher(id):
-	publisher = Publishers.query.get_or_404(id)
+	delete_publisher = Publishers.query.get_or_404(id)
 
-	if current_user.id == 1:
-		try:
-			db.session.delete(publisher)
-			db.session.commit()
-			flash("Publisher deleted!")
-			return redirect(url_for('publishers'))
-		except:
-			flash("There was an error deleting the publisher.")
-	
-	flash('You are not authorized to delete publishers')
-	return redirect(url_for('publishers'))
+	if current_user.id != 1:
+		flash('ADMINS_ONLY')
+	try:
+		db.session.delete(delete_publisher)
+		db.session.commit()
+		flash("Publisher deleted!")
+		return redirect(url_for('publishers'))
+	except:
+		flash("There was an error deleting the publisher.")
 
 # Error pages
 @app.errorhandler(404)

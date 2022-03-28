@@ -1,28 +1,23 @@
-{% extends 'base.html' %}{% block title %}Update {{ update_user.username }}{% endblock %}{% block content %}
-<form METHOD="POST">
+{% extends 'base.html' %}{% block title %}Update {{ user.username }}{% endblock %}{% block content %}
+<form METHOD="POST" action="{{ url_for('update_user', id=user.id) }}">
+	{{ form.hidden_tag() }}
   <div class="row">
     <div class="four columns">
-      <label for="name">Name</label>
-      <input type="text" class="u-full-width" name="name" value="{{ update_user.name }}" />
+      {{ form.name.label }}
+      {{ form.name(class="u-full-width", value=user.name) }}
     </div>
     <div class="four columns">
-      <label for="username">Username</label>
-      <input type="text" class="u-full-width" name="username" value="{{ update_user.username }}" />
+      {{ form.username.label }}
+      {{ form.username(class="u-full-width", value=user.username) }}
     </div>
     <div class="four columns">
-      <label for="level">Level</label>
-      <select name="level" class="u-full-width">
-      	<option selected>{{ update_user.level }}</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>
+      {{ form.level.label }}
+      {{ form.level(class="u-full-width", value=user.level) }}
     </div>
   </div>
   <div class="row">
   	<div class="offset-by-five two columns">
-  		<input class="button" type="submit" value="Submit">
+      {{ form.submit }}
   	</div>
   </div>
 </form>

@@ -1,77 +1,57 @@
 {% extends 'base.html' %}{% block title %}Update {{ book.title }} by {{ book.author.name }}{% endblock %} {% block content %}
-<form METHOD="POST">
+<form METHOD="POST" action="{{ url_for('update_book', id=book.id) }}">
+	{{ form.hidden_tag() }}
   <div class="row">
     <div class="six columns">
-      <label for="title">Title</label>
-      <input class="u-full-width" type="text" name='title' value="{{ book.title }}">
+      {{ form.title.label }}
+      {{ form.title(class="u-full-width", value=book.title) }}
     </div>
-    <div class="six columns">
-      <label for="author">Author</label>
-      <select name='author' class="u-full-width">
-      	<option value="{{ book.author.id }}" selected>{{ book.author.name }}</option>
-				{% for author in authors %}
-        <option value="{{ author.id }}">{{ author.name }}</option>
-        {% endfor %}
-      </select>
+    <div class="three columns">
+      {{ form.author.label }}
+      {{ form.author(class="u-full-width", value=book.author.name) }}
     </div>
+  	<!--<div class="three columns">
+      {{ form.tags.label }}
+      {{ form.tags(class="u-full-width") }}
+    </div>-->
   </div>
   <div class="row">
     <div class="four columns">
-      <label for="series">Series</label>
-      <select name="series" class="u-full-width">
-      	<option value="{{ book.series.id }}" selected>{{ book.series.name }}</option>
-        {% for series in series | sort(attribute='name') %}
-        <option value="{{ series.id }}">{{ series.name }}</option>
-        {% endfor %}
-      </select>
+      {{ form.series.label }}
+      {{ form.series(class="u-full-width", value=book.series.name) }}
     </div>
     <div class="two columns">
-      <label for="series_index">#</label>
-      <input name="series_index" type="text" class="u-full-width" value="{{ book.series_index }}" />
+      {{ form.series_index.label }}
+      {{ form.series_index(class="u-full-width", value=book.series_index) }}
     </div>
     <div class="two columns">
-      <label for="level">Level</label>
-      <select name="level" class="u-full-width">
-      	<option selected>{{ book.level }}</option>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-      </select>
+      {{ form.level.label }}
+      {{ form.level(class="u-full-width", value=book.level) }}
     </div>
     <div class="two columns">
-      <label for="wordcount">Word Count</label>
-      <input name="wordcount" type="number" class="u-full-width" value="{{ book.wordcount }}" />
+      {{ form.wordcount.label }}
+      {{ form.wordcount(class="u-full-width", value=book.wordcount) }}
     </div>
     <div class="two columns">
-      <label for="isbn">ISBN</label>
-      <input name="isbn" type="number" class="u-full-width" value="{{ book.isbn }}" />
+      {{ form.isbn.label }}
+      {{ form.isbn(class="u-full-width", value=book.isbn) }}
     </div>
   </div>
   <div class="row">
     <div class="three columns">
-      <label for="publisher">Publisher</label>
-      <select name="publisher" class="u-full-width">
-      	<option value="{{ book.publisher.id }}" selected>{{ book.publisher.name }}</option>
-        {% for publisher in publishers %}
-        <option value="{{ publisher.id }}">{{ publisher.name }}</option>
-        {% endfor %}
-      </select>
+      {{ form.publisher.label }}
+      {{ form.publisher(class="u-full-width", value=book.publisher.name) }}
     </div>
     <div class="five columns">
-      <label for="cover">Cover</label>
-      <input name="cover" type="text" class="u-full-width" value="{{ book.cover }}" />
+      {{ form.cover.label }}
+      {{ form.cover(class="u-full-width", value=book.cover) }}
     </div>
   </div>
-  <label for="description">Description</label>
-  <textarea
-    name="description"
-    type="textarea"
-    class="u-full-width"
-  >{{ book.description }}</textarea>
+  {{ form.description.label }}
+  {{ form.description(class="u-full-width", value=book.description) }}
   <div class="row">
   	<div class="offset-by-five two columns">
-  		<input class="button" type="submit" value="Submit">
+  		{{ form.submit }}
   	</div>
   </div>
 </form>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% block title %}{{ title }}{% endblock %} {% block content %}
+<form METHOD="POST">
+	{{ form.hidden_tag() }}
+  <div class="row">
+    <div class="six columns">
+      {{ form.name.label }}
+      {{ form.name(class="u-full-width") }}
+    </div>
+    <div class="six columns">
+    	{{ form.level.label }}
+      {{ form.level(class="u-full-width") }}
+    </div>
+  </div>
+  <div class="row">
+  	<div class="offset-by-five two columns">
+  		{{ form.submit }}
+  	</div>
+  </div>
+</form>
+{% endblock %}

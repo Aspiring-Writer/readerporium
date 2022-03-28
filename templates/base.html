@@ -44,7 +44,14 @@
 	      {{ message }}
 	    </div>
 	    {% endfor %}
+	    
+			{% if form %}{% for field, errors in form.errors.items() %}
+				 <div class="alert" role="alert">
+					{{ ', '.join(errors) }}
+				</div>
+			{% endfor %}{% endif %}
   		<h1>Readerporium</h1>
+  		{% if current_user.is_authenticated %}
   		<!-- Navbar
 	  	------------------------------------------------- -->
 	    <nav class="navbar">
@@ -99,6 +106,7 @@
 	      	</li>
 	      </ul>
 	    </nav>
+	    {% endif %}
   	</section>
   	
     <!-- Content

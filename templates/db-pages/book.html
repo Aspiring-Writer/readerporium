@@ -28,7 +28,7 @@
         <tr>
           <td>
           	{% for tag in book.tags %}
-          	<a href="{{ url_for('tags') }}/{{ tag.id }}" style='padding: 2px;'>
+          	<a href="{{ url_for('tags') }}/{{ tag.id }}">
           		<i class="fa-solid fa-tag"></i>
               {{ tag.name }}
             </a>
