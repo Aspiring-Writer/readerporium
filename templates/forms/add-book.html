@@ -18,7 +18,7 @@
     <div class="four columns">
       <label for="series">Series</label>
       <select name="series" class="u-full-width">
-        {% for series in series | sort(attribute='name') %}
+        {% for series in series %}
         <option value="{{ series.id }}">{{ series.name }}</option>
         {% endfor %}
       </select>
@@ -46,14 +46,6 @@
     </div>
   </div>
   <div class="row">
-  	<div class="four columns">
-      <label for="tag">Tag</label>
-      <select name="tag" class="u-full-width">
-        {% for tag in tags %}
-        <option value="{{ tag.id }}">{{ tag.name }}</option>
-        {% endfor %}
-      </select>
-    </div>
     <div class="three columns">
       <label for="publisher">Publisher</label>
       <select name="publisher" class="u-full-width">

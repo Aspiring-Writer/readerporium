@@ -27,10 +27,12 @@
         </tr>
         <tr>
           <td>
-          	<a href="{{ url_for('tags') }}/{{ book.tag.id }}">
+          	{% for tag in book.tags %}
+          	<a href="{{ url_for('tags') }}/{{ tag.id }}" style='padding: 2px;'>
           		<i class="fa-solid fa-tag"></i>
-              {{ book.tag.name }}
+              {{ tag.name }}
             </a>
+            {% endfor %}
           </td>
         </tr>
         <tr>

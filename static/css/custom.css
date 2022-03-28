@@ -52,7 +52,7 @@ table > tbody > tr > td > a {
   box-sizing: border-box;
 }
 
-i { padding-right: 5px; }
+i { padding-left: 2px; padding-right: 2px; }
 .button i { font-size: 1.25em; }
 
 form > textarea { height: 196px; }
