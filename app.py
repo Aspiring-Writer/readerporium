@@ -19,7 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('LOCAL_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-ROWS_PER_PAGE = 7
+ROWS_PER_PAGE = 12
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -149,16 +149,17 @@ def logout():
 def books():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.date_created.desc()).paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.count()
 	
-	return render_template('list.html', books=books)
+	return render_template('list.html', title='Books', books=books, count=count)
 
 @app.route('/books/<int:id>/', methods=['GET'])
 @login_required
 def book(id):
 	book = Books.query.get_or_404(id)
-	author = Authors.query.all()
+	
 	if book.level <= current_user.level:
-		return render_template('book.html', book=book, author=author)
+		return render_template('book.html', book=book)
 	
 	return render_template('404.html'), 404
 
@@ -168,8 +169,9 @@ def book(id):
 def authors():
 	page = request.args.get('page', 1, type=int)
 	astp = Authors.query.filter(Authors.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Authors.query.count()
 	
-	return render_template('astp.html', title='Authors', astp=astp)
+	return render_template('astp.html', title='Authors', astp=astp, count=count)
 
 @app.route('/authors/<int:id>/')
 @login_required
@@ -177,8 +179,9 @@ def author(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Authors.query.get_or_404(id)
 	books = Books.query.filter(Books.level<=current_user.level).filter(Books.author==astp).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.author==astp).count()
 	
-	return render_template('list.html', astp=astp, books=books)
+	return render_template('list.html', astp=astp, books=books, count=count)
 
 # Series
 @app.route('/series/', methods=['POST', 'GET'])
@@ -186,8 +189,9 @@ def author(id):
 def series():
 	page = request.args.get('page', 1, type=int)
 	astp = Series.query.filter(Series.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Series.query.count()
 	
-	return render_template('astp.html', title='Series', astp=astp)
+	return render_template('astp.html', title='Series', astp=astp, count=count)
 
 @app.route('/series/<int:id>/')
 @login_required
@@ -195,17 +199,19 @@ def serie(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Series.query.get_or_404(id)
 	books = Books.query.filter(Books.level<=current_user.level).filter(Books.series==astp).order_by('series_index').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.series==astp).count()
 	
-	return render_template('list.html', astp=astp, books=books)
+	return render_template('list.html', astp=astp, books=books, count=count)
 
 # Tags
 @app.route('/tags/', methods=['POST', 'GET'])
 @login_required
 def tags():
 	page = request.args.get('page', 1, type=int)
-	tags = Tags.query.filter(Tags.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Tags.query.filter(Tags.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Tags.query.count()
 	
-	return render_template('tags.html', tags=tags)
+	return render_template('astp.html', title='Tags', astp=astp, count=count)
 
 @app.route('/tags/<int:id>/')
 @login_required
@@ -213,7 +219,7 @@ def tag(id):
 	page = request.args.get('page', 1, type=int)
 	tag = Tags.query.get_or_404(id)
 	
-	return render_template('tag.html', tag=tag, books=books)
+	return render_template('tag.html', tag=tag)
 
 # Publishers
 @app.route('/publishers/', methods=['POST', 'GET'])
@@ -221,8 +227,9 @@ def tag(id):
 def publishers():
 	page = request.args.get('page', 1, type=int)
 	astp = Publishers.query.filter(Publishers.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Publishers.query.count()
 	
-	return render_template('astp.html', title='Publishers', astp=astp)
+	return render_template('astp.html', title='Publishers', astp=astp, count=count)
 
 @app.route('/publishers/<int:id>/')
 @login_required
@@ -230,8 +237,9 @@ def publisher(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Publishers.query.get_or_404(id)
 	books = Books.query.filter(Books.level<=current_user.level).filter(Books.publisher==astp).paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.publisher==astp).count()
 	
-	return render_template('list.html', astp=astp, books=books)
+	return render_template('list.html', astp=astp, books=books, count=count)
 
 # Reading Levels
 @app.route('/levels/')
@@ -244,17 +252,19 @@ def levels():
 def level1():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==1).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.level==1).count()
 	
-	return render_template('list.html', title='Reading Level: 1', books=books)
+	return render_template('list.html', title='Reading Level: 1', books=books, count=count)
 
 @app.route('/levels/2/')
 @login_required
 def level2():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==2).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.level==2).count()
 	
 	if current_user.level >= 2:
-		return render_template('list.html', title='Reading Level: 2', books=books)
+		return render_template('list.html', title='Reading Level: 2', books=books, count=count)
 	
 	return render_template('404.html'), 404
 
@@ -263,9 +273,10 @@ def level2():
 def level3():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==3).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-
+	count = Books.query.filter(Books.level==3).count()
+	
 	if current_user.level >= 3:
-		return render_template('list.html', title='Reading Level: 3', books=books)
+		return render_template('list.html', title='Reading Level: 3', books=books, count=count)
 	
 	return render_template('404.html'), 404
 
@@ -274,9 +285,10 @@ def level3():
 def level4():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==4).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-
+	count = Books.query.filter(Books.level==4).count()
+	
 	if current_user.level == 4:
-		return render_template('list.html', title='Reading Level: 4', books=books)
+		return render_template('list.html', title='Reading Level: 4', books=books, count=count)
 	
 	return render_template('404.html'), 404
 
@@ -286,9 +298,10 @@ def level4():
 def flash_fiction():
 	page = request.args.get('page', 1, type=int)
 	max = 3500
-	books = Books.query.filter(Books.level<=current_user.level).filter(Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 	
-	return render_template('list.html', title='Flash Fiction (< 3.5k words)', books=books)
+	return render_template('list.html', title='Flash Fiction (< 3.5k words)', books=books, count=count)
 
 @app.route('/levels/short-stories/')
 @login_required
@@ -297,8 +310,9 @@ def short_stories():
 	min = 3500
 	max = 7500
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 
-	return render_template('list.html', title='Short Stories (3.5k - 7.5k words)', books=books)
+	return render_template('list.html', title='Short Stories (3.5k - 7.5k words)', books=books, count=count)
 
 @app.route('/levels/novellettes/')
 @login_required
@@ -307,8 +321,9 @@ def novellettes():
 	min = 7500
 	max = 17000
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 
-	return render_template('list.html', title='Novellettes (7.5k - 17k words)', books=books)
+	return render_template('list.html', title='Novellettes (7.5k - 17k words)', books=books, count=count)
 
 @app.route('/levels/novellas/')
 @login_required
@@ -317,8 +332,9 @@ def novellas():
 	min = 17000
 	max = 40000
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 
-	return render_template('list.html', title='Novellas (17k - 40k words)', books=books)
+	return render_template('list.html', title='Novellas (17k - 40k words)', books=books, count=count)
 
 @app.route('/levels/novels/')
 @login_required
@@ -326,8 +342,9 @@ def novels():
 	page = request.args.get('page', 1, type=int)
 	min = 40000
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	count = Books.query.filter(Books.wordcount>min).count()
 	
-	return render_template('list.html', title='Novels (> 40k words)', books=books)
+	return render_template('list.html', title='Novels (> 40k words)', books=books, count=count)
 
 # Admin Pages
 @app.route('/admin/')

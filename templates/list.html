@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block title %}{% if astp %}{{ astp.name }}{% else %}{{ title }}{% endif %}{% endblock %} {% block content %}
-<table class="u-full-width">
+{% extends 'base.html' %} {% block title %}{% if astp %}{{ astp.name }}{% else %}{{ title }}{% endif %}{% if count %} ({{ count }}){% endif %}{% endblock %} {% block content %}
+<table class="u-full-width list">
 	<thead>
 		<tr>
 			{% if series %}<th>#</th>{% endif %}
@@ -13,7 +13,7 @@
 		<tr>
 			{% if series %}<td style='text-align: center;'>{{ book.series_index }}</td>{% endif %}
 		  <td>
-		    <a href="{{ url_for('books') }}/{{ book.id }}">
+		    <a href="{{ url_for('books', id=book.id) }}">
 		    	<i class='fa-solid fa-book'></i>
 		    	{{ book.title }} {% if not series %}({{ book.series.name }} #{{ book.series_index }}){% endif %} by {{ book.author.name }}
 		  	</a>
@@ -34,21 +34,34 @@
 		  {% endif %}
 		</tr>
 		{% endfor %}
+		
   </tbody>
 </table>
 <!-- Pagination Links-->
-<div class="u-pull-right">
-	{% if books.has_prev %}
-  <a href="{{ url_for('books', page=books.prev_num) }}" class="button">
-		<i class="fa-solid fa-angles-left"></i>
-  </a>
-  {% endif %}{% if books.has_next %}
-  <a href="{{ url_for('books', page=books.next_num) }}" class="button">
-  	<i class="fa-solid fa-angles-right"></i>
-  </a>
-  {% endif %}
-</div>
-<p>
-	Page {{ books.page }} of {{ books.pages }}
-</p>
+<table class="u-full-width list list">
+	<thead>
+		<tr>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+  <tbody>
+		<tr>
+			<td>
+				Page {{ books.page }} of {{ books.pages }}
+			</td>
+			<td>
+				{% if books.has_prev %}
+			  <a href="{{ url_for('books', page=books.prev_num) }}" class="button">
+					<i class="fa-solid fa-angles-left"></i>
+			  </a>
+			  {% endif %}{% if books.has_next %}
+			  <a href="{{ url_for('books', page=books.next_num) }}" class="button">
+			  	<i class="fa-solid fa-angles-right"></i>
+			  </a>
+			  {% endif %}
+			</td>
+		</tr>
+	</tbody>
+</table>
 {% endblock %}
