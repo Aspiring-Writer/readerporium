@@ -19,8 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('LOCAL_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-ROWS_PER_PAGE = 15
-ADMINS_ONLY = 'Restricted! Are you an admin?'
+ROWS_PER_PAGE = 7
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -56,7 +55,7 @@ class Books(db.Model):
 	author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
 	series_id = db.Column(db.Integer, db.ForeignKey('series.id'))
 	series_index = db.Column(db.Float)
-	tags = db.relationship('Tags', secondary=book_tags, backref='books')
+	tags = db.relationship('Tags', secondary=book_tags, backref=db.backref('books'), lazy='dynamic')
 	isbn = db.Column(db.String(13))
 	publisher_id = db.Column(db.Integer, db.ForeignKey('publishers.id'))
 	wordcount = db.Column(db.Integer)
@@ -116,7 +115,7 @@ def index():
 	return render_template("home.html", books=books)
 
 # Login
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
 	if request.method == "POST":
 		username = request.form['username']
@@ -137,7 +136,7 @@ def login():
 	return render_template('login.html')
 
 # Logout
-@app.route('/logout')
+@app.route('/logout/')
 @login_required
 def logout():
 	logout_user()
@@ -145,202 +144,190 @@ def logout():
 	return redirect(url_for('login'))
 
 # Books
-@app.route('/books')
+@app.route('/books/')
 @login_required
 def books():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.date_created.desc()).paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/books.html', books=books)
+	return render_template('list.html', books=books)
 
-@app.route('/books/<int:id>', methods=['GET'])
+@app.route('/books/<int:id>/', methods=['GET'])
 @login_required
 def book(id):
 	book = Books.query.get_or_404(id)
 	author = Authors.query.all()
 	if book.level <= current_user.level:
-		return render_template('db-pages/book.html', book=book, author=author)
+		return render_template('book.html', book=book, author=author)
 	
 	return render_template('404.html'), 404
 
 # Authors
-@app.route('/authors', methods=['POST', 'GET'])
+@app.route('/authors/', methods=['POST', 'GET'])
 @login_required
 def authors():
 	page = request.args.get('page', 1, type=int)
-	authors = Authors.query.filter(Authors.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Authors.query.filter(Authors.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/authors.html', authors=authors)
+	return render_template('astp.html', title='Authors', astp=astp)
 
-@app.route('/authors/<int:id>')
+@app.route('/authors/<int:id>/')
 @login_required
 def author(id):
-	author = Authors.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title')
+	page = request.args.get('page', 1, type=int)
+	astp = Authors.query.get_or_404(id)
+	books = Books.query.filter(Books.level<=current_user.level).filter(Books.author==astp).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/author.html', books=books, author=author)
+	return render_template('list.html', astp=astp, books=books)
 
 # Series
-@app.route('/series', methods=['POST', 'GET'])
+@app.route('/series/', methods=['POST', 'GET'])
 @login_required
 def series():
 	page = request.args.get('page', 1, type=int)
-	series = Series.query.filter(Series.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Series.query.filter(Series.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/series.html', series=series)
+	return render_template('astp.html', title='Series', astp=astp)
 
-@app.route('/series/<int:id>')
+@app.route('/series/<int:id>/')
 @login_required
 def serie(id):
-	series = Series.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level).order_by('series_index')
-	authors = Authors.query.all()
-	tags = Tags.query.all()
+	page = request.args.get('page', 1, type=int)
+	astp = Series.query.get_or_404(id)
+	books = Books.query.filter(Books.level<=current_user.level).filter(Books.series==astp).order_by('series_index').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/serie.html', series=series, books=books, authors=authors, tags=tags)
+	return render_template('list.html', astp=astp, books=books)
 
 # Tags
-@app.route('/tags', methods=['POST', 'GET'])
+@app.route('/tags/', methods=['POST', 'GET'])
 @login_required
 def tags():
 	page = request.args.get('page', 1, type=int)
 	tags = Tags.query.filter(Tags.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/tags.html', tags=tags)
+	return render_template('tags.html', tags=tags)
 
-@app.route('/tags/<int:id>')
+@app.route('/tags/<int:id>/')
 @login_required
 def tag(id):
+	page = request.args.get('page', 1, type=int)
 	tag = Tags.query.get_or_404(id)
-	authors = Authors.query.all()
-	series = Series.query.all()
 	
-	return render_template('db-pages/tag.html', tag=tag, authors=authors, series=series)
+	return render_template('tag.html', tag=tag, books=books)
 
 # Publishers
-@app.route('/publishers', methods=['POST', 'GET'])
+@app.route('/publishers/', methods=['POST', 'GET'])
 @login_required
 def publishers():
 	page = request.args.get('page', 1, type=int)
-	publishers = Publishers.query.filter(Publishers.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Publishers.query.filter(Publishers.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/publishers.html', publishers=publishers)
+	return render_template('astp.html', title='Publishers', astp=astp)
 
-@app.route('/publishers/<int:id>')
+@app.route('/publishers/<int:id>/')
 @login_required
 def publisher(id):
-	publisher = Publishers.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level)
-	authors = Authors.query.all()
+	page = request.args.get('page', 1, type=int)
+	astp = Publishers.query.get_or_404(id)
+	books = Books.query.filter(Books.level<=current_user.level).filter(Books.publisher==astp).paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/publisher.html', publisher=publisher, books=books, authors=authors)
+	return render_template('list.html', astp=astp, books=books)
 
 # Reading Levels
-@app.route('/levels')
+@app.route('/levels/')
 @login_required
 def levels():
-	return render_template('db-pages/levels.html')
+	return render_template('levels.html')
 
-@app.route('/levels/1')
+@app.route('/levels/1/')
 @login_required
 def level1():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==1).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
 	
-	return render_template('db-pages/level.html', title=1, books=books, authors=authors)
+	return render_template('list.html', title='Reading Level: 1', books=books)
 
-@app.route('/levels/2')
+@app.route('/levels/2/')
 @login_required
 def level2():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==2).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
 	
-	if current_user.level == 2 or 3 or 4:
-		return render_template('db-pages/level.html', title=2, books=books, authors=authors)
+	if current_user.level >= 2:
+		return render_template('list.html', title='Reading Level: 2', books=books)
 	
 	return render_template('404.html'), 404
 
-@app.route('/levels/3')
+@app.route('/levels/3/')
 @login_required
 def level3():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==3).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
 
-	if current_user.level == 3 or 4:
-		return render_template('db-pages/level.html', title=3, books=books, authors=authors)
+	if current_user.level >= 3:
+		return render_template('list.html', title='Reading Level: 3', books=books)
 	
 	return render_template('404.html'), 404
 
-@app.route('/levels/4')
+@app.route('/levels/4/')
 @login_required
 def level4():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level==4).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
 
 	if current_user.level == 4:
-		return render_template('db-pages/level.html', title=4, books=books, authors=authors)
+		return render_template('list.html', title='Reading Level: 4', books=books)
 	
 	return render_template('404.html'), 404
 
-# Word Counts
-@app.route('/tags/flash-fiction')
+# Wordcounts
+@app.route('/levels/flash-fiction/')
 @login_required
 def flash_fiction():
 	page = request.args.get('page', 1, type=int)
-	min = 0
 	max = 3500
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
+	books = Books.query.filter(Books.level<=current_user.level).filter(Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/wordcount.html', title='Flash Fiction', min=min, max=max, books=books, authors=authors)
+	return render_template('list.html', title='Flash Fiction (< 3.5k words)', books=books)
 
-@app.route('/tags/short-stories')
+@app.route('/levels/short-stories/')
 @login_required
 def short_stories():
 	page = request.args.get('page', 1, type=int)
 	min = 3500
 	max = 7500
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
-	
-	return render_template('db-pages/wordcount.html', title='Short Stories', min=min, max=max, books=books, authors=authors)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 
-@app.route('/tags/novellettes')
+	return render_template('list.html', title='Short Stories (3.5k - 7.5k words)', books=books)
+
+@app.route('/levels/novellettes/')
 @login_required
 def novellettes():
 	page = request.args.get('page', 1, type=int)
 	min = 7500
 	max = 17000
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
-	
-	return render_template('db-pages/wordcount.html', title='Novellettes', min=min, max=max, books=books, authors=authors)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 
-@app.route('/tags/novella')
+	return render_template('list.html', title='Novellettes (7.5k - 17k words)', books=books)
+
+@app.route('/levels/novellas/')
 @login_required
 def novellas():
 	page = request.args.get('page', 1, type=int)
 	min = 17000
 	max = 40000
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
-	
-	return render_template('db-pages/wordcount.html', title='Novellas', min=min, max=max, books=books, authors=authors)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 
-@app.route('/tags/novels')
+	return render_template('list.html', title='Novellas (17k - 40k words)', books=books)
+
+@app.route('/levels/novels/')
 @login_required
 def novels():
 	page = request.args.get('page', 1, type=int)
 	min = 40000
-	max = 1000000
-	books = Books.query.filter(Books.level<=current_user.level).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
-	authors = Authors.query.all()
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
 	
-	return render_template('db-pages/wordcount.html', title='Novels', min=min, max=max, books=books, authors=authors)
+	return render_template('list.html', title='Novels (> 40k words)', books=books)
 
 # Admin Pages
 @app.route('/admin/')
@@ -349,20 +336,19 @@ def admin():
 	users = Users.query.all()
 	
 	if current_user.id == 1:
-		return render_template('db-pages/admin.html', users=users)
+		return render_template('admin.html', users=users)
 	else:
-		flash('Sorry, but you must be an admin to access this page.')
-		return redirect(url_for('index'))
+		return render_template('404.html'), 404
 	
-@app.route('/admin/add-user', methods=['GET', 'POST'])
+@app.route('/admin/add-user/', methods=['GET', 'POST'])
 #@login_required
 def add_user():
 	form = AddUserForm()
 	
-	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+	#if current_user.id != 1:
+	#	return render_tempate('404.html'), 404
 		
-	elif form.validate_on_submit():
+	if form.validate_on_submit():
 		user = Users.query.filter_by(username=form.username.data).first()
 		
 		if user:
@@ -379,14 +365,14 @@ def add_user():
 
 	return render_template('forms/add-user.html', form=form)
 
-@app.route('/admin/update-user/<int:id>', methods=['GET', 'POST'])
+@app.route('/admin/update-user/<int:id>/', methods=['GET', 'POST'])
 @login_required
 def update_user(id):
 	user = Users.query.get_or_404(id)
 	form = UpdateUserForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		try:
@@ -398,13 +384,13 @@ def update_user(id):
 
 	return render_template('forms/update-user.html', form=form, user=user)
 
-@app.route('/admin/delete-user/<int:id>')
+@app.route('/admin/delete-user/<int:id>/')
 @login_required
 def delete_user(id):
 	delete_user = Users.query.get_or_404(id)
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	try:
 		db.session.delete(delete_user)
 		db.session.commit()
@@ -413,17 +399,17 @@ def delete_user(id):
 	except:
 		flash("There was an error deleting the user.")
 
-@app.route('/admin/add-book', methods=['POST', 'GET'])
+@app.route('/admin/add-book/', methods=['POST', 'GET'])
 @login_required
 def add_book():
 	form = AddBookForm()
 	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by('name')]
 	form.series.choices = [(s.id, s.name) for s in Series.query.order_by('name')]
-	form.tags.choices = [(t.id, t.name) for t in Tags.query.order_by('name')]
+	#form.tags.choices = [(t.id, t.name) for t in Tags.query.order_by('name')]
 	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by('name')]
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	
 	elif form.validate_on_submit():
 		book = Books.query.filter_by(isbn=form.isbn.data).first()
@@ -432,6 +418,7 @@ def add_book():
 			flash('ISBN already exists.')
 		else:
 			book = Books(title=form.title.data, author_id=form.author.data, series_id=form.series.data, series_index=form.series_index.data, isbn=form.isbn.data, publisher_id=form.publisher.data, wordcount=form.wordcount.data, cover=form.cover.data, description=form.description.data, level=form.level.data)
+			
 			try:
 				db.session.add(book)
 				db.session.commit()
@@ -442,14 +429,18 @@ def add_book():
 
 	return render_template('forms/add-book.html', form=form)
 
-@app.route('/admin/update-book/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/update-book/<int:id>/', methods=['POST', 'GET'])
 @login_required
 def update_book(id):
 	book = Books.query.get_or_404(id)
 	form = UpdateBookForm()
+	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by('name')]
+	form.series.choices = [(s.id, s.name) for s in Series.query.order_by('name')]
+	form.tags.choices = [(t.id, t.name) for t in Tags.query.order_by('name')]
+	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by('name')]
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		try:
@@ -461,13 +452,13 @@ def update_book(id):
 
 	return render_template('forms/update-book.html', form=form, book=book)
 
-@app.route('/admin/delete-book/<int:id>')
+@app.route('/admin/delete-book/<int:id>/')
 @login_required
 def delete_book(id):
 	delete_book = Books.query.get_or_404(id)
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	try:
 		db.session.delete(delete_book)
 		db.session.commit()
@@ -476,13 +467,13 @@ def delete_book(id):
 	except:
 		flash("There was an error deleting the book.")
 
-@app.route('/admin/add-author', methods=['POST', 'GET'])
+@app.route('/admin/add-author/', methods=['POST', 'GET'])
 @login_required
 def add_author():
 	form = AddASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		author = Authors.query.filter_by(name=form.name.data).first()
@@ -495,20 +486,20 @@ def add_author():
 				db.session.add(author)
 				db.session.commit()
 				flash('Author created!')
-				return redirect(url_for('author', id=author.id))
+				return redirect(url_for('authors'))
 			except:
 				flash('Error adding author.')
 
 	return render_template('forms/add-astp.html', form=form, title='Add Author')
 
-@app.route('/admin/update-author/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/update-author/<int:id>/', methods=['POST', 'GET'])
 @login_required
 def update_author(id):
 	astp = Authors.query.get_or_404(id)
 	form = UpdateASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		try:
@@ -518,15 +509,15 @@ def update_author(id):
 		except:
 			flash('Error updating author.')
 
-	return render_template('forms/update-astp.html', form=form, author=author)
+	return render_template('forms/update-astp.html', form=form, astp=astp)
 
-@app.route('/admin/delete-author/<int:id>')
+@app.route('/admin/delete-author/<int:id>/')
 @login_required
 def delete_author(id):
 	delete_author = Authors.query.get_or_404(id)
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	try:
 		db.session.delete(delete_author)
 		db.session.commit()
@@ -535,13 +526,13 @@ def delete_author(id):
 	except:
 		flash("There was an error deleting the author.")
 
-@app.route('/admin/add-series', methods=['POST', 'GET'])
+@app.route('/admin/add-series/', methods=['POST', 'GET'])
 @login_required
 def add_series():
 	form = AddASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		series = Series.query.filter_by(name=form.name.data).first()
@@ -554,20 +545,20 @@ def add_series():
 				db.session.add(series)
 				db.session.commit()
 				flash('Series created!')
-				return redirect(url_for('serie', id=serie.id))
+				return redirect(url_for('series'))
 			except:
 				flash('Error adding series.')
 
 	return render_template('forms/add-astp.html', form=form, title='Add Series')
 
-@app.route('/admin/update-series/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/update-series/<int:id>/', methods=['POST', 'GET'])
 @login_required
 def update_series(id):
 	astp = Series.query.get_or_404(id)
 	form = UpdateASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		try:
@@ -577,15 +568,15 @@ def update_series(id):
 		except:
 			flash('Error updating series.')
 
-	return render_template('forms/update-astp.html', form=form, series=series)
+	return render_template('forms/update-astp.html', form=form, astp=astp)
 
-@app.route('/admin/delete-series/<int:id>')
+@app.route('/admin/delete-series/<int:id>/')
 @login_required
 def delete_series(id):
 	delete_series = Series.query.get_or_404(id)
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	try:
 		db.session.delete(delete_series)
 		db.session.commit()
@@ -594,13 +585,13 @@ def delete_series(id):
 	except:
 		flash("There was an error deleting the series.")
 
-@app.route('/admin/add-tag', methods=['POST', 'GET'])
+@app.route('/admin/add-tag/', methods=['POST', 'GET'])
 @login_required
 def add_tag():
 	form = AddASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		tag = Tags.query.filter_by(name=form.name.data).first()
@@ -613,20 +604,20 @@ def add_tag():
 				db.session.add(tag)
 				db.session.commit()
 				flash('Tag created!')
-				return redirect(url_for('tag', id=tag.id))
+				return redirect(url_for('tags'))
 			except:
 				flash('Error adding tag.')
 
 	return render_template('forms/add-astp.html', form=form, title='Add Tag')
 
-@app.route('/admin/update-tag/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/update-tag/<int:id>/', methods=['POST', 'GET'])
 @login_required
 def update_tag(id):
 	astp = Tags.query.get_or_404(id)
 	form = UpdateASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		try:
@@ -636,15 +627,15 @@ def update_tag(id):
 		except:
 			flash('Error updating tag.')
 
-	return render_template('forms/update-astp.html', form=form, tag=tag)
+	return render_template('forms/update-astp.html', form=form, astp=astp)
 
-@app.route('/admin/delete-tag/<int:id>')
+@app.route('/admin/delete-tag/<int:id>/')
 @login_required
 def delete_tag(id):
 	delete_tag = Tags.query.get_or_404(id)
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	try:
 		db.session.delete(delete_tag)
 		db.session.commit()
@@ -653,13 +644,13 @@ def delete_tag(id):
 	except:
 		flash("There was an error deleting the tag.")
 
-@app.route('/admin/add-publisher', methods=['POST', 'GET'])
+@app.route('/admin/add-publisher/', methods=['POST', 'GET'])
 @login_required
 def add_publisher():
 	form = AddASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		publisher = Publishers.query.filter_by(name=form.name.data).first()
@@ -672,20 +663,20 @@ def add_publisher():
 				db.session.add(publisher)
 				db.session.commit()
 				flash('Publisher created!')
-				return redirect(url_for('publisher', id=publisher.id))
+				return redirect(url_for('publishers'))
 			except:
 				flash('Error adding publisher.')
 
 	return render_template('forms/add-astp.html', form=form, title='Add Publisher')
 
-@app.route('/admin/update-publisher/<int:id>', methods=['POST', 'GET'])
+@app.route('/admin/update-publisher/<int:id>/', methods=['POST', 'GET'])
 @login_required
 def update_publisher(id):
 	astp = Publishers.query.get_or_404(id)
 	form = UpdateASTPForm()
 	
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		try:
@@ -695,15 +686,15 @@ def update_publisher(id):
 		except:
 			flash('Error updating publisher.')
 
-	return render_template('forms/update-astp.html', form=form, publisher=publisher)
+	return render_template('forms/update-astp.html', form=form, astp=astp)
 
-@app.route('/admin/delete-publisher/<int:id>')
+@app.route('/admin/delete-publisher/<int:id>/')
 @login_required
 def delete_publisher(id):
 	delete_publisher = Publishers.query.get_or_404(id)
 
 	if current_user.id != 1:
-		flash('ADMINS_ONLY')
+		return render_template("404.html"), 404
 	try:
 		db.session.delete(delete_publisher)
 		db.session.commit()

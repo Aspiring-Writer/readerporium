@@ -8,46 +8,6 @@
 				</tr>
 			</thead>
       <tbody>
-      	<tr>
-      		<td>
-      			<a href="{{ url_for('flash_fiction') }}">
-      				<i class='fa-solid fa-tag'></i>
-      				Flash Fiction (< 3,500 words)
-    				</a>
-      		</td>
-      	</tr>
-      	<tr>
-      		<td>
-      			<a href="{{ url_for('short_stories') }}">
-      				<i class='fa-solid fa-tag'></i>
-      				Short Stories (3,500—7,500 words)
-    				</a>
-      		</td>
-      	</tr>
-      	<tr>
-      		<td>
-      			<a href="{{ url_for('novellettes') }}">
-      				<i class='fa-solid fa-tag'></i>
-      				Novellettes (7,500—17k words)
-    				</a>
-      		</td>
-      	</tr>
-      	<tr>
-      		<td>
-      			<a href="{{ url_for('novellas') }}">
-      				<i class='fa-solid fa-tag'></i>
-      				Novellas (17k―40k words)
-    				</a>
-      		</td>
-      	</tr>
-      	<tr>
-      		<td>
-      			<a href="{{ url_for('novels') }}">
-      				<i class='fa-solid fa-tag'></i>
-      				Novels (40k+ words)
-    				</a>
-      		</td>
-      	</tr>
         {% for tag in tags.items %}
         <tr>
           <td>

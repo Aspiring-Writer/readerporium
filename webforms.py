@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DecimalField, IntegerField, SelectField, SelectMultipleField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length, EqualTo, URL
+from wtforms.validators import Optional, DataRequired, Length, EqualTo, URL
 
 class AddUserForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
@@ -21,11 +21,11 @@ class AddBookForm(FlaskForm):
 	author = SelectField('Authors', coerce=int)
 	series = SelectField('Series', coerce=int)
 	series_index = DecimalField("#")
-	tags = SelectMultipleField('Tags', coerce=int)
+	#tags = SelectMultipleField('Tags', coerce=int)
 	isbn = StringField('ISBN', validators=[DataRequired()])
 	publisher = SelectField('Publishers', coerce=int)
 	wordcount = IntegerField("Wordcount", validators=[DataRequired()])
-	cover = StringField("Cover", validators=[URL()])
+	cover = StringField("Cover", validators=[Optional(), URL()])
 	description = TextAreaField("Description")
 	level = IntegerField("Level", validators=[DataRequired()])
 	submit = SubmitField("Submit")

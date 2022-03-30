@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block title %}{{ title }}{% endblock %} {% block content %}
+<div class="row">
+	<div class="offset-by-one-third one-third column">
+		<table class="u-full-width">
+			<thead>
+				<tr>
+					<th>Name</th>
+				</tr>
+			</thead>
+		  <tbody>
+		    {% for i in astp.items %}
+		    <tr>
+		      <td>
+		        <a href="{% if title == 'Authors' %}{{ url_for('author', id=i.id) }}{% elif title == 'Series' %}{{ url_for('serie', id=i.id) }}{% else %}{{ url_for('publisher', id=i.id) }}{% endif %}">
+		        	<i class='fa-solid fa-user'></i>
+		        	{{ i.name }}
+		      	</a>
+		      </td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+		<!-- Pagination Links-->
+		<div class="u-pull-right">
+			{% if astp.has_prev %}
+		  <a href="{% if title == 'Authors' %}{{ url_for('authors', page=astp.prev_num) }}{% elif title == 'Series' %}{{ url_for('series', page=astp.prev_num) }}{% else %}{{ url_for('publishers', page=astp.prev_num) }}{% endif %}" class="button">
+				<i class="fa-solid fa-angles-left"></i>
+		  </a>
+		  {% endif %}{% if astp.has_next %}
+		  <a href="{% if title == 'Authors' %}{{ url_for('authors', page=astp.next_num) }}{% elif title == 'Series' %}{{ url_for('series', page=astp.next_num) }}{% else %}{{ url_for('publishers', page=astp.next_num) }}{% endif %}" class="button">
+		  	<i class="fa-solid fa-angles-right"></i>
+		  </a>
+		  {% endif %}
+		</div>
+		<p>
+			Page {{ astp.page }} of {{ astp.pages }}
+		</p>
+	</div>
+</div>
+{% endblock %}

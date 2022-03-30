@@ -18,7 +18,7 @@ h1, h2, h3 { text-align: center; margin-bottom: 4rem; }
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .2rem;
-  margin-right: 30px;
+  margin-right: 29px;
   text-decoration: none;
   line-height: 6.5rem;
   color: #222;
@@ -27,13 +27,12 @@ h1, h2, h3 { text-align: center; margin-bottom: 4rem; }
   
 .content { clear: both; }
 
-table > thead > tr > th { text-align: center; }
-table.users > tbody > tr > td { text-align: center; }
-table > tbody > tr > td > a {
+thead > tr > th { text-align: center; text-transform: uppercase;}
+.users > tbody > tr > td { text-align: center; }
+tbody > tr > td > a {
   font-weight: 600;
   text-decoration: none;
-  color: #222;
-}
+  color: #222; }
 
 .alert {
   width: 100%;
