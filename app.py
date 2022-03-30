@@ -451,6 +451,7 @@ def add_book():
 def update_book(id):
 	book = Books.query.get_or_404(id)
 	form = UpdateBookForm()
+	form.description.data = book.description
 	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by('name')]
 	form.series.choices = [(s.id, s.name) for s in Series.query.order_by('name')]
 	form.tags.choices = [(t.id, t.name) for t in Tags.query.order_by('name')]
