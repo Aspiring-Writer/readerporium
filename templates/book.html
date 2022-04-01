@@ -11,7 +11,7 @@
       <tbody>
       	<tr>
       		<td>
-      			<a href="{{ url_for('authors') }}/{{ book.author.id }}">
+      			<a href="{{ url_for('author', id=book.author.id) }}">
       				<i class="fa-solid fa-user"></i>
       				View more by {{ book.author.name }}
       			</a>
@@ -19,7 +19,7 @@
       	</tr>
         <tr>
           <td>
-          	<a href="{{ url_for('series') }}/{{ book.series.id }}">
+          	<a href="{{ url_for('serie', id=book.series.id) }}">
           		<i class="fa-solid fa-list-ol"></i>
               {{ book.series.name }} #{{ book.series_index }}
             </a>
@@ -28,7 +28,7 @@
         <tr>
           <td>
           	{% for tag in book.tags %}
-          	<a href="{{ url_for('tags') }}/{{ tag.id }}">
+          	<a href="{{ url_for('tag', id=tag.id) }}">
           		<i class="fa-solid fa-tag"></i>
               {{ tag.name }}
             </a>
@@ -61,7 +61,7 @@
         </tr>
         <tr>
           <td>
-          	<a href="{{ url_for('publishers') }}/{{ book.publisher.id }}">
+          	<a href="{{ url_for('publisher', id=book.publisher.id) }}">
           		<i class="fa-solid fa-building"></i>
 				      {{ book.publisher.name }}
 				    </a>
