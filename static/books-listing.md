@@ -1,7 +1,8 @@
 # Wilde Creek Volume One by R.E. Butler
+
 **This book contains the first two books in the Wilde Creek Series. If you already own those books, please do not purchase this book.**
 
-Mate of Her Heart (Wilde Creek One)
+*Mate of Her Heart (Wilde Creek One)*
 
 Werewolf Eveny Moore is coming into her first heat at the age of twenty-five. Bucking tradition, she chooses to go through her first heat alone instead of choosing an unmated male from her pack. There is only one male that she wants in her bed and her life: her best friend, Luke Elrich. But Luke is human and doesn’t understand the consequences of her heat-cycle, so she hides out in a safehouse, planning to ride out the cycle alone and then ask Luke to be her mate.
 
@@ -9,7 +10,7 @@ Luke has loved Eveny forever, but something is going on between them. He’s afr
 
 ***
 
-The Alpha's Heart (Wilde Creek Two)
+*The Alpha's Heart (Wilde Creek Two)*
 
 Alpha wolf Acksel wakes up one morning in the bed of a woman he’s had a crush on since high school. Brynn Mara was the one human who had been friendly to him in school and now, ten years later, she is snuggled up at his side, smelling like passion and sweet dreams. Even though Acksel has declared that his pack members can mate with humans from now on, he knows that any woman he takes as his mate will have a target on her back. Especially if she’s a fragile human. Deciding it’s better to cut things off than string her along when there is no hope for a relationship, he leaves without a word and ignores her.
 
@@ -23,9 +24,10 @@ Romance, Fantasy, Paranormal
 9780463275597
 
 # Wilde Creek Volumne Two by R.E. Butler
+
 **This book contains the third and fourth books in the Wilde Creek series. If you already own those books, please do not purchase this book.**
 
-The Protector's Heart (Wilde Creek Book Three)
+*The Protector's Heart (Wilde Creek Book Three)*
 
 Nila Patterson doesn’t want anything to do with wolves. Her werewolf ex-husband continues to stalk her and their son, terrifying her to no end. The last thing she wants to do is acknowledge her attraction to the very sexy Malachi Slattery, who has been watching her for weeks. He’s not as discreet as he thinks he’s being. She’s not about to forget that Malachi is a wolf, and she’s learned the hard way that wolves are not to be trusted.
 
@@ -35,7 +37,7 @@ This book contains one stubborn woman, one determined wolf, a sweet little boy, 
 
 ***
 
-The Omega's Heart (Wilde Creek Book Four)
+*The Omega's Heart (Wilde Creek Book Four)*
 
 Jeremiah Kincaid has spent most of his life on the outside looking in. Unable to shift even though he’s a full-blooded wolf, he’s forced to be an omega in his pack, looked down upon by his fellow pack members. No male wants him at his back in a fight, no female wants him in her bed. As his twenty-eighth birthday approaches, he finds himself reaching the limit of what he can tolerate, and makes plans to leave the pack and try to blend in with the humans.
 
@@ -51,9 +53,10 @@ Romance, Fantasy, Paranormal
 9780463927564
 
 # Wilde Creek Volume Three by R.E. Butler
+
 **This book contains the fifth and sixth books in the Wilde Creek series. If you already own those books, please do not purchase this book.**
 
-The Scarred Heart (Wilde Creek Book Five)
+*The Scarred Heart (Wilde Creek Book Five)*
 
 Kammie Townsend has always kept to herself. She doesn’t want anyone to see the scars of her childhood, left behind by her abusive uncle. Everything changes for her on the night of the full moon, when she follows a reindeer and gets tackled by a bear shifter. He says they’re mates, but even though he’s the sexiest male she’s ever met, Kammie knows that once he sees the evidence of her painful history he won’t want anything to do with her.
 
@@ -63,7 +66,7 @@ When he takes Kammie back to his people to make her his mate, things go sideways
 
 ***
 
-Dancer's Heart (Wilde Creek Book Six)
+*Dancer's Heart (Wilde Creek Book Six)*
 
 Adam Cruz has spent the last twelve years of his life wondering if he’d ever find his truemate. As a low-ranked omega wolf, with a body full of scars from a firebomb, he’s had more than his fair share of trauma and shame. All he wants is to find his truemate and settle down, even though he wonders if his mate will care about his scars, or that he can’t hunt as well as other wolves because of them.
 
@@ -77,6 +80,7 @@ Romance, Fantasy, Paranormal
 9780463488928
 
 # Law of the Lycans: The Original Trilogy by Nicky Charles
+
 **Alpha males, passionate love, danger and deceit; find it all in the original Law of the Lycans trilogy, now available together with a bonus NEW novella!**
 
 In The Mating, meet Kane, a new Alpha, and Elise who had no idea she’d end up mated to a total stranger.
@@ -93,6 +97,7 @@ Romance, Fantasy, Paranormal
 9781370175123
 
 # Viking Academy by S.T. Bende
+
 **Book 1 in a brand new series from bestselling author S.T. Bende.**
 
 *Erik held me until my shoulders stopped shaking—whether it was a minute or an hour, I couldn’t tell. The only things I knew for sure were: (1) I was trapped a thousand years in the past, with little hope of ever going home. And, (2) I was wrapped in the arms of the most absurdly gorgeous Viking to have ever walked the face of the Earth. Maybe my old life was overrated.*
@@ -129,6 +134,7 @@ Science Fiction, Steampunk
 https://dwtr67e3ikfml.cloudfront.net/bookCovers/ee8c47ad3b5b18b73849b726a8b4cd6a6d3dc8e7
 
 # Blue Moon by Angela Colsin
+
 When betrayed by his Alpha, Cade Hodgins takes the role in leading the Arkin City pack and begins his search for those responsible for his father’s death. Information is hard to come by however—until a stray lupine wanders into his territory.
 
 But Ashley Passmore is no ordinary stray. She’s a newborn wolf, turned from being a human with no prior knowledge that lupines existed. Due to her blackouts, she can’t recall who turned her or why, but Cade suspects her attackers may be the same as those who entrapped his father.
@@ -142,6 +148,7 @@ Romance, Fantasy, Paranormal
 https://dwtr67e3ikfml.cloudfront.net/bookCovers/0a25afaa51aa37bcd331880fe466dc003dc08ced
 
 # Claimed by the Alien Prince by Nancey Cummings
+
 Prince Aster didn't believe in "mates" or other bedtime stories…until he sensed Evie's curious scent. The curvy human woman with curly brown hair and caramel skin is nothing like he expected – but someone unique and strange. This alpha alien must claim her and take her in every way.
 
 Evie can't deny her attraction to the big blue alien 'man', or their chemistry – but his mate? Can she leave everyone and everything behind for this towering, muscular stranger from another world? His sky blue skin glows where they touch and it excites her in a passionate new way. Does she have a choice – or is it her destiny?
@@ -155,6 +162,7 @@ Romance, Sci-Fi
 https://dwtr67e3ikfml.cloudfront.net/bookCovers/fc00a3841679d5bc4088661d0e7d2fe7b2035573
 
 # Phantom Riders MC - Hawk by Tory Richards
+
 **Book 1 in a trilogy. No cliffhangers! Stand alone romance!**
 
 I quickly scooted out of the booth, realizing Hawk was right behind me. Before I could question him, he grabbed my arm and proceeded to jerk me in the direction leading to the back of the bar. I glanced around the bar wildly, but I didn’t see Dane’s men anywhere.
@@ -191,7 +199,102 @@ Romance, Suspense
 9781311235039
 https://dwtr67e3ikfml.cloudfront.net/bookCovers/da5ab330a2e88f286534c4037c3f8ac2f4ec09df
 
+# Strange Brew by Angela Colsin
+
+Feeling out of touch with her magical gifts, Aislinn Carmichael is a witch seeking a means of restoring her ability to its fullest potential. Despite the warnings of family and friends, the endeavor inevitably drives her to accept the initiation trial of a witch coven called The Trine.
+
+Their test demands the capture of a supernatural creature, a task Aislinn has little doubt she can accomplish with relative ease. But of all the potentially benign creatures she could’ve snared, none other than a feral werewolf stumbles into her trap. Making matters worse is The Trine’s intentions for her dangerous captive, forcing Aislinn to release him and potentially risk retaliation.
+
+But vengeance is the farthest thing from the werewolf’s mind.
+
+Troy Ashland is a werewolf standing at death’s door, slowly losing his humanity until there’s nothing left but savage instincts. It’s a process all werewolves face, and the only thing that can appease his restless beast is his mate. So when word arrives from an oracle saying to travel to the Southern US to find her, he’s on the next flight out.
+
+After his arrival in Arkin City, the last thing Troy expects is to be caught in a magical trap. But all is forgiven with one glimpse of his temporary jailor, who turns out to be the very woman he was searching for. Still, the task of winning her is surprisingly difficult. Not only is Aislinn inexplicably resisting their attraction, but The Trine won’t leave well enough alone …
+
+The Crucible #3
+Romance, Paranormal
+99,600
+9781310859014
+
+# Light of Dawn by Angela Colsin
+
+Hired to find a curse box, the draconian mercenary, Ulric Dra’Kai, is directed to seek out the human Charlotte Mulligan who’ll lead him to his ultimate goal. Expecting to get information from her with ease, Ulric instead meets a determined mortal who refuses to be intimidated—and draws him in like no other.
+
+As that attraction grows, he comes to believe Charlotte may be his destined mate, but there’s a problem—he’s immortal, making that impossible. Answers could possibly lie in the dormant supernatural side of Charlotte’s lineage, but getting them proves difficult when vampires are out for her blood.
+
+Charlotte thought she was an ordinary human living an average life until receiving an odd package in the mail containing a unique trinket box. Soon after, she’s attacked by vampires and swept up in a hunt by a dangerous but attractive stranger who not only reveals the truth of the supernatural world, but also informs her that she’s a part of it.
+
+Trying to survive while her life is coming apart, a passion for the draconian protecting her sparks to life, one she has to guard her heart against when being mortal makes a union between them difficult, if not impossible.
+
+The Crucible #2
+Romance, Paranormal, Erotic
+101,780
+9781310047695
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/9b46bc3dae81309c52c0f9cdad17d72f17231522
+
+# The Final Calling by Angela Colsin
+
+Prophecies, tyrants, assassins, and exiled royalty aren't the things Edith Walsh thought she'd be dealing with when her training as a mage apprentice began. Her main focus is becoming an enchantress by completing the Final Calling—a grand scavenger hunt all apprentices undertake to gather items needed to craft their coveted staff and gain eternal life.
+
+This challenge can prove lethal if care isn't taken to watch one's steps. But making matters worse, Edith has also been marked for death by the Steward of the Perosian Empire, a tyrant named Rothario, all because of a pesky prophecy made centuries before her birth foretelling his demise at her hands.
+
+So what's a mage to do? Simple; accept the assistance of a sexy Perosian who's dealt with Rothario's minions for as long as he can remember. Yet Isaac wants far more than Edith's safety—she's his mate, and his fiery gaze, wicked tongue, and shameless seductions inflame her more intensely than she's ever known.
+
+Convicted of murdering the imperial family of Perosia, Isaac's spent centuries as a fugitive hunted by a homeland he doesn't recall. But his ruthless talent for survival serves him well, and there's nothing he won't do to protect Edith from the forces threatening her life, even if it means sacrificing his own.
+
+Series: The Crucible #5
+Category: Fiction » Romance » Paranormal » General
+Category: Fiction » Romance » Erotic
+Published: June 3, 2016
+Words: 99,420
+Language: English
+ISBN: 9781310139345
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/b50c3720945b4a844fa008913ccc41257a21d752
+
+# Tempting Eternity by Angela Colsin
+
+As one of the first vampires created by the original five thousand years ago, time has taken it's toll on Mathias, weathering him until nothing seems like a surprise anymore. But even he isn't prepared for a chance encounter with a fae who proves to have a lover's blood link.
+
+For a vampire, such a connection is a fevered, hopeless fantasy. None have blood as sweetly enticing as the fae, but they'd never survive the turning, making it imperative to resist Isadora's charms, otherwise put her very life at risk.
+
+Yet distancing himself from the beguiling fae isn't so easy.
+
+Nearly killed by one of her own sisters, the last thing Isadora expects to hear is that a vampire saved her life while she was vulnerable—no being poses more of a lethal threat to the fae. Even more troubling is knowing she'll have to seek his help to have any hope of saving her fae sisters from the control of a powerful witch.
+
+But though the ancient vampire should be feared, Isadora finds Mathias compelling, pricking her innate curiosity in a way she's never experienced. Ignoring such intrigue is impossible, and the more she learns, the more quickly her feelings turn into heavy attraction, tempting her to do the impossible—spend eternity with a vampire.
+
+Series: The Crucible #9
+Category: Fiction » Romance » Paranormal » General
+Category: Fiction » Romance » Fantasy
+Published: April 9, 2019
+Words: 100,170
+Language: English
+ISBN: 9780463598597
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/0038885a5a1c7383b2937c428ec3e20b8e611993
+
+# Fallen Hearts by Angela Colsin
+
+Most humans live in blissful ignorance of the supernatural, unable to see what they don’t believe exists. Such used to be the lot of Stephan Forrester, a normal mortal leading a regular life, at least until the day vampires abducted him. With his family murdered in the attack, Stephan finds himself alone and dying of an obscure, incurable illness contracted in the vampires’ lair.
+
+Using what time he has left to seek justice, Stephan sets out to eliminate the offenders until only one remains. However, locating this final target means doing something he doesn’t think possible—actually working with a vampire.
+
+Entombed against her will and forced to hibernate for seventy years, Maddox only awakens when a mortal with a vendetta frees her from the grave. He needs help locating the same vampire who buried her alive, and ironically, she senses a connection to her human savior in the form of a blood link. But Stephan’s intense hatred for vampires makes honoring that link impossible.
+
+Even so, Maddox is unlike any vampire Stephan’s ever encountered. As charming and intelligent as she is beautiful, she reminds him of what it means to actually live, mending his wounded heart. In turn, Maddox finds it hard to separate from Stephan, or resist the passionate responses he elicits, and their unexpected bond strengthens as time goes on.
+But time is the one luxury Stephan doesn’t have, and saving him from his illness could prove fatal to them both.
+
+Series: The Crucible #4
+Category: Fiction » Romance » Paranormal » General
+Category: Fiction » Erotica » Paranormal
+Erotica themes:
+Published: Oct. 5, 2015
+Words: 99,300
+Language: English
+ISBN: 9781310220937
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/3e495dfdc0308c758866dec5038cd43d82270d3d
+
 # The Marriage Contract by Ruth Ann Nordin
+
 On her wedding day, Patricia Cotter, the widowed Lady of Pruett, signed a contract agreeing to the following:
 
 1. She would never look at her husband’s face.
