@@ -1,20 +1,18 @@
-{% extends 'base.html' %} {% block title %}Update {{ astp.name }}{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}Update ASTP{% endblock %} {% block content %}
 <form METHOD="POST">
 	{{ form.hidden_tag() }}
   <div class="row">
     <div class="six columns">
       {{ form.name.label }}
-      {{ form.name(class="u-full-width", value=astp.name) }}
+      {{ form.name(class="u-full-width") }}
     </div>
-    <div class="six columns">
+    <div class="two columns">
     	{{ form.level.label }}
-      {{ form.level(class="u-full-width", value=astp.level) }}
+      {{ form.level(class="u-full-width") }}
     </div>
   </div>
-  <div class="row">
-  	<div class="offset-by-five two columns">
-  		{{ form.submit }}
-  	</div>
+  <div style="text-align:center;">
+		{{ form.submit }}
   </div>
 </form>
 {% endblock %}

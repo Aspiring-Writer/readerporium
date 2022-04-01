@@ -1,46 +1,46 @@
-{% extends 'base.html' %}{% block title %}Update {{ book.title }} by {{ book.author.name }}{% endblock %} {% block content %}
-<form METHOD="POST" action="{{ url_for('update_book', id=book.id) }}">
+{% extends 'base.html' %}{% block title %}Update Book{% endblock %} {% block content %}
+<form METHOD="POST">
 	{{ form.hidden_tag() }}
   <div class="row">
     <div class="six columns">
       {{ form.title.label }}
-      {{ form.title(class="u-full-width", value=book.title) }}
+      {{ form.title(class="u-full-width") }}
     </div>
     <div class="three columns">
       {{ form.author.label }}
-      {{ form.author(class="u-full-width", value=book.author.name) }}
+      {{ form.author(class="u-full-width") }}
     </div>
   </div>
   <div class="row">
     <div class="four columns">
       {{ form.series.label }}
-      {{ form.series(class="u-full-width", value=book.series.name) }}
+      {{ form.series(class="u-full-width") }}
     </div>
     <div class="two columns">
       {{ form.series_index.label }}
-      {{ form.series_index(class="u-full-width", value=book.series_index) }}
+      {{ form.series_index(class="u-full-width") }}
     </div>
     <div class="two columns">
       {{ form.level.label }}
-      {{ form.level(class="u-full-width", value=book.level) }}
+      {{ form.level(class="u-full-width") }}
     </div>
     <div class="two columns">
       {{ form.wordcount.label }}
-      {{ form.wordcount(class="u-full-width", value=book.wordcount) }}
+      {{ form.wordcount(class="u-full-width") }}
     </div>
     <div class="two columns">
       {{ form.isbn.label }}
-      {{ form.isbn(class="u-full-width", value=book.isbn) }}
+      {{ form.isbn(class="u-full-width") }}
     </div>
   </div>
   <div class="row">
     <div class="three columns">
       {{ form.publisher.label }}
-      {{ form.publisher(class="u-full-width", value=book.publisher.name) }}
+      {{ form.publisher(class="u-full-width") }}
     </div>
     <div class="five columns">
       {{ form.cover.label }}
-      {{ form.cover(class="u-full-width", value=book.cover) }}
+      {{ form.cover(class="u-full-width") }}
     </div>
   </div>
   {{ form.description.label }}

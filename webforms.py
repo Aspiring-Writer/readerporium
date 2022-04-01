@@ -16,7 +16,7 @@ class UpdateUserForm(FlaskForm):
 	level = IntegerField("Level", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 	
-class AddBookForm(FlaskForm):
+class BookForm(FlaskForm):
 	title = StringField('Title', validators=[DataRequired()])
 	author = SelectField('Authors', coerce=int)
 	series = SelectField('Series', coerce=int)
@@ -29,27 +29,8 @@ class AddBookForm(FlaskForm):
 	description = TextAreaField("Description")
 	level = IntegerField("Level", validators=[DataRequired()])
 	submit = SubmitField("Submit")
-
-class UpdateBookForm(FlaskForm):
-	title = StringField('Title', validators=[DataRequired()])
-	author = SelectField('Authors', coerce=int)
-	series = SelectField('Series', coerce=int)
-	series_index = DecimalField("#")
-	tags = SelectMultipleField('Tags', coerce=int)
-	isbn = StringField('ISBN', validators=[DataRequired()])
-	publisher = SelectField('Publishers', coerce=int)
-	wordcount = IntegerField("Wordcount", validators=[DataRequired()])
-	cover = StringField("Cover", validators=[URL()])
-	description = TextAreaField("Description")
-	level = IntegerField("Level", validators=[DataRequired()])
-	submit = SubmitField("Submit")
 	
-class AddASTPForm(FlaskForm):
-	name = StringField("Name", validators=[DataRequired()])
-	level = IntegerField("Level", validators=[DataRequired()])
-	submit = SubmitField("Submit")
-	
-class UpdateASTPForm(FlaskForm):
+class ASTPForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
 	level = IntegerField("Level", validators=[DataRequired()])
 	submit = SubmitField("Submit")

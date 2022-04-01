@@ -3,7 +3,6 @@
 <table class="u-full-width">
   <thead>
     <tr>
-      <th>ID</th>
       <th>Title</th>
       <th>Tags</th>
     </tr>
@@ -11,9 +10,8 @@
   <tbody>
     {% for book in books %}
     <tr>
-      <td style='text-align: center;'>{{ book.id }}</td>
       <td>
-      	<a href="{{ url_for('books') }}/{{ book.id }}">
+      	<a href="{{ url_for('book', id=book.id) }}">
       		<i class='fa-solid fa-book'></i>
 		    	{{ book.title }} {% if book.series %}({{ book.series.name }} #{{ book.series_index }}){% endif %} by {{ book.author.name }}
 		  	</a>

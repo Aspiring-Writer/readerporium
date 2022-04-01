@@ -22,6 +22,7 @@ Wilde Creek #8
 Romance, Fantasy, Paranormal
 93120
 9780463275597
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/245dde9e60ed509757d2555a81338028016b93b4
 
 # Wilde Creek Volumne Two by R.E. Butler
 
@@ -51,6 +52,7 @@ Wilde Creek #9
 Romance, Fantasy, Paranormal
 116304
 9780463927564
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/69a9095649246b3e52c533c52fde90b1bae1cafb
 
 # Wilde Creek Volume Three by R.E. Butler
 
@@ -78,6 +80,7 @@ Wilde Creek #10
 Romance, Fantasy, Paranormal
 84595
 9780463488928
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/b8a63b903c45a44d4093ada9dd4c3de720254b57
 
 # Law of the Lycans: The Original Trilogy by Nicky Charles
 
@@ -95,6 +98,7 @@ Law of the Lycans #11
 Romance, Fantasy, Paranormal
 416035
 9781370175123
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/89c7f2a59a5ad9abbf790d9a42d1e7ef90866b21
 
 # Viking Academy by S.T. Bende
 
@@ -110,6 +114,7 @@ Viking Academy #1
 Historical, Mythology
 62416
 9781950238002
+https://dwtr67e3ikfml.cloudfront.net/bookCovers/6a33e055c0bc281be1c0f8f60ede4e0c0fff8a05
 
 # The Emperor's Edge Collection, Books 1-3 by Lindsay Buroker
 
