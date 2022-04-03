@@ -516,7 +516,7 @@ def add_author():
 			except:
 				flash('Error adding author.')
 
-	return render_template('forms/add-astp.html', form=form, title='Add Author')
+	return render_template('forms/add-astp.html', form=form)
 
 @app.route('/admin/update-author/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -577,7 +577,7 @@ def add_series():
 			except:
 				flash('Error adding series.')
 
-	return render_template('forms/add-astp.html', form=form, title='Add Series')
+	return render_template('forms/add-astp.html', form=form)
 
 @app.route('/admin/update-series/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -638,7 +638,7 @@ def add_tag():
 			except:
 				flash('Error adding tag.')
 
-	return render_template('forms/add-astp.html', form=form, title='Add Tag')
+	return render_template('forms/add-astp.html', form=form)
 
 @app.route('/admin/update-tag/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -699,7 +699,7 @@ def add_publisher():
 			except:
 				flash('Error adding publisher.')
 
-	return render_template('forms/add-astp.html', form=form, title='Add Publisher')
+	return render_template('forms/add-astp.html', form=form)
 
 @app.route('/admin/update-publisher/<int:id>/', methods=['GET', 'POST'])
 @login_required

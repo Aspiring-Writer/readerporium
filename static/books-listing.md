@@ -286,6 +286,7 @@ Using what time he has left to seek justice, Stephan sets out to eliminate the o
 Entombed against her will and forced to hibernate for seventy years, Maddox only awakens when a mortal with a vendetta frees her from the grave. He needs help locating the same vampire who buried her alive, and ironically, she senses a connection to her human savior in the form of a blood link. But Stephan’s intense hatred for vampires makes honoring that link impossible.
 
 Even so, Maddox is unlike any vampire Stephan’s ever encountered. As charming and intelligent as she is beautiful, she reminds him of what it means to actually live, mending his wounded heart. In turn, Maddox finds it hard to separate from Stephan, or resist the passionate responses he elicits, and their unexpected bond strengthens as time goes on.
+
 But time is the one luxury Stephan doesn’t have, and saving him from his illness could prove fatal to them both.
 
 Series: The Crucible #4
@@ -360,7 +361,7 @@ Science fiction, Space opera
 9781370413423
 https://dwtr67e3ikfml.cloudfront.net/bookCovers/67612652635d0836e5401b65fd25c18ba93f593d
 
-# Hunter's Moon
+# Hunter's Moon by Angela Colsin
 Caleb Hodgins is a lupine known to the Arkin City Pack as an easy going wolf with a carefree attitude. But after tragedy strikes because of what he is, he's left with a painful secret and the weight of grief hanging on his shoulders. Such heartache causes Caleb to swear he'll never seek companionship with a human woman again, and it's a plan that works well enough—until Emily Sterling comes to town.
 
 When presented with the opportunity to take a long sought job in Arkin City, Emily quickly accepts, moving halfway across the country to live next door to her childhood friend, Joslyn Santiago-Hodgins. After years of keeping in touch long distance, she finally meets the people in Joslyn's life, and finds everyone easy to fit in with—that is, everyone except Joslyn's brother-in-law, Caleb.
@@ -374,7 +375,7 @@ Romance, Paranormal, Erotica
 98,870
 9781370752652
 
-# The Assassin's Curse
+# The Assassin's Curse by Lindsay Buroker
 When outlaws Amaranthe and Sicarius chance upon imperial spies stealing military prototypes, they immediately give chase. Well, immediately after Amaranthe talks Sicarius, former assassin and all-around non-altruistic type, into the mission. After all, they both want imperial pardons, and what better way to attract the emperor’s favor than by looking after the empire’s interests?
 
 What seems like a straightforward mission develops a hitch when the spies flee to Darkcrest Isle, a forbidding chunk of land reputed to be haunted. Amaranthe isn’t quick to believe in tales of malevolent spirits, so she’s startled when the ever-pragmatic and unflappable Sicarius shows reluctance at setting foot on the island. Only when it may be too late to escape does Amaranthe come to understand why.
