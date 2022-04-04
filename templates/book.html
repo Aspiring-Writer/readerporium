@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}{{ book.title }} by {{ book.author.name }}{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}<em>{{ book.title }}</em> by {{ book.author.name }}{% endblock %} {% block content %}
 {% if current_user.id == 1 %}
 <div style="margin-bottom: 4rem; text-align: center;">
 	<a href="{{ url_for('update_book', id=book.id) }}" class="button">
@@ -27,11 +27,16 @@
       			</a>
       		</td>
       	</tr>
+      	<tr>
+      		<td>
+      			{{ book.title_sort }}
+      		</td>
+      	</tr>
         <tr>
           <td>
           	<a href="{{ url_for('serie', id=book.series.id) }}">
           		<i class="fa-solid fa-list-ol"></i>
-              {{ book.series.name }} #{{ book.series_index }}
+          		{{ book.series.name }}{% if book.series.name != '<None>' %} #{{ book.series_index }}{% endif %}
             </a>
           </td>
         </tr>
@@ -101,7 +106,7 @@
 		      	Supported by most e-readers, smartphones, tablets, and computers.
 		      </td>
 		    </tr>
-		    <tr>
+		    <!--<tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
 		      		<i class="fa-solid fa-download"></i>
@@ -111,7 +116,7 @@
 		      <td>
 		      	This is the recommended format for Kobo e-readers.
 		      </td>
-		    </tr>
+		    </tr>-->
 		    <tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">

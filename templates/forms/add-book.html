@@ -2,11 +2,15 @@
 <form METHOD="POST" action="{{ url_for('add_book') }}">
 	{{ form.hidden_tag() }}
   <div class="row">
-    <div class="six columns">
+    <div class="four columns">
       {{ form.title.label }}
       {{ form.title(class="u-full-width") }}
     </div>
-    <div class="three columns">
+    <div class="four columns">
+      {{ form.title_sort.label }}
+      {{ form.title_sort(class="u-full-width") }}
+    </div>
+    <div class="four columns">
       {{ form.author.label }}
       {{ form.author(class="u-full-width") }}
     </div>

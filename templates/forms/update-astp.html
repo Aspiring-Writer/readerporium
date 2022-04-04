@@ -2,11 +2,15 @@
 <form METHOD="POST">
 	{{ form.hidden_tag() }}
   <div class="row">
-    <div class="six columns">
+    <div class="four columns">
       {{ form.name.label }}
       {{ form.name(class="u-full-width") }}
     </div>
-    <div class="two columns">
+    {% if series %}<div class="four columns">
+      {{ form.name_sort.label }}
+      {{ form.name_sort(class="u-full-width") }}
+    </div>{% endif %}
+    <div class="four columns">
     	{{ form.level.label }}
       {{ form.level(class="u-full-width") }}
     </div>

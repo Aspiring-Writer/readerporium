@@ -18,9 +18,10 @@ class UpdateUserForm(FlaskForm):
 	
 class BookForm(FlaskForm):
 	title = StringField('Title', validators=[DataRequired()])
+	title_sort = StringField('Sorted Title')
 	author = SelectField('Authors', coerce=int)
 	series = SelectField('Series', coerce=int)
-	series_index = DecimalField("#")
+	series_index = DecimalField("#", validators=[Optional()])
 	#tags = SelectMultipleField('Tags', coerce=int)
 	isbn = StringField('ISBN', validators=[DataRequired()])
 	publisher = SelectField('Publishers', coerce=int)
@@ -32,6 +33,7 @@ class BookForm(FlaskForm):
 	
 class ASTPForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
+	name_sort = StringField("Name Sort")
 	level = IntegerField("Level", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 	

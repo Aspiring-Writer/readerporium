@@ -33,7 +33,7 @@ app.jinja_env.add_extension(MarkdownExtension)
 
 # Intialize the database
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+migrate = Migrate(app, db) # flask db init | flask db migrate -m "MSG" | flask db upgrade
 
 # Databases
 book_tags = db.Table('book_tags',
@@ -52,6 +52,7 @@ class Users(db.Model, UserMixin):
 class Books(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(5000), nullable=False)
+	title_sort = db.Column(db.String(5000))
 	author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))
 	series_id = db.Column(db.Integer, db.ForeignKey('series.id'))
 	series_index = db.Column(db.Float)
@@ -81,6 +82,7 @@ class Authors(db.Model):
 class Series(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	name = db.Column(db.String(150), nullable=False)
+	name_sort = db.Column(db.String(150))
 	books = db.relationship('Books', backref='series')
 	level = db.Column(db.Integer, default=1)
 
@@ -148,7 +150,7 @@ def logout():
 @login_required
 def books():
 	page = request.args.get('page', 1, type=int)
-	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.date_created.desc()).paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.count()
 	
 	return render_template('list.html', title='Books', books=books, count=count)
@@ -168,7 +170,7 @@ def book(id):
 @login_required
 def authors():
 	page = request.args.get('page', 1, type=int)
-	astp = Authors.query.filter(Authors.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Authors.query.filter(Authors.level<=current_user.level).order_by(Authors.name).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Authors.query.count()
 	
 	return render_template('astp.html', title='Authors', astp=astp, count=count)
@@ -178,7 +180,7 @@ def authors():
 def author(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Authors.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level).filter(Books.author==astp).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.author==astp).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.author==astp).count()
 	
 	return render_template('list.html', astp=astp, books=books, count=count, author=True)
@@ -188,7 +190,7 @@ def author(id):
 @login_required
 def series():
 	page = request.args.get('page', 1, type=int)
-	astp = Series.query.filter(Series.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Series.query.filter(Series.level<=current_user.level).order_by(Series.name_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Series.query.count()
 	
 	return render_template('astp.html', title='Series', astp=astp, count=count)
@@ -198,7 +200,7 @@ def series():
 def serie(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Series.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level).filter(Books.series==astp).order_by('series_index').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.series==astp).order_by(Books.series_index).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.series==astp).count()
 	
 	return render_template('list.html', astp=astp, books=books, count=count, series=True)
@@ -208,7 +210,7 @@ def serie(id):
 @login_required
 def tags():
 	page = request.args.get('page', 1, type=int)
-	astp = Tags.query.filter(Tags.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Tags.query.filter(Tags.level<=current_user.level).order_by(Tags.name).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Tags.query.count()
 	
 	return render_template('astp.html', title='Tags', astp=astp, count=count)
@@ -226,7 +228,7 @@ def tag(id):
 @login_required
 def publishers():
 	page = request.args.get('page', 1, type=int)
-	astp = Publishers.query.filter(Publishers.level<=current_user.level).order_by('name').paginate(page=page, per_page=ROWS_PER_PAGE)
+	astp = Publishers.query.filter(Publishers.level<=current_user.level).order_by(Publishers.name).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Publishers.query.count()
 	
 	return render_template('astp.html', title='Publishers', astp=astp, count=count)
@@ -236,7 +238,7 @@ def publishers():
 def publisher(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Publishers.query.get_or_404(id)
-	books = Books.query.filter(Books.level<=current_user.level).filter(Books.publisher==astp).paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.publisher==astp).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.publisher==astp).count()
 	
 	return render_template('list.html', astp=astp, books=books, count=count, publisher=True)
@@ -251,7 +253,7 @@ def levels():
 @login_required
 def level1():
 	page = request.args.get('page', 1, type=int)
-	books = Books.query.filter(Books.level==1).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level==1).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.level==1).count()
 	
 	return render_template('list.html', title='Reading Level: 1', books=books, count=count)
@@ -260,7 +262,7 @@ def level1():
 @login_required
 def level2():
 	page = request.args.get('page', 1, type=int)
-	books = Books.query.filter(Books.level==2).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level==2).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.level==2).count()
 	
 	if current_user.level >= 2:
@@ -272,7 +274,7 @@ def level2():
 @login_required
 def level3():
 	page = request.args.get('page', 1, type=int)
-	books = Books.query.filter(Books.level==3).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level==3).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.level==3).count()
 	
 	if current_user.level >= 3:
@@ -284,7 +286,7 @@ def level3():
 @login_required
 def level4():
 	page = request.args.get('page', 1, type=int)
-	books = Books.query.filter(Books.level==4).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level==4).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.level==4).count()
 	
 	if current_user.level == 4:
@@ -298,7 +300,7 @@ def level4():
 def flash_fiction():
 	page = request.args.get('page', 1, type=int)
 	max = 3500
-	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 	
 	return render_template('list.html', title='Flash Fiction (< 3.5k words)', books=books, count=count)
@@ -309,7 +311,7 @@ def short_stories():
 	page = request.args.get('page', 1, type=int)
 	min = 3500
 	max = 7500
-	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 
 	return render_template('list.html', title='Short Stories (3.5k - 7.5k words)', books=books, count=count)
@@ -320,7 +322,7 @@ def novellettes():
 	page = request.args.get('page', 1, type=int)
 	min = 7500
 	max = 17000
-	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 
 	return render_template('list.html', title='Novellettes (7.5k - 17k words)', books=books, count=count)
@@ -331,7 +333,7 @@ def novellas():
 	page = request.args.get('page', 1, type=int)
 	min = 17000
 	max = 40000
-	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
 
 	return render_template('list.html', title='Novellas (17k - 40k words)', books=books, count=count)
@@ -341,7 +343,7 @@ def novellas():
 def novels():
 	page = request.args.get('page', 1, type=int)
 	min = 40000
-	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min).order_by('title').paginate(page=page, per_page=ROWS_PER_PAGE)
+	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.wordcount>min).count()
 	
 	return render_template('list.html', title='Novels (> 40k words)', books=books, count=count)
@@ -433,7 +435,7 @@ def add_book():
 		if book:
 			flash('ISBN already exists.')
 		else:
-			book = Books(title=form.title.data, author_id=form.author.data, series_id=form.series.data, series_index=form.series_index.data, isbn=form.isbn.data, publisher_id=form.publisher.data, wordcount=form.wordcount.data, cover=form.cover.data, description=form.description.data, level=form.level.data)
+			book = Books(title=form.title.data, title_sort=form.title_sort.data, author_id=form.author.data, series_id=form.series.data, series_index=form.series_index.data, isbn=form.isbn.data, publisher_id=form.publisher.data, wordcount=form.wordcount.data, cover=form.cover.data, description=form.description.data, level=form.level.data)
 			
 			try:
 				db.session.add(book)
@@ -450,9 +452,13 @@ def add_book():
 def update_book(id):
 	book = Books.query.get_or_404(id)
 	form = BookForm(obj=book)
+	form.title_sort.data = book.title
 	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by('name')]
+	form.author.data = book.author_id
 	form.series.choices = [(s.id, s.name) for s in Series.query.order_by('name')]
+	form.series.data = book.series_id
 	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by('name')]
+	form.publisher.data = book.publisher_id
 	#form.description.data = book.description
 	
 	if current_user.id != 1:
@@ -460,6 +466,7 @@ def update_book(id):
 		
 	elif form.validate_on_submit():
 		book.title = form.title.data
+		book.title_sort = form.title_sort.data
 		book.author_id = form.author.data
 		book.series_id = form.series.data
 		book.series_index = form.series_index.data
@@ -568,7 +575,7 @@ def add_series():
 		if series:
 			flash('Series already exists.')
 		else:
-			series = Series(name=form.name.data, level=form.level.data)
+			series = Series(name=form.name.data, name_sort=form.name_sort.data, level=form.level.data)
 			try:
 				db.session.add(series)
 				db.session.commit()
@@ -584,12 +591,14 @@ def add_series():
 def update_series(id):
 	astp = Series.query.get_or_404(id)
 	form = ASTPForm(obj=astp)
+	form.name_sort.data = astp.name
 	
 	if current_user.id != 1:
 		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		astp.name = form.name.data
+		astp.name_sort = form.name_sort.data
 		astp.level = form.level.data
 		try:
 			db.session.commit()
@@ -598,7 +607,7 @@ def update_series(id):
 		except:
 			flash('Error updating series.')
 
-	return render_template('forms/update-astp.html', form=form)
+	return render_template('forms/update-astp.html', form=form, series=True)
 
 @app.route('/admin/delete-series/<int:id>/')
 @login_required
