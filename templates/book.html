@@ -27,11 +27,6 @@
       			</a>
       		</td>
       	</tr>
-      	<tr>
-      		<td>
-      			{{ book.title_sort }}
-      		</td>
-      	</tr>
         <tr>
           <td>
           	<a href="{{ url_for('serie', id=book.series.id) }}">
@@ -42,7 +37,7 @@
         </tr>
         <tr>
           <td>
-          	{% for tag in book.tags %}
+          	{% for tag in book.tags|sort(attribute='name') %}
           	<a href="{{ url_for('tag', id=tag.id) }}">
           		<i class="fa-solid fa-tag"></i>
               {{ tag.name }}
@@ -52,7 +47,7 @@
         </tr>
         <tr>
           <td>
-          	<a href="{{ url_for('levels') }}/{{ book.level }}">
+          	<a href="{{ url_for('levels') }}{{ book.level }}">
             	<i class="fa-solid fa-star"></i>
             	{{ book.level }}
           	</a>
@@ -95,6 +90,17 @@
 		    </tr>
 		  </thead>
 		  <tbody>
+		  	<tr>
+		      <td>
+		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}">
+		      		<i class="fa-solid fa-book-open-reader"></i>
+		      		Online
+		      	</a>
+		      </td>
+		      <td>
+		      	Read this book online here.
+		      </td>
+		    </tr>
 		    <tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">

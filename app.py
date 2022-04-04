@@ -151,7 +151,7 @@ def logout():
 def books():
 	page = request.args.get('page', 1, type=int)
 	books = Books.query.filter(Books.level<=current_user.level).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.count()
+	count = Books.query.filter(Books.level<=current_user.level).count()
 	
 	return render_template('list.html', title='Books', books=books, count=count)
 
@@ -171,7 +171,7 @@ def book(id):
 def authors():
 	page = request.args.get('page', 1, type=int)
 	astp = Authors.query.filter(Authors.level<=current_user.level).order_by(Authors.name).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Authors.query.count()
+	count = Authors.query.filter(Authors.level<=current_user.level).count()
 	
 	return render_template('astp.html', title='Authors', astp=astp, count=count)
 
@@ -181,7 +181,7 @@ def author(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Authors.query.get_or_404(id)
 	books = Books.query.filter(Books.level<=current_user.level, Books.author==astp).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.author==astp).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.author==astp).count()
 	
 	return render_template('list.html', astp=astp, books=books, count=count, author=True)
 
@@ -191,7 +191,7 @@ def author(id):
 def series():
 	page = request.args.get('page', 1, type=int)
 	astp = Series.query.filter(Series.level<=current_user.level).order_by(Series.name_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Series.query.count()
+	count = Series.query.filter(Series.level<=current_user.level).count()
 	
 	return render_template('astp.html', title='Series', astp=astp, count=count)
 
@@ -201,7 +201,7 @@ def serie(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Series.query.get_or_404(id)
 	books = Books.query.filter(Books.level<=current_user.level, Books.series==astp).order_by(Books.series_index).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.series==astp).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.series==astp).count()
 	
 	return render_template('list.html', astp=astp, books=books, count=count, series=True)
 
@@ -211,7 +211,7 @@ def serie(id):
 def tags():
 	page = request.args.get('page', 1, type=int)
 	astp = Tags.query.filter(Tags.level<=current_user.level).order_by(Tags.name).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Tags.query.count()
+	count = Tags.query.filter(Tags.level<=current_user.level).count()
 	
 	return render_template('astp.html', title='Tags', astp=astp, count=count)
 
@@ -229,7 +229,7 @@ def tag(id):
 def publishers():
 	page = request.args.get('page', 1, type=int)
 	astp = Publishers.query.filter(Publishers.level<=current_user.level).order_by(Publishers.name).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Publishers.query.count()
+	count = Publishers.query.filter(Publishers.level<=current_user.level).count()
 	
 	return render_template('astp.html', title='Publishers', astp=astp, count=count)
 
@@ -239,7 +239,7 @@ def publisher(id):
 	page = request.args.get('page', 1, type=int)
 	astp = Publishers.query.get_or_404(id)
 	books = Books.query.filter(Books.level<=current_user.level, Books.publisher==astp).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.publisher==astp).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.publisher==astp).count()
 	
 	return render_template('list.html', astp=astp, books=books, count=count, publisher=True)
 
@@ -301,7 +301,7 @@ def flash_fiction():
 	page = request.args.get('page', 1, type=int)
 	max = 3500
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.wordcount<=max).count()
 	
 	return render_template('list.html', title='Flash Fiction (< 3.5k words)', books=books, count=count)
 
@@ -312,7 +312,7 @@ def short_stories():
 	min = 3500
 	max = 7500
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).count()
 
 	return render_template('list.html', title='Short Stories (3.5k - 7.5k words)', books=books, count=count)
 
@@ -323,7 +323,7 @@ def novellettes():
 	min = 7500
 	max = 17000
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).count()
 
 	return render_template('list.html', title='Novellettes (7.5k - 17k words)', books=books, count=count)
 
@@ -334,7 +334,7 @@ def novellas():
 	min = 17000
 	max = 40000
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.wordcount>min, Books.wordcount<=max).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min, Books.wordcount<=max).count()
 
 	return render_template('list.html', title='Novellas (17k - 40k words)', books=books, count=count)
 
@@ -344,7 +344,7 @@ def novels():
 	page = request.args.get('page', 1, type=int)
 	min = 40000
 	books = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
-	count = Books.query.filter(Books.wordcount>min).count()
+	count = Books.query.filter(Books.level<=current_user.level, Books.wordcount>min).count()
 	
 	return render_template('list.html', title='Novels (> 40k words)', books=books, count=count)
 
@@ -452,7 +452,6 @@ def add_book():
 def update_book(id):
 	book = Books.query.get_or_404(id)
 	form = BookForm(obj=book)
-	form.title_sort.data = book.title
 	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by('name')]
 	form.author.data = book.author_id
 	form.series.choices = [(s.id, s.name) for s in Series.query.order_by('name')]
@@ -591,7 +590,6 @@ def add_series():
 def update_series(id):
 	astp = Series.query.get_or_404(id)
 	form = ASTPForm(obj=astp)
-	form.name_sort.data = astp.name
 	
 	if current_user.id != 1:
 		return render_template("404.html"), 404

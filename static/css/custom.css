@@ -38,7 +38,7 @@ img { border-radius: 4px; }
 table {
 	background-color: #fdfd96;
 	border: 1px solid #222; }
-th, td { border-color: #222; }
+th, td { border-color: #222; padding: 12px 15px; }
 th:first-child,
 td:first-child {
   padding-left: 1rem; }

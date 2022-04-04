@@ -248,8 +248,7 @@ So what's a mage to do? Simple; accept the assistance of a sexy Perosian who's d
 Convicted of murdering the imperial family of Perosia, Isaac's spent centuries as a fugitive hunted by a homeland he doesn't recall. But his ruthless talent for survival serves him well, and there's nothing he won't do to protect Edith from the forces threatening her life, even if it means sacrificing his own.
 
 Series: The Crucible #5
-Category: Fiction » Romance » Paranormal » General
-Category: Fiction » Romance » Erotic
+Romance, Paranormal, Erotic
 Published: June 3, 2016
 Words: 99,420
 Language: English
@@ -269,8 +268,7 @@ Nearly killed by one of her own sisters, the last thing Isadora expects to hear 
 But though the ancient vampire should be feared, Isadora finds Mathias compelling, pricking her innate curiosity in a way she's never experienced. Ignoring such intrigue is impossible, and the more she learns, the more quickly her feelings turn into heavy attraction, tempting her to do the impossible—spend eternity with a vampire.
 
 Series: The Crucible #9
-Category: Fiction » Romance » Paranormal » General
-Category: Fiction » Romance » Fantasy
+Romance, Paranormal, Fantasy
 Published: April 9, 2019
 Words: 100,170
 Language: English
@@ -290,8 +288,7 @@ Even so, Maddox is unlike any vampire Stephan’s ever encountered. As charming 
 But time is the one luxury Stephan doesn’t have, and saving him from his illness could prove fatal to them both.
 
 Series: The Crucible #4
-Category: Fiction » Romance » Paranormal » General
-Category: Fiction » Erotica » Paranormal
+Romance, Paranormal, Erotica
 Erotica themes:
 Published: Oct. 5, 2015
 Words: 99,300

@@ -13,7 +13,7 @@
 		      <td>
 		        <a href="{% if title == 'Authors' %}{{ url_for('author', id=i.id) }}{% elif title == 'Series' %}{{ url_for('serie', id=i.id) }}{% elif title == 'Tags' %}{{ url_for('tag', id=i.id) }}{% else %}{{ url_for('publisher', id=i.id) }}{% endif %}">
 		        	<i class='fa-solid fa-user'></i>
-		        	{{ i.name }} ({{ i.books|length }} book{% if i.books| length != 1 %}s{% endif %})
+		        	{{ i.name }}
 		      	</a>
 		      </td>
 		    </tr>

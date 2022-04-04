@@ -29,7 +29,7 @@
 		  	</a>
 		  </td>
 		  <td>
-		  	{% for tag in book.tags %}
+		  	{% for tag in book.tags|sort(attribute='name') %}
 		  	<a href="{{ url_for('tag', id=tag.id) }}">
 		  		<i class="fa-solid fa-tag"></i>
 		  		{{ tag.name }}
