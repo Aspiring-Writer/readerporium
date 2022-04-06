@@ -54,57 +54,31 @@
   		{% if current_user.is_authenticated %}
   		<!-- Navbar
 	  	------------------------------------------------- -->
-	    <nav class="navbar">
-	      <ul class="navbar-list">
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('index') }}" class="navbar-link">
-	          	<i class="fa-solid fa-house"></i>
-	          	Home
-	        	</a>
-	      	</li>
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('books') }}" class="navbar-link">
-	          	<i class="fa-solid fa-book"></i>
-	          	Titles
-	          </a>
-	      	</li>
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('authors') }}" class="navbar-link">
-	          	<i class="fa-solid fa-users"></i>
-	          	Authors
-	          </a>
-	      	</li>
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('series') }}" class="navbar-link">
-	          	<i class="fa-solid fa-list-ol"></i>
-	          	Series
-	        	</a>
-	      	</li>
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('tags') }}" class="navbar-link">
-	          	<i class="fa-solid fa-tags"></i>
-	          	Tags
-	        	</a>
-	      	</li>
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('publishers') }}" class="navbar-link">
-	          	<i class="fa-solid fa-building"></i>
-	          	Publishers
-	        	</a>
-	      	</li>
-	      	<li class="navbar-item">
-	      		<a href="{{ url_for('levels') }}" class="navbar-link">
-	          	<i class="fa-solid fa-star"></i>
-	          	Levels & Wordcount
-	        	</a>
-	      	</li>
-	      	<li class="navbar-item">
-						<a href="{{ url_for('logout') }}" class="navbar-link">
-		        	<i class="fa-solid fa-arrow-right-from-bracket"></i>
-		          Logout
-		        </a>
-	      	</li>
-	      </ul>
+	    <nav role="group" class="navbar" style="width:100%;">
+    		<a href="{{ url_for('index') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-house"></i>
+      	</a>
+    		<a href="{{ url_for('books') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-book"></i>
+        </a>
+    		<a href="{{ url_for('authors') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-users"></i>
+        </a>
+    		<a href="{{ url_for('series') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-list-ol"></i>
+      	</a>
+    		<a href="{{ url_for('tags') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-tags"></i>
+      	</a>
+    		<a href="{{ url_for('publishers') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-building"></i>
+      	</a>
+    		<a href="{{ url_for('levels') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-star"></i>
+      	</a>
+				<a href="{{ url_for('logout') }}" class="button" style="width:12.5%">
+        	<i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
 	    </nav>
 	    {% endif %}
   	</section>

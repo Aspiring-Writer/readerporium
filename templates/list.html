@@ -1,19 +1,24 @@
 {% extends 'base.html' %} {% block title %}{% if astp %}{{ astp.name }}{% else %}{{ title }}{% endif %}{% if count %} ({{ count }}){% endif %}{% endblock %} {% block content %}
-{% if current_user.id == 1 %}{% if author or series or tag or publisher %}
-<div style="margin-bottom: 4rem; text-align: center;">
+{% if current_user.id == 1 %}
+<div role="group" class="btn-group">
 	{% if title == 'Books' %}
 	<a href="{{ url_for('add_book') }}" class="button">
 		<i class="fa-solid fa-plus"></i>
 	</a>
 	{% endif %}
+	{% if author or series or tag or publisher %}
+	<a href="{% if author %}{{ url_for('add_author', id=astp.id) }}{% elif series %}{{ url_for('add_series', id=astp.id) }}{% elif tag %}{{ url_for('add_tag', id=astp.id) }}{% elif publisher %}{{ url_for('add_publisher', id=astp.id) }}{% endif %}" class="button">
+		<i class="fa-solid fa-plus"></i>
+	</a>
 	<a href="{% if author %}{{ url_for('update_author', id=astp.id) }}{% elif series %}{{ url_for('update_series', id=astp.id) }}{% elif tag %}{{ url_for('update_tag', id=astp.id) }}{% elif publisher %}{{ url_for('update_publisher', id=astp.id) }}{% endif %}" class="button">
 		<i class="fa-solid fa-pencil"></i>
 	</a>
 	<a href="{% if author %}{{ url_for('delete_author', id=astp.id) }}{% elif series %}{{ url_for('delete_series', id=astp.id) }}{% elif tag %}{{ url_for('delete_tag', id=astp.id) }}{% elif publisher %}{{ url_for('delete_publisher', id=astp.id) }}{% endif %}" class="button">
 		<i class="fa-solid fa-trash"></i>
 	</a>
+	{% endif %}
 </div>
-{% endif %}{% endif %}
+{% endif %}
 <table class="u-full-width list">
 	<thead>
 		<tr>
