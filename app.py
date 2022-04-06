@@ -432,8 +432,8 @@ def delete_user(id):
 @login_required
 def add_book():
 	form = BookForm()
-	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by(Authors.sort_name)]
-	form.series.choices = [(s.id, s.name) for s in Series.query.order_by(Series.sort_name)]
+	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by(Authors.name)]
+	form.series.choices = [(s.id, s.name) for s in Series.query.order_by(Series.name_sort)]
 	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by(Publishers.name)]
 
 	if current_user.id != 1:
@@ -462,9 +462,9 @@ def add_book():
 def update_book(id):
 	book = Books.query.get_or_404(id)
 	form = BookForm(obj=book)
-	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by(Authors.sort_name)]
+	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by(Authors.name_sort)]
 	form.author.data = book.author_id
-	form.series.choices = [(s.id, s.name) for s in Series.query.order_by(Series.sort_name)]
+	form.series.choices = [(s.id, s.name) for s in Series.query.order_by(Series.name_sort)]
 	form.series.data = book.series_id
 	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by(Publishers.name)]
 	form.publisher.data = book.publisher_id

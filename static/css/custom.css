@@ -52,7 +52,7 @@ td a {
 i { padding: 2px; }
 .button i { font-size: 1.25em; }
 
-form > textarea { height: 236px; }
+form textarea { height: 236px; }
 
 .button,
 button,
