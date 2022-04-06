@@ -91,6 +91,15 @@
 		  </thead>
 		  <tbody>
 		  	<tr>
+		  		<td>
+		  			<i class="fa-solid fa-circle-info"></i>
+		  			Info
+		  		</td>
+		  		<td>
+		  			To read this book, you will need an e-book reading app for your device. Popular ones include FBReader, Moon+ Reader, and iBooks.
+	  			</td>
+		  	</tr>
+		  	<!--<tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}">
 		      		<i class="fa-solid fa-book-open-reader"></i>
@@ -100,11 +109,11 @@
 		      <td>
 		      	Read this book online here.
 		      </td>
-		    </tr>
+		    </tr>-->
 		    <tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
-		      		<i class="fa-solid fa-download"></i>
+		      		<i class="fa-solid fa-download u-pull-left"></i>
 		      		EPUB
 		      	</a>
 		      </td>
@@ -123,7 +132,7 @@
 		      	This is the recommended format for Kobo e-readers.
 		      </td>
 		    </tr>-->
-		    <tr>
+		    <!--<tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
 		      		<i class="fa-solid fa-download"></i>
@@ -133,7 +142,7 @@
 		      <td>
 		      	Legacy format for Kindles.
 		      </td>
-		    </tr>
+		    </tr>-->
 		  </tbody>
 		</table>
 	</div>

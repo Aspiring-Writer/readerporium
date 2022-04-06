@@ -1,18 +1,18 @@
-{% extends 'base.html' %}{% block title %}Update {{ user.username }}{% endblock %}{% block content %}
+{% extends 'base.html' %}{% block title %}Update User{% endblock %}{% block content %}
 <form METHOD="POST" action="{{ url_for('update_user', id=user.id) }}">
 	{{ form.hidden_tag() }}
   <div class="row">
     <div class="four columns">
       {{ form.name.label }}
-      {{ form.name(class="u-full-width", value=user.name) }}
+      {{ form.name(class="u-full-width") }}
     </div>
     <div class="four columns">
       {{ form.username.label }}
-      {{ form.username(class="u-full-width", value=user.username) }}
+      {{ form.username(class="u-full-width") }}
     </div>
     <div class="four columns">
       {{ form.level.label }}
-      {{ form.level(class="u-full-width", value=user.level) }}
+      {{ form.level(class="u-full-width") }}
     </div>
   </div>
   <div style="text-align:center;">

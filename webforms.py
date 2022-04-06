@@ -4,7 +4,7 @@ from wtforms.validators import Optional, DataRequired, Length, EqualTo, URL
 
 class AddUserForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
-	username = StringField("Username", validators=[DataRequired(), Length(min=5, max=10)])
+	username = StringField("Username", validators=[DataRequired(), Length(min=5, max=20)])
 	level = IntegerField("Level", validators=[DataRequired()])
 	password1 = PasswordField("Password", validators=[DataRequired(), EqualTo('password2', message='Passwords must match!'), Length(min=7, max=20)])
 	password2 = PasswordField("Confirm Password")
@@ -12,7 +12,7 @@ class AddUserForm(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
 	name = StringField("Name", validators=[DataRequired()])
-	username = StringField("Username", validators=[DataRequired(), Length(min=5, max=10)])
+	username = StringField("Username", validators=[DataRequired(), Length(min=5, max=20)])
 	level = IntegerField("Level", validators=[DataRequired()])
 	submit = SubmitField("Submit")
 	

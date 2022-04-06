@@ -183,6 +183,8 @@ def author(id):
 	books = Books.query.filter(Books.level<=current_user.level, Books.author==astp).order_by(Books.title_sort).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.level<=current_user.level, Books.author==astp).count()
 	
+	if astp.level > current_user.level:
+		return render_template('404.html'), 404
 	return render_template('list.html', astp=astp, books=books, count=count, author=True)
 
 # Series
@@ -203,6 +205,8 @@ def serie(id):
 	books = Books.query.filter(Books.level<=current_user.level, Books.series==astp).order_by(Books.series_index).paginate(page=page, per_page=ROWS_PER_PAGE)
 	count = Books.query.filter(Books.level<=current_user.level, Books.series==astp).count()
 	
+	if astp.level > current_user.level:
+		return render_template('404.html'), 404
 	return render_template('list.html', astp=astp, books=books, count=count, series=True)
 
 # Tags
@@ -221,6 +225,8 @@ def tag(id):
 	page = request.args.get('page', 1, type=int)
 	tag = Tags.query.get_or_404(id)
 	
+	if tag.level > current_user.level:
+		return render_template('404.html'), 404
 	return render_template('tag.html', tag=tag)
 
 # Publishers
@@ -388,12 +394,16 @@ def add_user():
 @login_required
 def update_user(id):
 	user = Users.query.get_or_404(id)
-	form = UpdateUserForm()
+	form = UpdateUserForm(obj=user)
 	
 	if current_user.id != 1:
 		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
+		user.name = form.name.data
+		user.username = form.username.data
+		user.level = form.level.data
+		user.password = user.password
 		try:
 			db.session.commit()
 			flash('User updated!')
@@ -458,7 +468,6 @@ def update_book(id):
 	form.series.data = book.series_id
 	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by('name')]
 	form.publisher.data = book.publisher_id
-	#form.description.data = book.description
 	
 	if current_user.id != 1:
 		return render_template("404.html"), 404
@@ -583,7 +592,7 @@ def add_series():
 			except:
 				flash('Error adding series.')
 
-	return render_template('forms/add-astp.html', form=form)
+	return render_template('forms/add-astp.html', form=form, series=True)
 
 @app.route('/admin/update-series/<int:id>/', methods=['GET', 'POST'])
 @login_required

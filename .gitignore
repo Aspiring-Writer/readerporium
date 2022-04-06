@@ -1,3 +1,4 @@
 venv/
 .env
 local.db
+__pycache__
