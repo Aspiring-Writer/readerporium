@@ -1,11 +1,9 @@
-body { background-color: #fffdd0;}
+body { background-color: #fffdd0; }
 .header { margin: 2% 0; }
 h1, h2, h3 { text-align: center; margin-bottom: 4rem; }
 
-a {
-  color: #00008b; }
-a:hover {
-  color: #0000cd; }
+a { color: #00008b; }
+a:hover { color: #0000cd; }
   
 .content { clear: both; }
 
@@ -27,27 +25,9 @@ th {
 	border-top: none;
 	text-align: center;
 	text-transform: uppercase; }
-td a {
-  font-weight: 600;
-  text-decoration: none; }
+td a { font-weight: 600; text-decoration: none; }
 .users tr td { text-align: center; }
 .list td:last-child { text-align: right; }
-
-.alert {
-  width: 100%;
-  height: 38px;
-  padding: 0 30px;
-  color: #222;
-  background-color: #fdfd96;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: .1rem;
-  white-space: nowrap;
-  border-radius: 4px;
-  border: 1px solid;
-  box-sizing: border-box; }
 
 i { padding: 2px; }
 .button i { font-size: 1.25em; }
@@ -95,3 +75,15 @@ select {
   content: "";
   clear: both;
   display: table; }
+
+.alert, .meta, .footer {
+	margin-bottom: 2rem;
+  padding: 25px 15px;
+  background-color: #fdfd96;
+  font-weight: 600;
+  border-radius: 15px;
+  border: 1px solid; }
+.alert { text-align: center; }
+.footer { margin-top: 6rem; }
+
+hr { border-color: #222; }

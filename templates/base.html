@@ -12,6 +12,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.ico" />
+
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,10 +32,7 @@
   -------------------------------------------------- -->
   <link href="/static/fontawesome/css/all.min.css" rel="stylesheet">
 
-  <!-- Favicon
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/svg+xml" href="/static/favicon.ico" />
-
+	{{ moment.include_moment() }}
 </head>
 <body>
 
@@ -85,10 +86,28 @@
   	
     <!-- Content
     ------------------------------------------------ -->
-    <div class="content">
+    <section class="content">
     	<h2>{% block title %}{% endblock %}</h2>
 		  {% block content %} {% endblock %}
-    </div>
+    </section>
+	  
+		{% if current_user.is_authenticated %}
+	  <!-- Footer
+	  ------------------------------------------------ -->
+	  <section class="footer">
+	  	<div class="row">
+		  	<div class="four columns">
+		  		Username: {{ current_user.username }}
+		  	</div>
+		  	<div class="four columns">
+		  		Level: {{ current_user.level }} ({% if current_user.level == 1 %}Child{% elif current_user.level == 2 %}Teen{% elif current_user.level == 3 %}Adult{% elif current_user.level == 4 %}Mature{% endif %})
+		  	</div>
+		  	<div class="four columns">
+		  		Added on {{ moment(current_user.date_added).format('LL') }} ({{ moment(current_user.date_added).fromNow() }})
+		  	</div>
+		  </div>
+	  </section>
+  	{% endif %}
 	  
   </div>
 

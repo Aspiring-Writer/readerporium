@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_moment import Moment
 from flask_migrate import Migrate
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,6 +13,7 @@ from jinja_markdown import MarkdownExtension
 from webforms import *
 
 app = Flask(__name__)
+moment = Moment(app)
 
 load_dotenv()
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')

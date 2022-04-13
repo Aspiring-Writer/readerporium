@@ -1,10 +1,10 @@
 {% extends 'base.html' %} {% block title %}{% if astp %}{{ astp.name }}{% else %}{{ title }}{% endif %}{% if count %} ({{ count }}){% endif %}{% endblock %} {% block content %}
 {% if current_user.id == 1 %}
 <div role="group" class="btn-group">
-	{% if author or series or tag or publisher %}
-	<a href="{% if author %}{{ url_for('add_author', id=astp.id) }}{% elif series %}{{ url_for('add_series', id=astp.id) }}{% elif tag %}{{ url_for('add_tag', id=astp.id) }}{% elif publisher %}{{ url_for('add_publisher', id=astp.id) }}{% endif %}" class="button">
+	<a href="{% if title == 'Books' %}{{ url_for('add_book') }}{% elif author %}{{ url_for('add_author') }}{% elif series %}{{ url_for('add_series') }}{% elif tag %}{{ url_for('add_tag') }}{% elif publisher %}{{ url_for('add_publisher') }}{% endif %}" class="button">
 		<i class="fa-solid fa-plus"></i>
 	</a>
+	{% if title != 'Books' %}
 	<a href="{% if author %}{{ url_for('update_author', id=astp.id) }}{% elif series %}{{ url_for('update_series', id=astp.id) }}{% elif tag %}{{ url_for('update_tag', id=astp.id) }}{% elif publisher %}{{ url_for('update_publisher', id=astp.id) }}{% endif %}" class="button">
 		<i class="fa-solid fa-pencil"></i>
 	</a>
@@ -53,30 +53,20 @@
   </tbody>
 </table>
 <!-- Pagination Links-->
-<table class="u-full-width list list">
-	<thead>
-		<tr>
-			<th></th>
-			<th></th>
-		</tr>
-	</thead>
-  <tbody>
-		<tr>
-			<td>
-				Page {{ books.page }} of {{ books.pages }}
-			</td>
-			<td>
-				{% if books.has_prev %}
-			  <a href="{{ url_for('books', page=books.prev_num) }}" class="button">
-					<i class="fa-solid fa-angles-left"></i>
-			  </a>
-			  {% endif %}{% if books.has_next %}
-			  <a href="{{ url_for('books', page=books.next_num) }}" class="button">
-			  	<i class="fa-solid fa-angles-right"></i>
-			  </a>
-			  {% endif %}
-			</td>
-		</tr>
-	</tbody>
-</table>
+<div class="row">
+	<div class="six columns">
+		<strong>Page {{ books.page }} of {{ books.pages }}</strong>
+	</div>
+	<div class="six columns" style="text-align:right;">
+		{% if books.has_prev %}
+	  <a href="{{ url_for('books', page=books.prev_num) }}" class="button">
+			<i class="fa-solid fa-angles-left"></i>
+	  </a>
+	  {% endif %}{% if books.has_next %}
+	  <a href="{{ url_for('books', page=books.next_num) }}" class="button">
+	  	<i class="fa-solid fa-angles-right"></i>
+	  </a>
+	  {% endif %}
+	</div>
+</div>
 {% endblock %}
