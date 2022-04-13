@@ -1,4 +1,11 @@
 {% extends 'base.html' %} {% block title %}{{ title }} ({{ count }}){% endblock %} {% block content %}
+{% if current_user.id == 1 %}
+<div role="group" class="btn-group">
+	<a href="{% if author %}{{ url_for('add_author') }}{% elif series %}{{ url_for('add_series') }}{% elif tag %}{{ url_for('add_tag') }}{% elif publisher %}{{ url_for('add_publisher') }}{% endif %}" class="button">
+		<i class="fa-solid fa-plus"></i>
+	</a>
+</div>
+{% endif %}
 <div class="row">
 	<div class="offset-by-three one-half column">
 		<table class="u-full-width">
