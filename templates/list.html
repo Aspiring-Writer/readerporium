@@ -1,11 +1,6 @@
 {% extends 'base.html' %} {% block title %}{% if astp %}{{ astp.name }}{% else %}{{ title }}{% endif %}{% if count %} ({{ count }}){% endif %}{% endblock %} {% block content %}
 {% if current_user.id == 1 %}
 <div role="group" class="btn-group">
-	{% if title == 'Books' %}
-	<a href="{{ url_for('add_book') }}" class="button">
-		<i class="fa-solid fa-plus"></i>
-	</a>
-	{% endif %}
 	{% if author or series or tag or publisher %}
 	<a href="{% if author %}{{ url_for('add_author', id=astp.id) }}{% elif series %}{{ url_for('add_series', id=astp.id) }}{% elif tag %}{{ url_for('add_tag', id=astp.id) }}{% elif publisher %}{{ url_for('add_publisher', id=astp.id) }}{% endif %}" class="button">
 		<i class="fa-solid fa-plus"></i>
