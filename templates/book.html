@@ -29,19 +29,14 @@
 		    		{{ book.series.name }}{% if book.series.name != '<None>' %} #{{ book.series_index }}{% endif %}
 		      </a>
 				</li>
+				{% for tag in book.tags|sort(attribute='name') %}
 				<li>
-					Tags:
-					<ul>
-						{% for tag in book.tags|sort(attribute='name') %}
-						<li>
-							<a href="{{ url_for('tag', id=tag.id) }}">
-				    		<i class="fa-solid fa-tag"></i>
-				        {{ tag.name }}
-				      </a>
-						</li>
-						{% endfor %}
-					</ul>
+					<a href="{{ url_for('tag', id=tag.id) }}">
+						<i class="fa-solid fa-tag"></i>
+						{{ tag.name }}
+					</a>
 				</li>
+				{% endfor %}
 				<li>
 					<a href="{{ url_for('levels') }}{{ book.level }}">
 		      	<i class="fa-solid fa-star"></i>

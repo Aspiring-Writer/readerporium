@@ -22,7 +22,7 @@
       <td>
         <a href="{{ url_for('books') }}/{{ book.id }}">
         	<i class='fa-solid fa-book'></i>
-        	{{ book.title }} ({{ book.series.name }} #{{ book.series_index }}) by {{ book.author.name }}
+        	{{ book.title }} {% if book.series.name != '<None>' %}({{ book.series.name }} #{{ book.series_index }}){% endif %} by {{ book.author.name }}
       	</a>
       </td>
       <td>

@@ -464,24 +464,24 @@ def add_book():
 def update_book(id):
 	book = Books.query.get_or_404(id)
 	form = BookForm(obj=book)
-	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by(Authors.name_sort)]
+	form.author.choices = [(a.id, a.name) for a in Authors.query.order_by(Authors.name)]
 	form.author.data = book.author_id
 	form.series.choices = [(s.id, s.name) for s in Series.query.order_by(Series.name_sort)]
 	form.series.data = book.series_id
 	form.publisher.choices = [(p.id, p.name) for p in Publishers.query.order_by(Publishers.name)]
 	form.publisher.data = book.publisher_id
-	
+
 	if current_user.id != 1:
 		return render_template("404.html"), 404
 		
 	elif form.validate_on_submit():
 		book.title = form.title.data
 		book.title_sort = form.title_sort.data
-		book.author_id = form.author.data
-		book.series_id = form.series.data
+		book.author_id = request.form['author']
+		book.series_id = request.form['series']
 		book.series_index = form.series_index.data
-		book.isbn = form.isbn.data
-		book.publisher_id = form.publisher.data
+		book.isbn = form.isbn.data 
+		book.publisher_id = request.form['publisher']
 		book.wordcount = form.wordcount.data
 		book.cover = form.cover.data
 		book.description = form.description.data
@@ -493,7 +493,7 @@ def update_book(id):
 		except:
 			flash('Error updating book.')
 
-	return render_template('forms/update-book.html', form=form)
+	return render_template('forms/update-book.html', form=form, book=book)
 
 @app.route('/admin/delete-book/<int:id>/')
 @login_required

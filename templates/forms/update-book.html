@@ -1,6 +1,7 @@
-{% extends 'base.html' %}{% block title %}Update Book{% endblock %} {% block content %}
-<form METHOD="POST">
-	{{ form.hidden_tag() }}
+{% extends 'base.html' %}{% block title %}Update Book{% endblock %} {% block
+content %}
+<form action="{{ url_for('update_book', id=book.id) }}" METHOD="POST">
+  {{ form.hidden_tag() }}
   <div class="row">
     <div class="four columns">
       {{ form.title.label }}
@@ -12,13 +13,13 @@
     </div>
     <div class="four columns">
       {{ form.author.label }}
-      {{ form.author(class="u-full-width") }}
+      {{ form.author(class="u-full-width", id="author") }}
     </div>
   </div>
   <div class="row">
     <div class="four columns">
       {{ form.series.label }}
-      {{ form.series(class="u-full-width") }}
+      {{ form.series(class="u-full-width", id="series") }}
     </div>
     <div class="two columns">
       {{ form.series_index.label }}
@@ -40,7 +41,7 @@
   <div class="row">
     <div class="three columns">
       {{ form.publisher.label }}
-      {{ form.publisher(class="u-full-width") }}
+      {{ form.publisher(class="u-full-width", id="publisher") }}
     </div>
     <div class="five columns">
       {{ form.cover.label }}
@@ -50,9 +51,9 @@
   {{ form.description.label }}
   {{ form.description(class="u-full-width") }}
   <div class="row">
-  	<div class="offset-by-five two columns">
-  		{{ form.submit }}
-  	</div>
+    <div class="offset-by-five two columns">
+      {{ form.submit }}
+    </div>
   </div>
 </form>
 {% endblock %}

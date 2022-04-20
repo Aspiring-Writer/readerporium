@@ -30,7 +30,7 @@ td a { font-weight: 600; text-decoration: none; }
 .list td:last-child { text-align: right; }
 
 i { padding: 2px; }
-.button i { font-size: 1.25em; }
+.button i { font-size: 1.25em }
 
 form textarea { height: 236px; }
 
@@ -64,6 +64,8 @@ select {
 	padding: 0 15px;
 	float: left;
   border-radius: 0; }
+.navbar .button { padding-left: 10px;}
+@media (min-width: 375px) { .navbar .button { padding-left: 15px;} }
 .navbar .button:not(:last-child), .btn-group .button:not(:last-child) { border-right: none; }
 .navbar .button:first-child, .btn-group .button:first-child {
 	border-top-left-radius: 15px;
