@@ -12,6 +12,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
+  <!-- HTML Meta Tags -->
+  <meta property="og:url" content="{{ page.url }}">
+  <meta property="og:title" content="{{ book.title or title }}">
+  <meta property="og:description" content="{{ book.description | limit(160) }}">
+  <meta property="og:image" content="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}">
+
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="icon" type="image/svg+xml" href="/static/favicon.ico" />
@@ -19,8 +25,8 @@
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -32,7 +38,8 @@
   -------------------------------------------------- -->
   <link href="/static/fontawesome/css/all.min.css" rel="stylesheet">
 
-	{{ moment.include_moment() }}
+  {{ moment.include_moment() }}
+
 </head>
 <body>
 
