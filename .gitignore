@@ -1,4 +1,4 @@
-venv/
+virt/
 .env
 local.db
 __pycache__
