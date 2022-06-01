@@ -13,10 +13,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
   <!-- HTML Meta Tags -->
-  <meta property="og:url" content="https://readerporium.herokuapp.com{%if book %}/books/{{ book.id }}/{% endif %}">
-  <meta property="og:title" content="{% if book %}{{ book.title | safe }} by {{ book.author.name }}{% else %}{{ title }}{% endif %}">
-  <meta property="og:description" content="{% if book %}{{ book.description | truncate(160) | safe }}{% endif %}">
-  <meta property="og:image" content="{% if book %}{{ book.cover }}{% else %}/static/favicon.ico'{% endif %}">
+  <meta property="og:url" content="https://readerporium.herokuapp.com{% if book %}/books/{{ book.id }}/{% endif %}">
+  <meta property="og:title" content="{% if book %}{{ book.title }} by {{ book.author.name }}{% elif title %}{{ title }}{% else %}Readerporium{% endif %}">
+  <meta property="og:description" content="{% if book %}{{ book.description | truncate(160) | safe }}{% else %}Discover. Escape. Live.{% endif %}">
+  <meta property="og:image" content="{% if book %}{{ book.cover }}{% else %}/static/images/logo.png{% endif %}">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
