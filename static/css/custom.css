@@ -1,6 +1,6 @@
 body { background-color: #fffdd0; }
 .header { margin: 2% 0; }
-h1, h2, h3 { text-align: center; margin-bottom: 4rem; }
+h1, h2, h3 { text-align: center; margin-bottom: 4rem; font-weight: bold; }
 
 a { color: #00008b; }
 a:hover { color: #0000cd; }
@@ -65,7 +65,6 @@ select {
 	float: left;
   border-radius: 0; }
 .navbar .button { padding-left: 10px;}
-@media (min-width: 375px) { .navbar .button { padding-left: 15px;} }
 .navbar .button:not(:last-child), .btn-group .button:not(:last-child) { border-right: none; }
 .navbar .button:first-child, .btn-group .button:first-child {
 	border-top-left-radius: 15px;
@@ -89,3 +88,13 @@ select {
 .footer { margin-top: 6rem; }
 
 hr { border-color: #222; }
+
+@media (min-width: 0px) {
+  p, li { font-size: 1rem; }
+}
+@media (min-width: 320px) {
+  p, li { font-size: calc(0.7rem + 1vw); }
+}
+@media (min-width: 1001px){
+	.navbar .button { padding-left: 15px;}
+}

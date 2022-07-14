@@ -14,8 +14,8 @@
 
   <!-- HTML Meta Tags -->
   <meta property="og:url" content="https://readerporium.herokuapp.com{% if book %}/books/{{ book.id }}/{% endif %}">
-  <meta property="og:title" content="{% if book %}{{ book.title }} by {{ book.author.name }}{% elif title %}{{ title }}{% else %}Readerporium{% endif %}">
-  <meta property="og:description" content="{% if book %}{{ book.description | truncate(160) | safe }}{% else %}Discover. Escape. Live.{% endif %}">
+  <meta name="title" property="og:title" content="{% if book %}{{ book.title }} by {{ book.author.name }}{% elif title %}{{ title }}{% else %}Readerporium{% endif %}">
+  <meta name="description" property="og:description" content="{% if book %}{{ book.description | truncate(160) | safe }}{% else %}Discover. Escape. Live.{% endif %}">
   <meta property="og:image" content="{% if book %}{{ book.cover }}{% else %}/static/images/logo.png{% endif %}">
 
   <!-- Favicon

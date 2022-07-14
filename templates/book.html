@@ -76,6 +76,11 @@
 	</div>
 	<div class="two-thirds column">
 		{% markdown %}{{ book.description }}{% endmarkdown %}
+		{% if current_user.username == 'visitor' %}
+		<p class="meta">
+			Sorry, visitors can't download books.
+		</p>
+		{% else %}
 		<table class="u-full-width">
 		  <thead>
 		    <tr>
@@ -139,6 +144,7 @@
 		    </tr>-->
 		  </tbody>
 		</table>
+		{% endif %}
 	</div>
 </div>
 
