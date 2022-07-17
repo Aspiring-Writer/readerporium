@@ -30,9 +30,8 @@
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="/static/css/normalize.css">
-  <link rel="stylesheet" href="/static/css/skeleton.css">
-  <link rel="stylesheet" href="/static/css/custom.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+	<link rel="stylesheet" href="/static/css/style.css">
   
   <!-- Font Awesome
   -------------------------------------------------- -->
@@ -43,80 +42,296 @@
 </head>
 <body>
 
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
-  	<section class="header">
-	  	{% for message in get_flashed_messages() %}
-	    <div class="alert" role="alert">
-	      {{ message }}
-	    </div>
-	    {% endfor %}
-	    
-			{% if form %}{% for field, errors in form.errors.items() %}
-				 <div class="alert" role="alert">
-					{{ ', '.join(errors) }}
+	<!-- Hero
+  -------------------------------------------------- -->
+	<section class="hero is-warning">
+		
+		<div class="hero-head">
+			<nav class="navbar">
+				<div class="container">
+					<div class="navbar-brand">
+						<a class="navbar-item">
+							<img src="/static/images/logo.png" alt="Logo">
+							<span class="pl-1 is-size-5 has-text-weight-bold">Readerporium</span>
+						</a>
+						<span class="navbar-burger" data-target="navbarMenuHeroA">
+							<span></span>
+							<span></span>
+							<span></span>
+						</span>
+					</div>
+					<div id="navbarMenuHeroA" class="navbar-menu">
+						<div class="navbar-end">
+							{% if current_user.is_authenticated %}
+							{% if current_user.id == 1 %}
+							<a href="{{ url_for('admin') }}" class="navbar-item{% if '/admin/' in request.path %} is-active{% endif %}">
+								Admin
+							</a>
+							{% if request.path == "/admin/" %}
+							<span class="navbar-item">
+								<a href="{{ url_for('add_user') }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-plus"></i>
+									</span>
+								</a>
+							</span>
+							{% endif %}
+							{% if "/books/" in request.path %}
+							<span class="navbar-item">
+								<a href="{{ url_for('add_book') }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-plus"></i>
+									</span>
+								</a>
+							</span>
+							{% if book and book.id %}
+							<span class="navbar-item">
+								<a href="{{ url_for('update_book', id=book.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-pen"></i>
+									</span>
+								</a>
+							</span>
+							<span class="navbar-item">
+								<a href="{{ url_for('delete_book', id=book.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-trash"></i>
+									</span>
+								</a>
+							</span>
+							{% endif %} {% endif %}
+							{% if "/authors/" in request.path %}
+							<span class="navbar-item">
+								<a href="{{ url_for('add_author') }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-plus"></i>
+									</span>
+								</a>
+							</span>
+							{% if astp.id %}
+							<span class="navbar-item">
+								<a href="{{ url_for('update_author', id=astp.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-pen"></i>
+									</span>
+								</a>
+							</span>
+							<span class="navbar-item">
+								<a href="{{ url_for('delete_author', id=astp.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-trash"></i>
+									</span>
+								</a>
+							</span>
+							{% endif %} {% endif %}
+							{% if "/series/" in request.path %}
+							<span class="navbar-item">
+								<a href="{{ url_for('add_series') }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-plus"></i>
+									</span>
+								</a>
+							</span>
+							{% if astp.id %}
+							<span class="navbar-item">
+								<a href="{{ url_for('update_series', id=astp.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-pen"></i>
+									</span>
+								</a>
+							</span>
+							<span class="navbar-item">
+								<a href="{{ url_for('delete_series', id=astp.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-trash"></i>
+									</span>
+								</a>
+							</span>
+							{% endif %} {% endif %}
+							{% if "/tags/" in request.path %}
+							<span class="navbar-item">
+								<a href="{{ url_for('add_tag') }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-plus"></i>
+									</span>
+								</a>
+							</span>
+							{% if tag and tag.id %}
+							<span class="navbar-item">
+								<a href="{{ url_for('update_tag', id=tag.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-pen"></i>
+									</span>
+								</a>
+							</span>
+							<span class="navbar-item">
+								<a href="{{ url_for('delete_tag', id=tag.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-trash"></i>
+									</span>
+								</a>
+							</span>
+							{% endif %} {% endif %}
+							{% if "/publishers/" in request.path %}
+							<span class="navbar-item">
+								<a href="{{ url_for('add_publisher') }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-plus"></i>
+									</span>
+								</a>
+							</span>
+							{% if astp.id %}
+							<span class="navbar-item">
+								<a href="{{ url_for('update_publisher', id=astp.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-pen"></i>
+									</span>
+								</a>
+							</span>
+							<span class="navbar-item">
+								<a href="{{ url_for('delete_publisher', id=astp.id) }}" class="navbar-item">
+									<span class="icon">
+										<i class="fa-solid fa-trash"></i>
+									</span>
+								</a>
+							</span>
+							{% endif %} {% endif %}
+							{% endif %}
+							<span class="navbar-item">
+								<a href="{{ url_for('logout') }}" class="button is-warning is-inverted">
+									<span class="icon">
+										<i class="fa-solid fa-arrow-right-from-bracket"></i>
+									</span>
+									<span>Logout</span>
+								</a>
+							</span>
+							{% endif %}
+						</div>
+					</div>
 				</div>
-			{% endfor %}{% endif %}
-  		<h1>Readerporium</h1>
-  		{% if current_user.is_authenticated %}
-  		<!-- Navbar
-	  	------------------------------------------------- -->
-	    <nav role="group" class="navbar" style="width:100%;">
-    		<a href="{{ url_for('index') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-house"></i>
-      	</a>
-    		<a href="{{ url_for('books') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-book"></i>
-        </a>
-    		<a href="{{ url_for('authors') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-users"></i>
-        </a>
-    		<a href="{{ url_for('series') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-list-ol"></i>
-      	</a>
-    		<a href="{{ url_for('tags') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-tags"></i>
-      	</a>
-    		<a href="{{ url_for('publishers') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-building"></i>
-      	</a>
-    		<a href="{{ url_for('levels') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-star"></i>
-      	</a>
-				<a href="{{ url_for('logout') }}" class="button" style="width:12.5%">
-        	<i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </a>
-	    </nav>
-	    {% endif %}
-  	</section>
-  	
-    <!-- Content
-    ------------------------------------------------ -->
-    <section class="content">
-    	<h2>{% block title %}{% endblock %}</h2>
-		  {% block content %} {% endblock %}
-    </section>
-	  
+			</nav>
+		</div>
+	
+		<div class="hero-body">
+			<div class="container has-text-centered">
+				<h1 class="title">
+					{% if request.path == "/" %}👋 Welcome {{ current_user.name }}! 🥳{% elif title or astp %}{{ title or astp.name }}{% elif book %}{{ book.title }}{% else %}{{ tag.name }}{% endif %}
+				</h1>
+				<p class="subtitle">
+					{% if count %}{{ count }} items{% elif book %}{{ book.author.name }}{% else %}Discover. Escape. Live.{% endif %}
+				</p>
+			</div>
+		</div>
 		{% if current_user.is_authenticated %}
-	  <!-- Footer
-	  ------------------------------------------------ -->
-	  <section class="footer">
-	  	<div class="row">
-		  	<div class="four columns">
-		  		Username: {{ current_user.username }}
-		  	</div>
-		  	<div class="four columns">
-		  		Level: {{ current_user.level }} ({% if current_user.level == 1 %}Child{% elif current_user.level == 2 %}Teen{% elif current_user.level == 3 %}Adult{% elif current_user.level == 4 %}Mature{% endif %})
-		  	</div>
-		  	<div class="four columns">
-		  		Added on {{ moment(current_user.date_added).format('LL') }} ({{ moment(current_user.date_added).fromNow() }})
-		  	</div>
-		  </div>
-	  </section>
-  	{% endif %}
-	  
-  </div>
+		<!-- Navbar
+		------------------------------------------------- -->
+		<div class="hero-foot">
+			<nav class="tabs is-boxed is-fullwidth">
+				<div class="container">
+					<ul>
+						<li{% if request.path == "/" %} class="is-active"{% endif %}>
+							<a href="{{ url_for('index') }}">
+								<i class="fa-solid fa-house"></i>
+							</a>
+						</li>
+						<li{% if "/books/" in request.path %} class="is-active"{% endif %}>
+							<a href="{{ url_for('books') }}">
+								<span class="icon">
+									<i class="fa-solid fa-book"></i>
+								</span>
+							</a>
+						</li>
+						<li{% if "/authors/" in request.path %} class="is-active"{% endif %}>
+							<a href="{{ url_for('authors') }}">
+								<span class="icon">
+									<i class="fa-solid fa-users"></i>
+								</span>
+							</a>
+						</li>
+						<li{% if "/series/" in request.path %} class="is-active"{% endif %}>
+							<a href="{{ url_for('series') }}">
+								<span class="icon">
+									<i class="fa-solid fa-list-ol"></i>
+								</span>
+							</a>
+						</li>
+						<li{% if "/tags/" in request.path %} class="is-active"{% endif %}>
+							<a href="{{ url_for('tags') }}">
+								<span class="icon">
+									<i class="fa-solid fa-tags"></i>
+								</span>
+							</a>
+						</li>
+						<li{% if "/publishers/" in request.path %} class="is-active"{% endif %}>
+							<a href="{{ url_for('publishers') }}">
+								<span class="icon">
+									<i class="fa-solid fa-building"></i>
+								</span>
+							</a>
+						</li>
+						<li{% if "/levels/" in request.path %} class="is-active"{% endif %}>
+							<a href="{{ url_for('levels') }}">
+								<span class="icon">
+									<i class="fa-solid fa-star"></i>
+								</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		{% endif %}
+	</section>
+	
+	{% if form %}{% for field, errors in form.errors.items() %}
+	<section class="section">
+		<div class="notification is-warning">
+			<button class="delete"></button>
+			{{ ', '.join(errors) }}
+		</div>
+	</section>
+	{% endfor %}{% endif %}
+	{% for message in get_flashed_messages() %}
+	<section class="section">
+		<div class="notification is-warning">
+			{{ message }}
+		</div>
+	</section>
+	{% endfor %}
+	
+	<!-- Content
+	------------------------------------------------ -->
+	<section class="section">
+		<div class="container">
+		{% block content %} {% endblock %}
+		</div>
+	</section>
+	{% if current_user.is_authenticated %}
+	<!-- Footer
+	------------------------------------------------ -->
+	<footer class="footer">
+		<div class="content has-text-centered">
+			<p>
+				<strong>Username:</strong> {{ current_user.username }}
+				<strong>Level:</strong> {{ current_user.level }} ({% if current_user.level == 1 %}Child{% elif current_user.level == 2 %}Teen{% elif current_user.level == 3 %}Adult{% elif current_user.level == 4 %}Mature{% endif %})
+				<strong>Added on</strong> {{ moment(current_user.date_added).format('LL') }} ({{ moment(current_user.date_added).fromNow() }})
+			</p>
+		</div>
+	</footer>
+	{% endif %}
+
+	<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.2/dist/lazyload.min.js"></script>
+	<script>
+		(function () {
+			function logElementEvent(eventName, element) {
+				console.log(Date.now(), eventName, element.getAttribute("data-src"));
+			}
+
+			var ll = new LazyLoad({
+				threshold: 0,
+			});
+		})();
+	</script>
 
 <!-- End Document
 –––––––––––––––––––––––––––––––––––––––––––––––––– -->

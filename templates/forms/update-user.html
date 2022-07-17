@@ -1,22 +1,44 @@
-{% extends 'base.html' %}{% block title %}Update User{% endblock %}{% block content %}
-<form METHOD="POST" action="{{ url_for('update_user', id=user.id) }}">
-	{{ form.hidden_tag() }}
-  <div class="row">
-    <div class="four columns">
-      {{ form.name.label }}
-      {{ form.name(class="u-full-width") }}
-    </div>
-    <div class="four columns">
-      {{ form.username.label }}
-      {{ form.username(class="u-full-width") }}
-    </div>
-    <div class="four columns">
-      {{ form.level.label }}
-      {{ form.level(class="u-full-width") }}
-    </div>
+{% extends 'base.html' %} {% block content %}
+<div class="columns">
+	<div class="column is-4 is-offset-4">
+    <form class="box has-background-warning" METHOD="POST" action="{{ url_for('update_user', id=user.id) }}">
+      {{ form.hidden_tag() }}
+
+      <div class="field">
+				{{ form.name.label(class="label") }}
+				<p class="control has-icons-left">
+          {{ form.name(class="input", type="text", placeholder="Name") }}
+					<span class="icon is-small is-left">
+						<i class="fas fa-user"></i>
+					</span>
+				</p>
+			</div>
+      <div class="field">
+				{{ form.username.label(class="label") }}
+				<p class="control has-icons-left">
+          {{ form.username(class="input", type="text", placeholder="Username") }}
+					<span class="icon is-small is-left">
+						<i class="fas fa-user"></i>
+					</span>
+				</p>
+			</div>
+			<div class="field">
+				{{ form.level.label(class="label") }}
+				<p class="control has-icons-left">
+              {{ form.level(class="input", min=1, max=4, placeholder="Level") }}
+					<span class="icon is-small is-left">
+						<i class="fa-solid fa-star"></i>
+					</span>
+				</p>
+			</div>
+
+      <div class="field has-text-centered">
+        <div class="control">
+          {{ form.submit(class="button is-warning is-inverted") }}
+        </div>
+      </div>
+      
+    </form>
   </div>
-  <div style="text-align:center;">
-    {{ form.submit }}
-  </div>
-</form>
+</div>
 {% endblock %}

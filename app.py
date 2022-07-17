@@ -137,7 +137,7 @@ def login():
 		else:
 			flash('Username does not exist.')
 
-	return render_template('login.html')
+	return render_template('login.html', title="Login")
 
 # Logout
 @app.route('/logout/')
@@ -255,7 +255,7 @@ def publisher(id):
 @app.route('/levels/')
 @login_required
 def levels():
-	return render_template('levels.html')
+	return render_template('levels.html', title='Levels')
 
 @app.route('/levels/1/')
 @login_required
@@ -363,7 +363,7 @@ def admin():
 	users = Users.query.all()
 	
 	if current_user.id == 1:
-		return render_template('admin.html', users=users)
+		return render_template('admin.html', title='Admin', users=users)
 	else:
 		return render_template('404.html'), 404
 	
@@ -390,7 +390,7 @@ def add_user():
 			except:
 				flash('Error adding user.')
 
-	return render_template('forms/add-user.html', form=form)
+	return render_template('forms/add-user.html', title='Add User', form=form)
 
 @app.route('/admin/update-user/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -413,7 +413,7 @@ def update_user(id):
 		except:
 			flash('Error updating user.')
 
-	return render_template('forms/update-user.html', form=form, user=user)
+	return render_template('forms/update-user.html', title='Update User', form=form, user=user)
 
 @app.route('/admin/delete-user/<int:id>/')
 @login_required
@@ -457,7 +457,7 @@ def add_book():
 			except:
 				flash('Error adding book.')
 
-	return render_template('forms/add-book.html', form=form)
+	return render_template('forms/add-book.html', title='Add Book', form=form)
 
 @app.route('/admin/update-book/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -493,7 +493,7 @@ def update_book(id):
 		except:
 			flash('Error updating book.')
 
-	return render_template('forms/update-book.html', form=form, book=book)
+	return render_template('forms/update-book.html', title='Update Book', form=form, book=book)
 
 @app.route('/admin/delete-book/<int:id>/')
 @login_required
@@ -533,7 +533,7 @@ def add_author():
 			except:
 				flash('Error adding author.')
 
-	return render_template('forms/add-astp.html', form=form)
+	return render_template('forms/add-astp.html', title='Add Author', form=form)
 
 @app.route('/admin/update-author/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -546,6 +546,7 @@ def update_author(id):
 		
 	elif form.validate_on_submit():
 		astp.name = form.name.data
+		astp.name_sort = form.name_sort.data
 		astp.level = form.level.data
 		try:
 			db.session.commit()
@@ -554,7 +555,7 @@ def update_author(id):
 		except:
 			flash('Error updating author.')
 
-	return render_template('forms/update-astp.html', form=form)
+	return render_template('forms/update-astp.html', title='Update Author', form=form)
 
 @app.route('/admin/delete-author/<int:id>/')
 @login_required
@@ -594,7 +595,7 @@ def add_series():
 			except:
 				flash('Error adding series.')
 
-	return render_template('forms/add-astp.html', form=form, series=True)
+	return render_template('forms/add-astp.html', title='Add Series', form=form)
 
 @app.route('/admin/update-series/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -616,7 +617,7 @@ def update_series(id):
 		except:
 			flash('Error updating series.')
 
-	return render_template('forms/update-astp.html', form=form, series=True)
+	return render_template('forms/update-astp.html', title='Update Series', form=form)
 
 @app.route('/admin/delete-series/<int:id>/')
 @login_required
@@ -656,7 +657,7 @@ def add_tag():
 			except:
 				flash('Error adding tag.')
 
-	return render_template('forms/add-astp.html', form=form)
+	return render_template('forms/add-astp.html', title='Add Tag', form=form)
 
 @app.route('/admin/update-tag/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -677,7 +678,7 @@ def update_tag(id):
 		except:
 			flash('Error updating tag.')
 
-	return render_template('forms/update-astp.html', form=form)
+	return render_template('forms/update-astp.html', title='Update Tag', form=form)
 
 @app.route('/admin/delete-tag/<int:id>/')
 @login_required
@@ -717,7 +718,7 @@ def add_publisher():
 			except:
 				flash('Error adding publisher.')
 
-	return render_template('forms/add-astp.html', form=form)
+	return render_template('forms/add-astp.html', title='Add Publisher', form=form)
 
 @app.route('/admin/update-publisher/<int:id>/', methods=['GET', 'POST'])
 @login_required
@@ -738,7 +739,7 @@ def update_publisher(id):
 		except:
 			flash('Error updating publisher.')
 
-	return render_template('forms/update-astp.html', form=form)
+	return render_template('forms/update-astp.html', title='Update Publisher', form=form)
 
 @app.route('/admin/delete-publisher/<int:id>/')
 @login_required
@@ -758,11 +759,11 @@ def delete_publisher(id):
 # Error pages
 @app.errorhandler(404)
 def not_found(e):
-	return render_template("404.html"), 404
+	return render_template("404.html", title="404"), 404
 
 @app.errorhandler(500)
 def server_error(e):
-	return render_template("500.html"), 500
+	return render_template("500.html", title="500"), 500
 	
 if __name__ == "__main__":
 	app.run(debug=True)

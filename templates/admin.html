@@ -1,37 +1,5 @@
 {% extends 'base.html' %}{% block title %}Admin{% endblock %}{% block content %}
-<div class="row" style="margin-bottom: 2%;">
-	<div class="one column">
-		<a href="{{ url_for('add_user') }}" class="button">
-			<i class="fa-solid fa-user-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_book') }}" class="button">
-			<i class="fa-solid fa-book"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_author') }}" class="button">
-			<i class="fa-solid fa-user"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_series') }}" class="button">
-			<i class="fa-solid fa-list-ol"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_tag') }}" class="button">
-			<i class="fa-solid fa-tag"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_publisher') }}" class="button">
-			<i class="fa-solid fa-building"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-</div>
-<table class="u-full-width users">
+<table class="table is-striped is-fullwidth">
   <thead>
     <tr>
       <th>ID</th>
@@ -58,14 +26,18 @@
         {{ user.level }}
       </td>
       <td>
-      	{{ user.date_added }}
+      	{{ moment(user.date_added).format('LL') }} ({{ moment(user.date_added).fromNow() }})
       </td>
-      <td>
-        <a href="{{ url_for('update_user', id=user.id) }}" style="margin-right: 1rem;">
-          <i class="fa-solid fa-pencil fa-xl"></i>
+      <td class="buttons has-addons">
+        <a href="{{ url_for('update_user', id=user.id) }}" class="button">
+          <span class="icon">
+            <i class="fa-solid fa-pencil"></i>
+          </span>
         </a>
-        <a href="{{ url_for('delete_user', id=user.id) }}">
-          <i class="fa-solid fa-trash"></i>
+        <a href="{{ url_for('delete_user', id=user.id) }}" class="button">
+          <span class="icon">
+            <i class="fa-solid fa-trash"></i>
+          </span>
         </a>
       </td>
     </tr>

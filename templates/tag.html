@@ -1,40 +1,48 @@
-{% extends 'base.html' %} {% block title %}{{ tag.name }}{% endblock %} {% block content %}
-{% if current_user.id == 1 %}
-<div style="margin-bottom: 4rem; text-align: center;">
-	<a href="{{ url_for('update_tag', id=tag.id) }}" class="button">
-		<i class="fa-solid fa-pencil"></i>
-	</a>
-	<a href="{{ url_for('delete_tag', id=tag.id) }}" class="button">
-		<i class="fa-solid fa-trash"></i>
-	</a>
-</div>
-{% endif %}
-<table class="u-full-width">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Tags</th>
-		</tr>
-	</thead>
-  <tbody>
-    {% for book in tag.books | sort(attribute='title') %}{% if book.level <= current_user.level %}
-    <tr>
-      <td>
-        <a href="{{ url_for('books') }}/{{ book.id }}">
-        	<i class='fa-solid fa-book'></i>
-        	{{ book.title }} {% if book.series.name != '<None>' %}({{ book.series.name }} #{{ book.series_index }}){% endif %} by {{ book.author.name }}
-      	</a>
-      </td>
-      <td>
-      	{% for tag in book.tags %}
-		  	<a href="{{ url_for('tag', id=tag.id) }}">
-		  		<i class="fa-solid fa-tag"></i>
-		  		{{ tag.name }}
+{% extends 'base.html' %} {% block content %}
+<div class="columns is-multiline">
+  {% for book in tag.books | sort(attribute='title') %}{% if book.level <= current_user.level %}
+  <div class="column is-one-quarter">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image">
+          <img src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="Book cover">
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-content has-text-centered">
+						<p class="title is-4">{{ book.title }}</p>
+            <p class="subtitle is-5">{{ book.author.name }}</p>
+            {% if book.series.name != "<None>" %}<p class="subtitle is-6">{{ book.series.name }} #{{ book.series_index }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="content">
+          {{ book.description | truncate(160) | safe }}
+          <div class="pt-3 has-text-centered has-text-weight-medium">
+            {% for tag in book.tags|sort(attribute='name') %}
+            <a href="{{ url_for('tag', id=tag.id) }}">
+              <span class="tag is-warning">
+                {{ tag.name }}
+              </span>
+            </a>
+            {% endfor %}
+            <br>
+            Added {{ moment(book.date_created).fromNow() }}
+          </div>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="{{ url_for('book', id=book.id) }}" class="card-footer-item">
+          <span class="icon-text">
+            <span class="icon">
+              <i class='fa-solid fa-book'></i>
+            </span>
+            <span>View</span>
+          </span>
 		  	</a>
-		  	{% endfor %}
-      </td>
-    </tr>
-    {% endif %}{% endfor %}
-  </tbody>
-</table>
+      </footer>
+    </div>
+  </div>
+  {% endif %}{% endfor %}
+</div>
 {% endblock %}

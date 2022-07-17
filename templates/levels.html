@@ -1,97 +1,56 @@
 {% extends 'base.html' %} {% block title %}Reading Levels & Wordcounts{% endblock %} {% block content %}
-<div class="row">
-	<div class="offset-by-one-third one-third column">
-		<table class="u-full-width">
-			<thead>
-				<tr>
-					<th></th>
-				</tr>
-			</thead>
-		  <tbody>
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('level1') }}">
-			        <i class='fa-solid fa-star'></i>
-	          	1
-	        	</a>
-	        </td>
-	      </tr>
-	      {% if current_user.level >= 2 %}
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('level2') }}">
-			        <i class='fa-solid fa-star'></i>
-			        <i class='fa-solid fa-star'></i>
-	          	2
-	        	</a>
-	        </td>
-	      </tr>
-	      {% endif %}{% if current_user.level >= 3 %}
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('level3') }}">
-			        <i class='fa-solid fa-star'></i>
-			        <i class='fa-solid fa-star'></i>
-			        <i class='fa-solid fa-star'></i>
-	          	3
-	        	</a>
-	        </td>
-	      </tr>
-	      {% endif %}{% if current_user.level == 4 %}
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('level4') }}">
-			        <i class='fa-solid fa-star'></i>
-			        <i class='fa-solid fa-star'></i>
-			        <i class='fa-solid fa-star'></i>
-			        <i class='fa-solid fa-star'></i>
-	          	4
-	        	</a>
-	        </td>
-	      </tr>
-	      {% endif %}
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('flash_fiction') }}">
-			        <i class='fa-solid fa-hashtag'></i>
-	          	Flash Fiction (< 3.5k words)
-	        	</a>
-	        </td>
-	      </tr>
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('short_stories') }}">
-			        <i class='fa-solid fa-hashtag'></i>
-	          	Short Stories (3.5k - 7.5k words)
-	        	</a>
-	        </td>
-	      </tr>
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('novellettes') }}">
-			        <i class='fa-solid fa-hashtag'></i>
-	          	Novellettes (7.5k - 17k words)
-	        	</a>
-	        </td>
-	      </tr>
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('novellas') }}">
-			        <i class='fa-solid fa-hashtag'></i>
-	          	Novellas (17k - 40k words)
-	        	</a>
-	        </td>
-	      </tr>
-	      <tr>
-	        <td>
-	          <a href="{{ url_for('novels') }}">
-			        <i class='fa-solid fa-hashtag'></i>
-	          	Novels (> 40k words)
-	        	</a>
-	        </td>
-	      </tr>
-	    </tbody>
-		</table>
-	</div>
+<div class="buttons is-centered">
+	<a href="{{ url_for('level1') }}" class="button is-warning">
+		<span class="icon">
+			<i class='fa-solid fa-star'></i>
+		</span>
+		<span>1</span>
+	</a>
+	{% if current_user.level >= 2 %}
+	<a href="{{ url_for('level2') }}" class="button is-warning">
+		<span class="icon">
+			<i class='fa-solid fa-star'></i>
+		</span>
+		<span>2</span>
+	</a>
+	{% endif %}{% if current_user.level >= 3 %}
+	<a href="{{ url_for('level3') }}" class="button is-warning">
+		<span class="icon">
+			<i class='fa-solid fa-star'></i>
+		</span>
+		<span>3</span>
+	</a>
+	{% endif %}{% if current_user.level == 4 %}
+	<a href="{{ url_for('level4') }}" class="button is-warning">
+		<span class="icon">
+			<i class='fa-solid fa-star'></i>
+		</span>
+		<span>4</span>
+	</a>
+	{% endif %}
+	<a href="{{ url_for('flash_fiction') }}" class="button is-warning">
+		<i class='fa-solid fa-hashtag'></i>
+		Flash Fiction (< 3.5k words)
+	</a>
+
+	<a href="{{ url_for('short_stories') }}" class="button is-warning">
+		<i class='fa-solid fa-hashtag'></i>
+		Short Stories (3.5k - 7.5k words)
+	</a>
+
+	<a href="{{ url_for('novellettes') }}" class="button is-warning">
+		<i class='fa-solid fa-hashtag'></i>
+		Novellettes (7.5k - 17k words)
+	</a>
+
+	<a href="{{ url_for('novellas') }}" class="button is-warning">
+		<i class='fa-solid fa-hashtag'></i>
+		Novellas (17k - 40k words)
+	</a>
+
+	<a href="{{ url_for('novels') }}" class="button is-warning">
+		<i class='fa-solid fa-hashtag'></i>
+		Novels (> 40k words)
+	</a>
 </div>
 {% endblock %}

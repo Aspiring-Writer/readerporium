@@ -1,59 +1,130 @@
-{% extends 'base.html' %}{% block title %}Update Book{% endblock %} {% block
+{% extends 'base.html' %} {% block
 content %}
-<form action="{{ url_for('update_book', id=book.id) }}" METHOD="POST">
+<form class="box has-background-warning" action="{{ url_for('update_book', id=book.id) }}" METHOD="POST">
   {{ form.hidden_tag() }}
-  <div class="row">
-    <div class="four columns">
-      {{ form.title.label }}
-      {{ form.title(class="u-full-width") }}
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      {{ form.title.label(class="label") }}
     </div>
-    <div class="four columns">
-      {{ form.title_sort.label }}
-      {{ form.title_sort(class="u-full-width") }}
-    </div>
-    <div class="four columns">
-      {{ form.author.label }}
-      {{ form.author(class="u-full-width", id="author") }}
-    </div>
-  </div>
-  <div class="row">
-    <div class="four columns">
-      {{ form.series.label }}
-      {{ form.series(class="u-full-width", id="series") }}
-    </div>
-    <div class="two columns">
-      {{ form.series_index.label }}
-      {{ form.series_index(class="u-full-width") }}
-    </div>
-    <div class="two columns">
-      {{ form.level.label }}
-      {{ form.level(class="u-full-width") }}
-    </div>
-    <div class="two columns">
-      {{ form.wordcount.label }}
-      {{ form.wordcount(class="u-full-width") }}
-    </div>
-    <div class="two columns">
-      {{ form.isbn.label }}
-      {{ form.isbn(class="u-full-width") }}
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.title(class="input", type="text", placeholder="Title") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-book"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.title_sort(class="input", type="text", placeholder="Sorted Title") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-book"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.cover(class="input", placeholder="Cover URL") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-image"></i>
+          </span>
+        </p>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="three columns">
-      {{ form.publisher.label }}
-      {{ form.publisher(class="u-full-width", id="publisher") }}
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label" for="meta">Meta</label>
     </div>
-    <div class="five columns">
-      {{ form.cover.label }}
-      {{ form.cover(class="u-full-width") }}
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="select is-fullwidth">
+            {{ form.author(class="select", id="author") }}
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <div class="select is-fullwidth">
+            {{ form.series(class="select") }}
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.series_index(class="input", type="text", placeholder="Series Index") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-hashtag"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.level(class="input", min=1, max=4, placeholder="Level") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-star"></i>
+          </span>
+        </p>
+      </div>
     </div>
   </div>
-  {{ form.description.label }}
-  {{ form.description(class="u-full-width") }}
-  <div class="row">
-    <div class="offset-by-five two columns">
-      {{ form.submit }}
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal"></div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <div class="select is-fullwidth">
+            {{ form.publisher(class="select", id="publisher") }}
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.isbn(class="input", placeholder="ISBN") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-fingerprint"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control is-expanded has-icons-left">
+          {{ form.wordcount(class="input", placeholder="Wordcount") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-arrow-down-1-9"></i>
+          </span>
+        </p>
+      </div>
     </div>
   </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      {{ form.description.label(class="label") }}
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          {{ form.description(class="textarea", placeholder="Description", rows="10") }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="field is-horizontal">
+    <div class="field-label is-normal"></div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          {{ form.submit(class="button") }}
+        </div>
+      </div>
+    </div>
+  </div>
+
 </form>
 {% endblock %}

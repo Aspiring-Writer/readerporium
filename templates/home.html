@@ -1,31 +1,49 @@
-{% extends 'base.html' %}{% block title %}👋 Welcome {{ current_user.name }}! 🥳{% endblock %} {% block content %}
-<h3>Recently Added</h3>
-<table class="u-full-width list">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Tags</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for book in books %}
-    <tr>
-      <td>
-      	<a href="{{ url_for('book', id=book.id) }}">
-      		<i class='fa-solid fa-book'></i>
-		    	{{ book.title }} {% if book.series.name != "<None>" %}({{ book.series.name }} #{{ book.series_index }}){% endif %} by {{ book.author.name }}
+{% extends 'base.html' %} {% block content %}
+<h2 class="title is-centered">Recently Added</h2>
+<div class="columns is-multiline">
+  {% for book in books %}
+  <div class="column is-one-quarter">
+    <div class="card">
+      <div class="card-image">
+        <figure class="image is-fullwidth">
+          <img class="lazy" data-src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="Book cover">
+        </figure>
+      </div>
+      <div class="card-content">
+        <div class="media">
+          <div class="media-content has-text-centered">
+						<p class="title is-4">{{ book.title }}</p>
+            <p class="subtitle is-5">{{ book.author.name }}</p>
+            {% if book.series.name != "<None>" %}<p class="subtitle is-6">{{ book.series.name }} #{{ book.series_index }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="content">
+          {{ book.description | truncate(160) | safe }}
+          <div class="pt-3 has-text-centered has-text-weight-medium">
+            {% for tag in book.tags|sort(attribute='name') %}
+            <a href="{{ url_for('tag', id=tag.id) }}">
+              <span class="tag is-warning">
+                {{ tag.name }}
+              </span>
+            </a>
+            {% endfor %}
+            <br>
+            Added {{ moment(book.date_created).fromNow() }}
+          </div>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="{{ url_for('book', id=book.id) }}" class="card-footer-item">
+          <span class="icon-text">
+            <span class="icon">
+              <i class='fa-solid fa-book'></i>
+            </span>
+            <span>View</span>
+          </span>
 		  	</a>
-      </td>
-      <td>
-      	{% for tag in book.tags|sort(attribute='name') %}
-		  	<a href="{{ url_for('tag', id=tag.id) }}">
-		  		<i class="fa-solid fa-tag"></i>
-		  		{{ tag.name }}
-		  	</a>
-		  	{% endfor %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+      </footer>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 {% endblock %}

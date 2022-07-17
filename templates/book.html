@@ -1,152 +1,136 @@
-{% extends 'base.html' %} {% block title %}<em>{{ book.title }}</em> by {{ book.author.name }}{% endblock %} {% block content %}
-{% if current_user.id == 1 %}
-<div role="group" class="btn-group">
-	<a href="{{ url_for('add_book') }}" class="button">
-		<i class="fa-solid fa-plus"></i>
-	</a>
-	<a href="{{ url_for('update_book', id=book.id) }}" class="button">
-		<i class="fa-solid fa-pencil"></i>
-	</a>
-	<a href="{{ url_for('delete_book', id=book.id) }}" class="button">
-		<i class="fa-solid fa-trash"></i>
-	</a>
-</div>
-{% endif %}
-<div class="row">
-	<div class="one-third column">
-		<img src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="cover img" class="u-max-full-width" />
-		<div class="meta">
-			<ul>
-				<li>
-					<a href="{{ url_for('author', id=book.author.id) }}">
-						<i class="fa-solid fa-user"></i>
-						View more by {{ book.author.name }}
-					</a>
-				</li>
-				<li>
-					<a href="{{ url_for('serie', id=book.series.id) }}">
-		    		<i class="fa-solid fa-list-ol"></i>
-		    		{{ book.series.name }}{% if book.series.name != '<None>' %} #{{ book.series_index }}{% endif %}
-		      </a>
-				</li>
+{% extends 'base.html' %} {% block content %}
+<div class="columns">
+  <div class="column is-one-third">
+		<figure class="image is-fullwidth">
+			<img class="lazy" data-src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="Book cover">
+		</figure>
+  </div>
+  <div class="column">
+    <div class="box content is-medium">
+
+			<div class="buttons has-addons is-centered">
+				<a class="button" href="{{ url_for('author', id=book.author.id) }}">
+					<span class="icon is-small">
+						<i class="fas fa-user"></i>
+					</span>
+					<span>View more by {{ book.author.name }}</span>
+				</a>
+				<a class="button" href="{{ url_for('serie', id=book.series.id) }}">
+					<span class="icon is-small">
+						<i class="fa-solid fa-list-ol"></i>
+					</span>
+					<span>{{ book.series.name }}{% if book.series.name != '<None>' %} #{{ book.series_index }}{% endif %}</span>
+				</a>
+				<a class="button" href="{{ url_for('levels') }}{{ book.level }}">
+					<span class="icon is-small">
+						<i class="fa-solid fa-star"></i>
+					</span>
+					<span>{{ book.level }}</span>
+				</a>
+			</div>
+
+			<div class="buttons has-addons is-centered">
 				{% for tag in book.tags|sort(attribute='name') %}
-				<li>
-					<a href="{{ url_for('tag', id=tag.id) }}">
+				<a class="button" href="{{ url_for('tag', id=tag.id) }}">
+					<span class="icon is-small">
 						<i class="fa-solid fa-tag"></i>
-						{{ tag.name }}
-					</a>
-				</li>
+					</span>
+					<span>{{ tag.name }}</span>
+				</a>
 				{% endfor %}
-				<li>
-					<a href="{{ url_for('levels') }}{{ book.level }}">
-		      	<i class="fa-solid fa-star"></i>
-		      	{{ book.level }}
-		    	</a>
-				</li>
-				<li>
-					{% if book.wordcount <= 3500 %}<a href="{{ url_for('flash_fiction') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (flash fiction)
-		    	</a>{% elif book.wordcount <= 7500  %}<a href="{{ url_for('short_stories') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (short story)
-		    	</a>{% elif book.wordcount <= 17000 %}<a href="{{ url_for('novellettes') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (novellette)
-		    	</a>{% elif book.wordcount <= 40000 %}<a href="{{ url_for('novellas') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (novella)
-		  		</a>{% else %}<a href="{{ url_for('novels') }}">
-		  			<i class="fa-solid fa-arrow-down-1-9"></i>
-		  			{{ book.wordcount }} (novel)
-					</a>{% endif %}
-				</li>
-				<li>
-					<i class="fa-solid fa-fingerprint"></i>
-		    	<strong>{{ book.isbn }}</strong>
-				</li>
-				<li>
-					<a href="{{ url_for('publisher', id=book.publisher.id) }}">
-		    		<i class="fa-solid fa-building"></i>
-			      {{ book.publisher.name }}
-			    </a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	<div class="two-thirds column">
-		{% markdown %}{{ book.description }}{% endmarkdown %}
-		{% if current_user.username == 'visitor' %}
-		<p class="meta">
-			Sorry, visitors can't download books.
-		</p>
-		{% else %}
-		<table class="u-full-width">
-		  <thead>
-		    <tr>
-		      <th>Format</th>
-		      <th>Description</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  	<tr>
-		  		<td>
-		  			<i class="fa-solid fa-circle-info"></i>
-		  			Info
-		  		</td>
-		  		<td>
-		  			To read <em>{{ book.title }}</em> by {{ book.author.name }}, you will need an e-book reading app for your device. Popular ones include FBReader, Moon+ Reader, and iBooks.
-	  			</td>
-		  	</tr>
-		  	<!--<tr>
-		      <td>
-		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}">
-		      		<i class="fa-solid fa-book-open-reader"></i>
-		      		Online
-		      	</a>
-		      </td>
-		      <td>
-		      	Read this book online here.
-		      </td>
-		    </tr>-->
-		    <tr>
-		      <td>
-		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
-		      		<i class="fa-solid fa-download u-pull-left"></i>
-		      		EPUB
-		      	</a>
-		      </td>
-		      <td>
-		      	Supported by most e-readers, smartphones, tablets, and computers.
-		      </td>
-		    </tr>
-		    <!--<tr>
-		      <td>
-		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
-		      		<i class="fa-solid fa-download"></i>
-		      		KEPUB
-		      	</a>
-		      </td>
-		      <td>
-		      	This is the recommended format for Kobo e-readers.
-		      </td>
-		    </tr>-->
-		    <!--<tr>
-		      <td>
-		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
-		      		<i class="fa-solid fa-download"></i>
-		      		MOBI
-		      	</a>
-		      </td>
-		      <td>
-		      	Legacy format for Kindles.
-		      </td>
-		    </tr>-->
-		  </tbody>
-		</table>
-		{% endif %}
-	</div>
+			</div>
+			
+			<div class="buttons has-addons is-centered">
+				<a class="button" href="{% if book.wordcount <= 3500 %}{{ url_for('flash_fiction') }}{% elif book.wordcount <= 7500  %}{{ url_for('short_stories') }}{% elif book.wordcount <= 17000 %}{{ url_for('novellettes') }}{% elif book.wordcount <= 40000 %}{{ url_for('novellas') }}{% else %}{{ url_for('novels') }}{% endif %}">
+					<span class="icon is-small">
+						<i class="fa-solid fa-arrow-down-1-9"></i>
+					</span>
+					<span>{{ book.wordcount }} words ({% if book.wordcount <= 3500 %}flash fiction{% elif book.wordcount <= 7500  %}short story{% elif book.wordcount <= 17000 %}novellette{% elif book.wordcount <= 40000 %}novella{% else %}novel{% endif %})</span>
+				</a>
+				<button class="button">
+					<span class="icon is-small">
+						<i class="fa-solid fa-fingerprint"></i>
+					</span>
+					<span>{{ book.isbn }}</span>
+				</button>
+				<a class="button" href="{{ url_for('publisher', id=book.publisher.id) }}">
+					<span class="icon is-small">
+						<i class="fa-solid fa-building"></i>
+					</span>
+					<span>{{ book.publisher.name }}</span>
+				</a>
+			</div>
+
+      {% markdown %}{{ book.description }}{% endmarkdown %}
+
+			{% if current_user.username == 'visitor' %}
+			<div class="message is-warning">
+				<div class="message-body">
+					Sorry, visitors can't download books.
+				</div>
+			</div>
+			{% else %}
+			<div class="message is-warning">
+				<div class="message-body">
+					To read e-books, you will need an e-book reading app for your device. Popular ones include FBReader, Moon+ Reader, and iBooks. And, make sure you download the correct format for that app.
+				</div>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Format</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--<tr>
+						<td>
+							<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}">
+								<i class="fa-solid fa-book-open-reader"></i>
+								Online
+							</a>
+						</td>
+						<td>
+							Read this book online here.
+						</td>
+					</tr>-->
+					<tr>
+						<td>
+							<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
+								EPUB
+							</a>
+						</td>
+						<td>
+							Supported by most e-readers, smartphones, tablets, and computers.
+						</td>
+					</tr>
+					<!--<tr>
+						<td>
+							<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.kepub.epub">
+								<i class="fa-solid fa-download"></i>
+								KEPUB
+							</a>
+						</td>
+						<td>
+							This is the recommended format for Kobo e-readers.
+						</td>
+					</tr>-->
+					<!--<tr>
+						<td>
+							<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.mobi">
+								<i class="fa-solid fa-download"></i>
+								MOBI
+							</a>
+						</td>
+						<td>
+							Legacy format for Kindles.
+						</td>
+					</tr>-->
+				</tbody>
+			</table>
+			{% endif %}
+
+    </div>
+  </div>
 </div>
-
-
 {% endblock %}
