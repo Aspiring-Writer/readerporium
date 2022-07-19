@@ -13,3 +13,11 @@ img.error {
 img:not([src]) {
   visibility: hidden;
 }
+img.blur {
+  filter: blur(8px);
+  transition: 0.5s ease-in-out;
+}
+img.blur:hover {
+  filter: blur(0);
+  transition: 0.5s ease-in-out;
+}

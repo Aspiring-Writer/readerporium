@@ -108,7 +108,7 @@
 									</span>
 								</a>
 							</span>
-							{% if astp.id %}
+							{% if astp and astp.id %}
 							<span class="navbar-item">
 								<a href="{{ url_for('update_author', id=astp.id) }}" class="navbar-item">
 									<span class="icon">
@@ -132,7 +132,7 @@
 									</span>
 								</a>
 							</span>
-							{% if astp.id %}
+							{% if astp and astp.id %}
 							<span class="navbar-item">
 								<a href="{{ url_for('update_series', id=astp.id) }}" class="navbar-item">
 									<span class="icon">
@@ -180,7 +180,7 @@
 									</span>
 								</a>
 							</span>
-							{% if astp.id %}
+							{% if astp and astp.id %}
 							<span class="navbar-item">
 								<a href="{{ url_for('update_publisher', id=astp.id) }}" class="navbar-item">
 									<span class="icon">

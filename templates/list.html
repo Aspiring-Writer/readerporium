@@ -5,7 +5,7 @@
     <div class="card">
       <div class="card-image">
         <figure class="image is-fullwidth">
-          <img class="lazy" data-src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="Book cover">
+          <img class="lazy{% if book.level == 4 %} blur{% endif %}" data-src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="Book cover">
         </figure>
       </div>
       <div class="card-content">
@@ -13,7 +13,7 @@
           <div class="media-content has-text-centered">
 						<p class="title is-4">{{ book.title }}</p>
             <p class="subtitle is-5">{{ book.author.name }}</p>
-            {% if book.series.name != "<None>" %}<p class="subtitle is-6">{{ book.series.name }} #{{ book.series_index }}</p>{% endif %}
+            {% if book.series.name != "<None>" %}<p class="is-6 has-text-weight-medium is-underlined">{{ book.series.name }} #{{ book.series_index }}</p>{% endif %}
           </div>
         </div>
         <div class="content">
@@ -33,13 +33,22 @@
       </div>
       <footer class="card-footer">
         <a href="{{ url_for('book', id=book.id) }}" class="card-footer-item">
-          <span class="icon-text">
-            <span class="icon">
-              <i class='fa-solid fa-book'></i>
-            </span>
-            <span>View</span>
+          <span class="icon">
+            <i class='fa-solid fa-book-open'></i>
           </span>
 		  	</a>
+        <a href="{{ url_for('author', id=book.author.id) }}" class="card-footer-item">
+          <span class="icon">
+            <i class='fa-solid fa-user'></i>
+          </span>
+		  	</a>
+        {% if book.series.name != '<None>' %}
+        <a href="{{ url_for('serie', id=book.series.id) }}" class="card-footer-item">
+          <span class="icon">
+            <i class='fa-solid fa-list-ol'></i>
+          </span>
+		  	</a>
+        {% endif %}
       </footer>
     </div>
   </div>

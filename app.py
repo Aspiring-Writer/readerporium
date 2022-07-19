@@ -3,7 +3,7 @@ import psycopg2
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_moment import Moment
 from flask_migrate import Migrate
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -20,8 +20,9 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('LOCAL_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['REMEMBER_COOKIE_DURATION'] = timedelta(seconds=10)
 
-ROWS_PER_PAGE = 12
+ROWS_PER_PAGE = 52
 
 login_manager = LoginManager()
 login_manager.init_app(app)

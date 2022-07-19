@@ -1,34 +1,44 @@
 {% extends 'base.html' %} {% block content %}
 <div class="columns">
-	<div class="column is-4 is-offset-4">
+  <div class="column is-4 is-offset-4">
     <form class="box has-background-warning" METHOD="POST">
       {{ form.hidden_tag() }}
 
       <div class="field">
-				{{ form.name.label(class="label") }}
-				<p class="control has-icons-left">
+        {{ form.name.label(class="label") }}
+        <p class="control has-icons-left">
           {{ form.name(class="input", type="text", placeholder="Name") }}
-					<span class="icon is-small is-left">
-						<i class="fas fa-user"></i>
-					</span>
-				</p>
-			</div>
-			<div class="field">
-				{{ form.level.label(class="label") }}
-				<p class="control has-icons-left">
-              {{ form.level(class="input", min=1, max=4, placeholder="Level") }}
-					<span class="icon is-small is-left">
-						<i class="fa-solid fa-star"></i>
-					</span>
-				</p>
-			</div>
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+        </p>
+      </div>
+      {% if 'series' in request.path %}
+      <div class="field">
+        {{ form.name_sort.label(class="label") }}
+        <p class="control has-icons-left">
+          {{ form.name_sort(class="input", type="text", placeholder="Sorted Name") }}
+          <span class="icon is-small is-left">
+            <i class="fas fa-user"></i>
+          </span>
+        </p>
+      </div>
+      {% endif %}
+      <div class="field">
+        {{ form.level.label(class="label") }}
+        <p class="control has-icons-left">
+          {{ form.level(class="input", min=1, max=4, placeholder="Level") }}
+          <span class="icon is-small is-left">
+            <i class="fa-solid fa-star"></i>
+          </span>
+        </p>
+      </div>
 
       <div class="field has-text-centered">
         <div class="control">
           {{ form.submit(class="button is-warning is-inverted") }}
         </div>
       </div>
-      
     </form>
   </div>
 </div>
