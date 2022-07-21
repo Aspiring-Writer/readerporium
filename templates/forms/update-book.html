@@ -1,5 +1,4 @@
-{% extends 'base.html' %}{% block title %}Update Book{% endblock %} {% block
-content %}
+{% extends 'base.html' %} {% block content %}
 <form action="{{ url_for('update_book', id=book.id) }}" METHOD="POST">
   {{ form.hidden_tag() }}
   <div class="row">
@@ -52,7 +51,7 @@ content %}
   {{ form.description(class="u-full-width") }}
   <div class="row">
     <div class="offset-by-five two columns">
-      {{ form.submit }}
+      {{ form.submit(class="button-primary") }}
     </div>
   </div>
 </form>

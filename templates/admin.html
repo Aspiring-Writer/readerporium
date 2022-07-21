@@ -1,36 +1,4 @@
-{% extends 'base.html' %}{% block title %}Admin{% endblock %}{% block content %}
-<div class="row" style="margin-bottom: 2%;">
-	<div class="one column">
-		<a href="{{ url_for('add_user') }}" class="button">
-			<i class="fa-solid fa-user-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_book') }}" class="button">
-			<i class="fa-solid fa-book"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_author') }}" class="button">
-			<i class="fa-solid fa-user"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_series') }}" class="button">
-			<i class="fa-solid fa-list-ol"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_tag') }}" class="button">
-			<i class="fa-solid fa-tag"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-	<div class="offset-by-one one column">
-		<a href="{{ url_for('add_publisher') }}" class="button">
-			<i class="fa-solid fa-building"></i><i class="fa-solid fa-plus"></i>
-	  </a>
-	</div>
-</div>
+{% extends 'base.html' %} {% block content %}
 <table class="u-full-width users">
   <thead>
     <tr>

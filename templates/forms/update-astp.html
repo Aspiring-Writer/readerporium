@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% block title %}Update ASTP{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block content %}
 <form METHOD="POST">
 	{{ form.hidden_tag() }}
   <div class="row">
@@ -6,7 +6,7 @@
       {{ form.name.label }}
       {{ form.name(class="u-full-width") }}
     </div>
-    {% if series %}<div class="four columns">
+    {% if 'series'in request.url %}<div class="four columns">
       {{ form.name_sort.label }}
       {{ form.name_sort(class="u-full-width") }}
     </div>{% endif %}
@@ -16,7 +16,7 @@
     </div>
   </div>
   <div style="text-align:center;">
-		{{ form.submit }}
+		{{ form.submit(class="button-primary") }}
   </div>
 </form>
 {% endblock %}

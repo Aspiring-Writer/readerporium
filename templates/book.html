@@ -1,83 +1,50 @@
-{% extends 'base.html' %} {% block title %}<em>{{ book.title }}</em> by {{ book.author.name }}{% endblock %} {% block content %}
-{% if current_user.id == 1 %}
-<div role="group" class="btn-group">
-	<a href="{{ url_for('add_book') }}" class="button">
-		<i class="fa-solid fa-plus"></i>
-	</a>
-	<a href="{{ url_for('update_book', id=book.id) }}" class="button">
-		<i class="fa-solid fa-pencil"></i>
-	</a>
-	<a href="{{ url_for('delete_book', id=book.id) }}" class="button">
-		<i class="fa-solid fa-trash"></i>
-	</a>
-</div>
-{% endif %}
+{% extends 'base.html' %} {% block content %}
 <div class="row">
 	<div class="one-third column">
-		<img src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="cover img" class="u-max-full-width" />
-		<div class="meta">
-			<ul>
-				<li>
-					<a href="{{ url_for('author', id=book.author.id) }}">
-						<i class="fa-solid fa-user"></i>
-						View more by {{ book.author.name }}
-					</a>
-				</li>
-				<li>
-					<a href="{{ url_for('serie', id=book.series.id) }}">
-		    		<i class="fa-solid fa-list-ol"></i>
-		    		{{ book.series.name }}{% if book.series.name != '<None>' %} #{{ book.series_index }}{% endif %}
-		      </a>
-				</li>
-				{% for tag in book.tags|sort(attribute='name') %}
-				<li>
-					<a href="{{ url_for('tag', id=tag.id) }}">
-						<i class="fa-solid fa-tag"></i>
-						{{ tag.name }}
-					</a>
-				</li>
-				{% endfor %}
-				<li>
-					<a href="{{ url_for('levels') }}{{ book.level }}">
-		      	<i class="fa-solid fa-star"></i>
-		      	{{ book.level }}
-		    	</a>
-				</li>
-				<li>
-					{% if book.wordcount <= 3500 %}<a href="{{ url_for('flash_fiction') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (flash fiction)
-		    	</a>{% elif book.wordcount <= 7500  %}<a href="{{ url_for('short_stories') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (short story)
-		    	</a>{% elif book.wordcount <= 17000 %}<a href="{{ url_for('novellettes') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (novellette)
-		    	</a>{% elif book.wordcount <= 40000 %}<a href="{{ url_for('novellas') }}">
-		    		<i class="fa-solid fa-arrow-down-1-9"></i>
-		    		{{ book.wordcount }} (novella)
-		  		</a>{% else %}<a href="{{ url_for('novels') }}">
-		  			<i class="fa-solid fa-arrow-down-1-9"></i>
-		  			{{ book.wordcount }} (novel)
-					</a>{% endif %}
-				</li>
-				<li>
-					<i class="fa-solid fa-fingerprint"></i>
-		    	<strong>{{ book.isbn }}</strong>
-				</li>
-				<li>
-					<a href="{{ url_for('publisher', id=book.publisher.id) }}">
-		    		<i class="fa-solid fa-building"></i>
-			      {{ book.publisher.name }}
-			    </a>
-				</li>
-			</ul>
-		</div>
+		<img src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="cover img"{% if book.level == 4 %} class="blur"{% endif %} />
 	</div>
 	<div class="two-thirds column">
+
+		<div style="text-align: center; margin-bottom: 1rem">
+			<a href="{{ url_for('author', id=book.author.id) }}" class="button button-primary">
+				<i class="fa-solid fa-user"></i>
+				View more by {{ book.author.name }}
+			</a>
+			<a href="{{ url_for('serie', id=book.series.id) }}" class="button button-primary">
+				<i class="fa-solid fa-list-ol"></i>
+				{{ book.series.name }}{% if book.series.name != '<None>' %} #{{ book.series_index }}{% endif %}
+			</a>
+			{% for tag in book.tags|sort(attribute='name') %}
+			<a href="{{ url_for('tag', id=tag.id) }}" class="button button-primary">
+				<i class="fa-solid fa-tag"></i>
+				{{ tag.name }}
+			</a>
+			{% endfor %}
+			<a href="{{ url_for('levels') }}{{ book.level }}" class="button button-primary">
+				<i class="fa-solid fa-star"></i>
+				{{ book.level }}
+			</a>
+			<a href="{% if book.wordcount <= 3500 %}{{ url_for('flash_fiction') }}{% elif book.wordcount <= 7500  %}{{ url_for('short_stories') }}{% elif book.wordcount <= 17000 %}{{ url_for('novellettes') }}{% elif book.wordcount <= 40000 %}{{ url_for('novellas') }}{% else %}{{ url_for('novels') }}{% endif %}" class="button button-primary">
+				{{ book.wordcount }} words ({% if book.wordcount <= 3500 %}flash fiction{% elif book.wordcount <= 7500  %}short story{% elif book.wordcount <= 17000 %}novellette{% elif book.wordcount <= 40000 %}novella{% else %}novel{% endif %})
+			</a>
+			<button>
+				<i class="fa-solid fa-fingerprint"></i>
+				{{ book.isbn }}
+			</button>
+			<a href="{{ url_for('publisher', id=book.publisher.id) }}" class="button button-primary">
+				<i class="fa-solid fa-building"></i>
+				{{ book.publisher.name }}
+			</a>
+		</div>
+		
+
 		{% markdown %}{{ book.description }}{% endmarkdown %}
+
+		<p class="alert">
+			To download this e-book, you will need an e-book reading app for your device. Popular ones include FBReader, Moon+ Reader, and iBooks.
+		</p>
 		{% if current_user.username == 'visitor' %}
-		<p class="meta">
+		<p class="alert">
 			Sorry, visitors can't download books.
 		</p>
 		{% else %}
@@ -89,15 +56,6 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		  	<tr>
-		  		<td>
-		  			<i class="fa-solid fa-circle-info"></i>
-		  			Info
-		  		</td>
-		  		<td>
-		  			To read <em>{{ book.title }}</em> by {{ book.author.name }}, you will need an e-book reading app for your device. Popular ones include FBReader, Moon+ Reader, and iBooks.
-	  			</td>
-		  	</tr>
 		  	<!--<tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}">
@@ -112,7 +70,6 @@
 		    <tr>
 		      <td>
 		      	<a href="https://aspiring-writer.gitlab.io/books/{% if book.level == 1 %}Child{% elif book.level == 2 %}Teen{% elif book.level == 3 %}Adult{% else %}Mature{% endif %}/{{ book.author.name }}/{{ book.title }}.epub">
-		      		<i class="fa-solid fa-download u-pull-left"></i>
 		      		EPUB
 		      	</a>
 		      </td>

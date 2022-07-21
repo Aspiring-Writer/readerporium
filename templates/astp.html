@@ -1,39 +1,16 @@
-{% extends 'base.html' %} {% block title %}{{ title }} ({{ count }}){% endblock %} {% block content %}
-{% if current_user.id == 1 %}
-<div role="group" class="btn-group">
-	<a href="{% if title == 'Authors' %}{{ url_for('add_author') }}{% elif title == 'Series' %}{{ url_for('add_series') }}{% elif title == 'Tags' %}{{ url_for('add_tag') }}{% else %}{{ url_for('add_publisher') }}{% endif %}" class="button">
-		<i class="fa-solid fa-plus"></i>
-	</a>
-</div>
-{% endif %}
+{% extends 'base.html' %} {% block content %}
 <div class="row">
 	<div class="offset-by-three one-half column">
-		<table class="u-full-width">
-			<thead>
-				<tr>
-					<th>Name</th>
-				</tr>
-			</thead>
-		  <tbody>
-		  	<tr>
-		  		<td>
-		  			<i class='fa-solid fa-circle-info'></i>
-		  			Book counts may be wrong depending on your access level.
-	  			</td>
-		  	</tr>
-		    {% for i in astp.items %}
-		    <tr>
-		      <td>
-		        <a href="{% if title == 'Authors' %}{{ url_for('author', id=i.id) }}{% elif title == 'Series' %}{{ url_for('serie', id=i.id) }}{% elif title == 'Tags' %}{{ url_for('tag', id=i.id) }}{% else %}{{ url_for('publisher', id=i.id) }}{% endif %}">
-		        	<i class='fa-solid fa-user'></i>
-		        	{{ i.name }} ({{ i.books|count }} book{% if i.books|count != 1 %}s{% endif %})
-		        	{% if book in i.books <= current_user.level %}yes{% endif %}
-		      	</a>
-		      </td>
-		    </tr>
-		    {% endfor %}
-		  </tbody>
-		</table>
+		<ul>
+			{% for i in astp.items %}
+			<li>
+				<i class="fa-solid fa-{% if title == 'Authors' %}user{% elif title == 'Series' %}list-ol{% elif title == 'Tags' %}tag{% else %}building{% endif %}"></i>
+				<a href="{% if title == 'Authors' %}{{ url_for('author', id=i.id) }}{% elif title == 'Series' %}{{ url_for('serie', id=i.id) }}{% elif title == 'Tags' %}{{ url_for('tag', id=i.id) }}{% else %}{{ url_for('publisher', id=i.id) }}{% endif %}">
+					{{ i.name }} ({{ i.books|count }} book{% if i.books|count != 1 %}s{% endif %})
+				</a>
+			</li>
+			{% endfor %}
+		</ul>
 		<!-- Pagination Links-->
 		<div class="row">
 			<div class="six columns">
@@ -41,11 +18,11 @@
 			</div>
 			<div class="six columns" style="text-align:right;">
 				{% if astp.has_prev %}
-			  <a href="{% if title == 'Authors' %}{{ url_for('authors', page=astp.prev_num) }}{% elif title == 'Series' %}{{ url_for('series', page=astp.prev_num) }}{% elif title == 'Tags' %}{{ url_for('tags', page=astp.prev_num) }}{% else %}{{ url_for('publishers', page=astp.prev_num) }}{% endif %}" class="button">
+			  <a href="{% if title == 'Authors' %}{{ url_for('authors', page=astp.prev_num) }}{% elif title == 'Series' %}{{ url_for('series', page=astp.prev_num) }}{% elif title == 'Tags' %}{{ url_for('tags', page=astp.prev_num) }}{% else %}{{ url_for('publishers', page=astp.prev_num) }}{% endif %}" class="button button-primary">
 					<i class="fa-solid fa-angles-left"></i>
 			  </a>
 			  {% endif %}{% if astp.has_next %}
-			  <a href="{% if title == 'Authors' %}{{ url_for('authors', page=astp.next_num) }}{% elif title == 'Series' %}{{ url_for('series', page=astp.next_num) }}{% elif title == 'Tags' %}{{ url_for('tags', page=astp.next_num) }}{% else %}{{ url_for('publishers', page=astp.next_num) }}{% endif %}" class="button">
+			  <a href="{% if title == 'Authors' %}{{ url_for('authors', page=astp.next_num) }}{% elif title == 'Series' %}{{ url_for('series', page=astp.next_num) }}{% elif title == 'Tags' %}{{ url_for('tags', page=astp.next_num) }}{% else %}{{ url_for('publishers', page=astp.next_num) }}{% endif %}" class="button button-primary">
 			  	<i class="fa-solid fa-angles-right"></i>
 			  </a>
 			  {% endif %}

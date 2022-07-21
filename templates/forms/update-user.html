@@ -1,4 +1,4 @@
-{% extends 'base.html' %}{% block title %}Update User{% endblock %}{% block content %}
+{% extends 'base.html' %} {% block content %}
 <form METHOD="POST" action="{{ url_for('update_user', id=user.id) }}">
 	{{ form.hidden_tag() }}
   <div class="row">
@@ -16,7 +16,7 @@
     </div>
   </div>
   <div style="text-align:center;">
-    {{ form.submit }}
+    {{ form.submit(class="button-primary") }}
   </div>
 </form>
 {% endblock %}
