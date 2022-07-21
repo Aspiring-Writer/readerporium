@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
-{% for book in books.items %}
 <hr>
+{% for book in books.items %}
 <div class="row">
   <div class="one-third column">
     <img src="{% if book.cover %}{{ book.cover }}{% else %}https://via.placeholder.com/300x400?text=Cover{% endif %}" alt="cover"{% if book.level == 4 %} class="blur"{% endif %}>
@@ -59,8 +59,8 @@
 {% endfor %}
 <hr>
 <!-- Pagination Links-->
-<div class="row">
-	<div class="six columns">
+<div class="buttons has-addons is-centered">
+	<button class="button is-warning">
 		<strong>Page {{ books.page }} of {{ books.pages }}</strong>
 	</div>
 	<div class="six columns" style="text-align:right;">

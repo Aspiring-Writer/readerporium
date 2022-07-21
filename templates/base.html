@@ -177,7 +177,9 @@
       <div class="alert" role="alert">
         {{ ", ".join(errors) }}
       </div>
-      {% endfor %}{% endif %} {% block content %}{% endblock %}
+      {% endfor %}{% endif %}
+			
+			{% block content %}{% endblock %}
     </div>
 
     {% if current_user.is_authenticated %}
