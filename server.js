@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const bodyParser = require("body-parser");
+const methodOverride = require("method-override");
 
 const indexRouter = require("./routes/index");
 const authorRouter = require("./routes/authors");
@@ -15,9 +16,10 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
 app.use(expressLayouts);
+app.use(methodOverride("_method"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ limit: "10mb", extended: false }));
-app.use(express.json())
+app.use(express.json());
 
 // Make sure you start MongoDB locally (sudo systemctl start mongod)
 const mongoose = require("mongoose");
@@ -27,7 +29,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .catch((err) => {
-    console.log(Error, err.message);
+    console.error(Error, err.message);
   });
 
 const db = mongoose.connection;
