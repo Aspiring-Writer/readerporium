@@ -1,12 +1,11 @@
 <h2>Recently Added</h2>
 <div>
   <% books.forEach(book => { %>
-  <a href="/books/<%= book.id %>">
+  <a class="cover" href="/books/<%= book.id %>">
     <img
-      height="150"
-      width="100"
-      src="<%= book.coverImagePath %>"
+      src="<%= book.coverImagePath %>" 
       alt="cover"
+      <% if (book.accessLevel == 4) { %>class="blur"<% } %>
     />
   </a>
   <% }) %>

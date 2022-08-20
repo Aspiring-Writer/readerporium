@@ -76,7 +76,7 @@ router.get("/:id/edit", async (req, res) => {
 router.put("/:id", async (req, res) => {
   let book;
   try {
-    book = Book.findById(req.params.id);
+    book = await Book.findById(req.params.id);
     book.title = req.body.title;
     book.author = req.body.author;
     book.publishDate = new Date(req.body.publishDate);
@@ -86,9 +86,9 @@ router.put("/:id", async (req, res) => {
     if (req.body.cover != null && req.body.cover != "") {
       saveCover(book, req.body.cover);
     }
+    await book.save();
     res.redirect(`/books/${book.id}`);
-  } catch (err) {
-    console.log(err);
+  } catch {
     if (book != null) {
       renderEditPage(res, book, true);
     } else {

@@ -1,13 +1,33 @@
 <h2>Search Authors</h2>
+
 <form action="/authors" method="GET">
-  <label>Name</label>
   <input type="text" name="name" value="<%= searchOptions.name %>" />
-  <button type="submit">Search</button>
+  <button type="submit">
+    <i class="fa-solid fa-search fa-lg"></i>
+  </button>
 </form>
-<br />
+
 <% authors.forEach(author => { %>
-<div><%= author.name %></div>
-<a href="/authors/<%= author.id %>">View</a>
-<a href="/authors/<%= author.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm', { url: `/authors/${author.id}` }) %>
+  <div class="row">
+    <div class="one-half column">
+      <%= author.name %>
+    </div>
+    <div class="one-half column">
+      <div class="row">
+        <div class="four columns">
+          <a class="button" href="/authors/<%= author.id %>">
+            <i class="fa-solid fa-eye fa-lg"></i>
+          </a>
+        </div>
+        <div class="four columns">
+          <a class="button" href="/authors/<%= author.id %>/edit">
+            <i class="fa-solid fa-pen fa-lg"></i>
+          </a>
+        </div>
+        <div class="four columns">
+          <%- include('../partials/deleteForm', { url: `/authors/${author.id}` }) %> 
+        </div>
+      </div>
+    </div>
+  </div>
 <% }) %>
