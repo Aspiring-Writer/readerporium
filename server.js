@@ -12,7 +12,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("express-flash");
-const session = require("express-session");
+const session = require("cookie-session");
 
 // Models
 const User = require("./models/user");
@@ -30,9 +30,8 @@ app.use(express.json());
 app.use(flash());
 app.use(
   session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
+    keys: [process.env.SECRET_KEY],
+    maxAge: 24 * 60 * 60 * 1000,
   })
 );
 
