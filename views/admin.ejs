@@ -1,0 +1,31 @@
+<h2>Admin Dashboard</h2>
+
+<div class="btn-group">
+  <a href="/books/new" class="button">
+    <i class="fa-solid fa-book-medical fa-lg"></i>
+  </a>
+  <a href="/authors/new" class="button">
+    <i class="fa-solid fa-user-plus fa-lg"></i>
+  </a>
+</div>
+
+<table class="u-full-width">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Date Created</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach(user => { %>
+    <tr>
+      <td><%= user.name %></td>
+      <td><%= user.username %></td>
+      <td><%= user.dateCreated.toDateString() %></td>
+      <td><%= user.role %></td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>

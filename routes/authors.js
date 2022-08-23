@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Author = require("../models/author");
 const Book = require("../models/book");
+const { isLoggedIn, checkIsInRole } = require("../auth");
+const ROLES = require("../roles");
 
 // All Authors Route
-router.get("/", async (req, res) => {
+router.get("/", isLoggedIn, async (req, res) => {
   let searchOptions = {};
   if (req.query.name != null && req.query.name !== "") {
     searchOptions.name = new RegExp(req.query.name, "i");
@@ -21,7 +23,7 @@ router.get("/", async (req, res) => {
 });
 
 // New Author Route
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, checkIsInRole(ROLES.ADMIN), (req, res) => {
   res.render("authors/new", { author: new Author() });
 });
 
@@ -41,7 +43,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+// Show Author Route
+router.get("/:id", isLoggedIn, async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
     const books = await Book.find({ author: author.id }).limit(6).exec();
@@ -54,7 +57,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id/edit", async (req, res) => {
+// Edit Author Route
+router.get("/:id/edit", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
     res.render("authors/edit", { author: author });
@@ -63,6 +67,7 @@ router.get("/:id/edit", async (req, res) => {
   }
 });
 
+// Update Author Route
 router.put("/:id", async (req, res) => {
   let author;
   try {
@@ -82,7 +87,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
   let author;
   try {
     author = await Author.findById(req.params.id);

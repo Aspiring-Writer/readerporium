@@ -1,23 +1,23 @@
 body { font-size: 1.8rem; }
-.header {
+header, .btn-group {
   text-align: center;
   padding: 2rem;
   margin-bottom: 4rem;
-  background-color: #33C3F0;
-  color: #FFF;
 }
-.header p {
-  margin-top: 0;
-  margin-bottom: 2rem;
-  font-size: 1.8rem;
+header h1 a {
+  text-decoration: none;
   line-height: 1.5;
   letter-spacing: -.05rem;
 }
-.header hr { margin-top: 1rem; margin-bottom: 1.5rem; }
 
-img { width: 100%; height: 100%; border-radius: 10px; }
+a.cover { text-decoration: none; }
+a.cover img {
+  width: 150px;
+  height: 100%;
+}
+img { border-radius: 5px; }
 img.blur {
-  filter: blur(8px);
+  filter: blur(5px);
   transition: 0.5s ease-in-out;
 }
 img.blur:hover {
@@ -25,30 +25,15 @@ img.blur:hover {
   transition: 0.5s ease-in-out;
 }
 
-td a { font-weight: 600; text-decoration: none; }
-
-.users tr td { text-align: center; }
-.list td:last-child { text-align: right; }
+h2 { text-align: center; }
 
 form textarea { height: 236px; }
 
 .alert {
 	margin-bottom: 2rem;
   padding: 25px 15px;
-  background-color: #33C3F0;
-  color: #FFF;
   font-weight: 600;
+  text-align: center;
+  border: 1px solid #bbb;
   border-radius: 5px;
-  text-align: center;
-}
-.footer {
-  margin-top: 6rem;
-  padding: 25px 15px;
-  background-color: #33C3F0;
-  color: #FFF;
-  text-align: center;
-}
-
-@media (min-width: 550px) {
-  .header p { font-size: 2.4rem; }
 }

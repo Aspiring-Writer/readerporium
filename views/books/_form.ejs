@@ -1,37 +1,41 @@
-<div>
-  <label>Title</label>
-  <input type="text" name="title" value="<%= book.title %>">
+<div class="row">
+  <div class="one-half column">
+    <label>Title</label>
+    <input type="text" name="title" value="<%= book.title %>">
+  </div>
+  <div class="one-half column">
+    <label>Author</label>
+    <select name="author">
+    <% authors.forEach(author => { %>
+      <% if (author.id === book.author) { %>
+        <option selected label="<%= author.name %>" value="<%= author.id %>">
+      <% } else { %>
+        <option label="<%= author.name %>" value="<%= author.id %>">
+      <% } %>
+    <% }) %>
+    </select>
+  </div>
 </div>
-<div>
-  <label>Author</label>
-  <select name="author">
-  <% authors.forEach(author => { %>
-    <% if (author.id === book.author) { %>
-      <option selected label="<%= author.name %>" value="<%= author.id %>">
-    <% } else { %>
-      <option label="<%= author.name %>" value="<%= author.id %>">
-    <% } %>
-  <% }) %>
-  </select>
+<div class="row">
+  <div class="one-half column">
+    <label>Publish Date</label>
+    <input type="date" name="publishDate"
+          value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>">
+  </div>
+  <div class="one-half column">
+    <label>Word Count</label>
+    <input type="number" min=1 name="wordCount" value="<%= book.wordCount %>">
+  </div>
 </div>
-<div>
-  <label>Publish Date</label>
-  <input type="date" name="publishDate"
-        value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>">
+<div class="row">
+  <div class="one-half column">
+    <label>Access Level</label>
+    <input type="number" min=1 max=4 name="accessLevel" value="<%= book.accessLevel %>">
+  </div>
+  <div class="one-half column">
+    <label>Cover</label>
+    <input type="file" name="cover" class="filepond">
+  </div>
 </div>
-<div>
-  <label>Word Count</label>
-  <input type="number" min=1 name="wordCount" value="<%= book.wordCount %>">
-</div>
-<div>
-  <label>Access Level</label>
-  <input type="number" min=1 max=4 name="accessLevel" value="<%= book.accessLevel %>">
-</div>
-<div>
-  <label>Cover</label>
-  <input type="file" name="cover" class="filepond">
-</div>
-<div>
-  <label>Description</label>
-  <textarea name="description"><%= book.description %></textarea>
-</div>
+<label>Description</label>
+<textarea class="u-full-width" name="description"><%= book.description %></textarea>
