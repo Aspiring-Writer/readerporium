@@ -2,6 +2,8 @@
 
 <form action="/books/<%= book.id %>?_method=PUT" method="POST">
   <%- include('_form.ejs') %>
-  <a class="button" href="/books">Cancel</a>
-  <button type="submit">Update</button>
+  <div class="btn-group">
+    <a class="button" href="/books">Cancel</a>
+    <button type="submit">Update</button>
+  </div>
 </form>

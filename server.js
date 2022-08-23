@@ -87,7 +87,9 @@ passport.use(
 
 // Routers
 app.use("/", require("./routes/index"));
+app.use("/admin", require("./routes/admin"));
 app.use("/authors", require("./routes/authors"));
 app.use("/books", require("./routes/books"));
+app.use("/series", require("./routes/series"));
 
 app.listen(process.env.PORT || 3000);

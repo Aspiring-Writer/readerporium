@@ -1,0 +1,39 @@
+<h2>Edit User</h2>
+
+<form action="/admin/<%= user.id %>?_method=PUT" method="POST">
+  <div class="row">
+    <div class="offset-by-one-third one-third column">
+      <label>Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        value="<%= user.name %>"
+        required
+      />
+      <label>Username</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        value="<%= user.username %>"
+        required
+      />
+      <label>Role</label>
+      <select name="role" class="u-full-width">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+      </select>
+      <label>Access Level</label>
+      <input
+        type="number"
+        min="1"
+        max="4"
+        name="accessLevel"
+        value="<%= user.accessLevel %>"
+      />
+      <a class="button" href="/admin">Cancel</a>
+      <button type="submit">Update</button>
+    </div>
+  </div>
+</form>

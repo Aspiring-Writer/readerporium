@@ -6,14 +6,9 @@ function isLoggedOut(req, res, next) {
   if (!req.isAuthenticated()) return next();
   res.redirect("/");
 }
-const checkIsInRole =
-  (...roles) =>
-  (req, res, next) => {
-    const hasRole = roles.find((role) => req.user.role === role);
-    if (!hasRole) {
-      return res.redirect("/");
-    }
-    return next();
-  };
+function isAdmin(req, res, next) {
+  if ((req.user.role = "admin")) return next();
+  res.redirect("/");
+}
 
-module.exports = { isLoggedIn, isLoggedOut, checkIsInRole };
+module.exports = { isLoggedIn, isLoggedOut, isAdmin };

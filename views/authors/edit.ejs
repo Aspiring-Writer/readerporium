@@ -1,7 +1,11 @@
 <h2>Edit Author</h2>
 
 <form action="/authors/<%= author.id %>?_method=PUT" method="POST">
-  <%- include('_form.ejs') %>
-  <a class="button" href="/authors/<%= author.id %>">Cancel</a>
-  <button type="submit">Update</button>
+  <div class="row">
+    <div class="offset-by-one-third one-third column">
+      <%- include('_form.ejs') %>
+      <a class="button" href="/authors/<%= author.id %>">Cancel</a>
+      <button type="submit">Update</button>
+    </div>
+  </div>
 </form>

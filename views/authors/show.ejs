@@ -1,5 +1,6 @@
 <h2><%= author.name %></h2>
 
+<% if (user.role = "admin") { %>
 <div class="row">
   <div class="offset-by-eight two columns">
     <a class="button" href="/authors/<%= author.id %>/edit">
@@ -7,17 +8,15 @@
     </a>
   </div>
   <div class="two columns">
-    <%- include('../partials/deleteForm', { url: `/authors/${author.id}` }) %> 
+    <%- include('../partials/deleteForm', { url: `/authors/${author.id}` }) %>
   </div>
 </div>
+<% } %>
 <% if (booksByAuthor.length > 0) { %>
 <h3>Books by Author</h3>
 <% booksByAuthor.forEach(book => { %>
 <a class="cover" href="/books/<%= book.id %>">
-  <img
-    src="<%= book.coverImagePath %>" 
-    alt="cover"
-    <% if (book.accessLevel == 4) { %>class="blur"<% } %>
-  />
+  <img src="<%= book.coverImagePath %>" alt="cover" <% if (book.accessLevel ==
+  4) { %>class="blur"<% } %> />
 </a>
 <% }) %> <% } %>

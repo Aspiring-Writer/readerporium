@@ -1,19 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const { isLoggedIn, isAdmin } = require("../auth");
 const Author = require("../models/author");
 const Book = require("../models/book");
-const { isLoggedIn, checkIsInRole } = require("../auth");
-const ROLES = require("../roles");
+const User = require("../models/user");
 
 // All Authors Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let searchOptions = {};
+  let query = Author.find({ accessLevel: { $lte: req.user.accessLevel } });
   if (req.query.name != null && req.query.name !== "") {
-    searchOptions.name = new RegExp(req.query.name, "i");
+    query = query.regex("name", new RegExp(req.query.name, "i"));
   }
   try {
-    const authors = await Author.find(searchOptions);
+    const user = await User.find({});
+    const authors = await query.exec();
     res.render("authors/index", {
+      user: user,
       authors: authors,
       searchOptions: req.query,
     });
@@ -23,7 +25,7 @@ router.get("/", isLoggedIn, async (req, res) => {
 });
 
 // New Author Route
-router.get("/new", isLoggedIn, checkIsInRole(ROLES.ADMIN), (req, res) => {
+router.get("/new", isLoggedIn, isAdmin, (req, res) => {
   res.render("authors/new", { author: new Author() });
 });
 
@@ -31,6 +33,7 @@ router.get("/new", isLoggedIn, checkIsInRole(ROLES.ADMIN), (req, res) => {
 router.post("/", async (req, res) => {
   const author = new Author({
     name: req.body.name,
+    accessLevel: req.body.accessLevel,
   });
   try {
     const newAuthor = await author.save();
@@ -44,11 +47,16 @@ router.post("/", async (req, res) => {
 });
 
 // Show Author Route
-router.get("/:id", isLoggedIn, async (req, res) => {
+router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
   try {
+    const user = await User.find({});
     const author = await Author.findById(req.params.id);
-    const books = await Book.find({ author: author.id }).limit(6).exec();
+    const books = await Book.find({
+      author: author.id,
+      accessLevel: { $lte: req.user.accessLevel },
+    })
     res.render("authors/show", {
+      user: user,
       author: author,
       booksByAuthor: books,
     });
@@ -58,7 +66,7 @@ router.get("/:id", isLoggedIn, async (req, res) => {
 });
 
 // Edit Author Route
-router.get("/:id/edit", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isAdmin, async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
     res.render("authors/edit", { author: author });
@@ -73,6 +81,7 @@ router.put("/:id", async (req, res) => {
   try {
     author = await Author.findById(req.params.id);
     author.name = req.body.name;
+    author.accessLevel = req.body.accessLevel;
     await author.save();
     res.redirect(`/authors/${author.id}`);
   } catch {
@@ -87,7 +96,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
+// Delete Author
+router.delete("/:id", isLoggedIn, isAdmin, async (req, res) => {
   let author;
   try {
     author = await Author.findById(req.params.id);
@@ -101,5 +111,11 @@ router.delete("/:id", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) =
     }
   }
 });
+
+async function hasAccessLevel(req, res, next) {
+  const author = await Author.findById(req.params.id);
+  if (author.accessLevel <= req.user.accessLevel) return next();
+  res.redirect("/authors");
+}
 
 module.exports = router;

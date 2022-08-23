@@ -6,6 +6,10 @@ const authorSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  accessLevel: {
+    type: Number,
+    required: true,
+  },
 });
 
 authorSchema.pre("remove", function (next) {

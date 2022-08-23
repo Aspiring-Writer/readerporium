@@ -1,11 +1,14 @@
 <h2>Admin Dashboard</h2>
 
 <div class="btn-group">
-  <a href="/books/new" class="button">
-    <i class="fa-solid fa-book-medical fa-lg"></i>
+  <a href="/admin/new" class="button">
+    <i class="fa-solid fa-user fa-lg"></i>
   </a>
   <a href="/authors/new" class="button">
     <i class="fa-solid fa-user-plus fa-lg"></i>
+  </a>
+  <a href="/books/new" class="button">
+    <i class="fa-solid fa-book-medical fa-lg"></i>
   </a>
 </div>
 
@@ -16,6 +19,8 @@
       <th>Username</th>
       <th>Date Created</th>
       <th>Role</th>
+      <th>Level</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -25,6 +30,13 @@
       <td><%= user.username %></td>
       <td><%= user.dateCreated.toDateString() %></td>
       <td><%= user.role %></td>
+      <td><%= user.accessLevel %></td>
+      <td>
+        <a href="/admin/<%= user.id %>/edit" class="button">
+          <i class="fa-solid fa-pen fa-lg"></i>
+        </a>
+        <%- include('./partials/deleteForm', { url: `/admin/${user.id}` }) %>
+      </td>
     </tr>
     <% }) %>
   </tbody>

@@ -1,6 +1,6 @@
-<h2>Register</h2>
+<h2>Create User</h2>
 
-<form action="/register" method="POST">
+<form action="/admin" method="POST">
   <div class="row">
     <div class="offset-by-one-third one-third column">
       <label>Name</label>
@@ -8,15 +8,15 @@
       <label>Username</label>
       <input type="text" name="username" id="username" required />
       <label>Role</label>
-      <select name="role">
-        <option value="Admin">Admin</option>
-        <option value="Child">Child</option>
-        <option value="Teen">Teen</option>
-        <option value="Adult">Adult</option>
+      <select name="role" id="role" class="u-full-width">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
       </select>
+      <label>Access Level</label>
+      <input type="number" min="1" max="4" name="accessLevel" />
       <label>Password</label>
       <input type="password" name="password" id="password" required />
-      <button type="submit">Register</button>
+      <button type="submit">Create</button>
     </div>
   </div>
 </form>

@@ -1,15 +1,19 @@
 <h2>Search Books</h2>
 <form action="/books" method="GET">
   <div class="row">
-    <div class="one-half column">
+    <div class="one-third column">
       <label>Name</label>
-      <input type="text" name="title" value="<%= searchOptions.title %>" />
+      <input
+        class="u-full-width"
+        type="text"
+        name="title"
+        value="<%= searchOptions.title %>"
+      />
     </div>
-  </div>
-  <div class="row">
     <div class="one-third column">
       <label>Published Before</label>
       <input
+        class="u-full-width"
         type="date"
         name="publishedBefore"
         value="<%= searchOptions.publishedBefore %>"
@@ -18,18 +22,23 @@
     <div class="one-third column">
       <label>Published After</label>
       <input
+        class="u-full-width"
         type="date"
         name="publishedAfter"
         value="<%= searchOptions.publishedAfter %>"
       />
     </div>
   </div>
-  <button type="submit">Search</button>
+  <div class="btn-group">
+    <button type="submit">Search</button>
+  </div>
 </form>
+
 <div>
   <% books.forEach(book => { %>
   <a class="cover" href="/books/<%= book.id %>">
-    <img src="<%= book.coverImagePath %>" alt="cover" />
+    <img src="<%= book.coverImagePath %>" alt="cover" <% if (book.accessLevel ==
+    4) { %>class="blur"<% } %> />
   </a>
   <% }) %>
 </div>

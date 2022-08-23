@@ -7,23 +7,11 @@
       src="<%= book.coverImagePath %>"
       alt="cover"
     />
-    <div class="row">
-      <div class="one-half column">
-        <a class="button" href="/books/<%= book.id %>/edit">
-          <i class="fa-solid fa-pen fa-lg"></i>
-        </a>
-      </div>
-      <div class="one-half column">
-        <%- include('../partials/deleteForm', { url: `/books/${book.id}` }) %>
-      </div>
-    </div>
   </div>
   <div class="one-half column">
     <p>
       <i class="fa-solid fa-user"></i>
-      <a href="/authors/<%= book.author.id %>">
-        <%= book.author.name %>
-      </a>
+      <a href="/authors/<%= book.author.id %>"> <%= book.author.name %> </a>
     </p>
     <p>
       <i class="fa-solid fa-calendar"></i>
@@ -34,17 +22,27 @@
       <%= book.wordCount %> words
     </p>
     <p>Access Level: <%= book.accessLevel %></p>
+    <% if (user.role = "admin") { %>
+    <div class="row">
+      <div class="one-half column">
+        <a class="button" href="/books/<%= book.id %>/edit">
+          <i class="fa-solid fa-pen fa-lg"></i>
+        </a>
+      </div>
+      <div class="one-half column">
+        <%- include('../partials/deleteForm', { url: `/books/${book.id}` }) %>
+      </div>
+    </div>
+    <% } %>
   </div>
 </div>
 
 <p><%= book.description %></p>
 
+<% if (user.username != "visitor") { %>
 <p class="alert">
-  To download this e-book, you will need an e-book reading app for your device. Popular ones include FBReader, Moon+ Reader, and iBooks.
-</p>
-
-<p class="alert">
-  Sorry, visitors can't download books.
+  To download this e-book, you will need an e-book reading app for your device.
+  Popular ones include FBReader, Moon+ Reader, and iBooks.
 </p>
 
 <table class="u-full-width">
@@ -57,13 +55,16 @@
   <tbody>
     <tr>
       <td>
-        <a href="https://aspiring-writer.gitlab.io/books/<%= book.accessLevel %>/<%= book.author.name %>/<%= book.title %>.epub">
+        <a
+          href="https://aspiring-writer.gitlab.io/books/<%= book.accessLevel %>/<%= book.author.name %>/<%= book.title %>.epub"
+        >
           EPUB
         </a>
       </td>
-      <td>
-        Supported by most e-readers, smartphones, tablets, and computers.
-      </td>
+      <td>Supported by most e-readers, smartphones, tablets, and computers.</td>
     </tr>
   </tbody>
 </table>
+<% } else { %>
+<p class="alert">Sorry, visitors can't download books.</p>
+<% } %>
