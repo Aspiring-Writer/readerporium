@@ -25,36 +25,26 @@
 
     <!-- Font Awesome -->
     <link href="/fontawesome/css/all.min.css" rel="stylesheet" />
-
-    <!-- FilePond -->
-    <link
-      href="https://unpkg.com/filepond@^4/dist/filepond.css"
-      rel="stylesheet"
-    />
-    <script
-      defer
-      src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"
-    ></script>
-    <link
-      href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
-      rel="stylesheet"
-    />
-    <script
-      defer
-      src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"
-    ></script>
-    <script
-      defer
-      src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"
-    ></script>
-    <script defer src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-    <script defer src="/js/fileUpload.js"></script>
   </head>
   <body>
     <div class="container">
-      <%- include('../partials/header.ejs') %>
-      <%- include('../partials/errorMessage.ejs') %>
-      <%- body %>
+      <header>
+        <h1>Readerporium</h1>
+      </header>
+
+      <h2>Login</h2>
+      <%- include('./partials/errorMessage.ejs') %>
+      <form action="/login" method="post">
+        <div class="row">
+          <div class="offset-by-one-third one-third column">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required />
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required />
+            <button type="submit">Login</button>
+          </div>
+        </div>
+      </form>
     </div>
   </body>
 </html>

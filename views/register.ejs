@@ -1,0 +1,22 @@
+<h2>Register</h2>
+
+<form action="/register" method="POST">
+  <div class="row">
+    <div class="offset-by-one-third one-third column">
+      <label>Name</label>
+      <input type="text" name="name" id="name" required />
+      <label>Username</label>
+      <input type="text" name="username" id="username" required />
+      <label>Role</label>
+      <select name="role">
+        <option value="Admin">Admin</option>
+        <option value="Child">Child</option>
+        <option value="Teen">Teen</option>
+        <option value="Adult">Adult</option>
+      </select>
+      <label>Password</label>
+      <input type="password" name="password" id="password" required />
+      <button type="submit">Register</button>
+    </div>
+  </div>
+</form>

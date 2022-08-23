@@ -1,5 +1,5 @@
 body { font-size: 1.8rem; }
-header {
+header, .btn-group {
   text-align: center;
   padding: 2rem;
   margin-bottom: 4rem;
@@ -27,11 +27,6 @@ img.blur:hover {
 
 h2 { text-align: center; }
 
-td a { font-weight: 600; text-decoration: none; }
-
-.users tr td { text-align: center; }
-.list td:last-child { text-align: right; }
-
 form textarea { height: 236px; }
 
 .alert {
@@ -40,13 +35,5 @@ form textarea { height: 236px; }
   font-weight: 600;
   text-align: center;
   border: 1px solid #bbb;
-  border-radius: 5px;
-}
-footer {
-  margin-top: 6rem;
-  padding: 25px 15px;
-  text-align: center;
-  border: 1px solid #bbb;
-  border-bottom: none;
   border-radius: 5px;
 }

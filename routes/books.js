@@ -3,9 +3,11 @@ const router = express.Router();
 const Book = require("../models/book");
 const Author = require("../models/author");
 const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"];
+const { isLoggedIn, checkIsInRole } = require("../auth");
+const ROLES = require("../roles");
 
 // All Books Route
-router.get("/", async (req, res) => {
+router.get("/", isLoggedIn, async (req, res) => {
   let query = Book.find();
   if (req.query.title != null && req.query.title != "") {
     query = query.regex("title", new RegExp(req.query.title, "i"));
@@ -28,7 +30,7 @@ router.get("/", async (req, res) => {
 });
 
 // New Book Route
-router.get("/new", async (req, res) => {
+router.get("/new", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
   renderNewPage(res, new Book());
 });
 
@@ -53,7 +55,7 @@ router.post("/", async (req, res) => {
 });
 
 // Show Book Route
-router.get("/:id", async (req, res) => {
+router.get("/:id", isLoggedIn, async (req, res) => {
   try {
     const book = await Book.findById(req.params.id).populate("author").exec();
     res.render("books/show", { book: book });
@@ -63,7 +65,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Edit Book Route
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
   try {
     const book = await Book.findById(req.params.id);
     renderEditPage(res, book);
@@ -98,7 +100,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete Book Route
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isLoggedIn, checkIsInRole(ROLES.ADMIN), async (req, res) => {
   let book;
   try {
     book = await Book.findById(req.params.id);

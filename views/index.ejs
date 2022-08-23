@@ -2,11 +2,8 @@
 <div>
   <% books.forEach(book => { %>
   <a class="cover" href="/books/<%= book.id %>">
-    <img
-      src="<%= book.coverImagePath %>" 
-      alt="cover"
-      <% if (book.accessLevel == 4) { %>class="blur"<% } %>
-    />
+    <img src="<%= book.coverImagePath %>" alt="cover" <% if (book.accessLevel ==
+    4) { %>class="blur"<% } %> />
   </a>
   <% }) %>
 </div>
