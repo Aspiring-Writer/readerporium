@@ -12,7 +12,8 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const flash = require("express-flash");
-const session = require("cookie-session");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 // Models
 const User = require("./models/user");
@@ -30,8 +31,16 @@ app.use(express.json());
 app.use(flash());
 app.use(
   session({
-    keys: [process.env.SECRET_KEY],
-    maxAge: 24 * 60 * 60 * 1000,
+    secret: process.env.SECRET_KEY,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+    store: new MongoDBStore({
+      uri: process.env.DATABASE_URL,
+      collection: "sessions",
+    }),
+    resave: false,
+    saveUninitialized: false,
   })
 );
 
