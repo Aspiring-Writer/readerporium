@@ -1,0 +1,11 @@
+<h2>Edit Series</h2>
+
+<form action="/series/<%= series.id %>?_method=PUT" method="POST">
+  <div class="row">
+    <div class="offset-by-one-third one-third column">
+      <%- include('_form.ejs') %>
+      <a class="button" href="/series/<%= series.id %>">Cancel</a>
+      <button type="submit">Update</button>
+    </div>
+  </div>
+</form>

@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
 }
-
+require("dotenv").config();
 // Imports
 const express = require("express");
 const app = express();

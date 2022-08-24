@@ -54,7 +54,7 @@ router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
     const books = await Book.find({
       author: author.id,
       accessLevel: { $lte: req.user.accessLevel },
-    })
+    });
     res.render("authors/show", {
       user: user,
       author: author,
@@ -96,7 +96,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Delete Author
+// Delete Author Route
 router.delete("/:id", isLoggedIn, isAdmin, async (req, res) => {
   let author;
   try {

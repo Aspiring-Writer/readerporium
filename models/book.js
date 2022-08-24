@@ -38,11 +38,18 @@ const bookSchema = new mongoose.Schema({
     required: true,
     ref: "Author",
   },
+  series: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Series",
+  },
 });
 
 bookSchema.virtual("coverImagePath").get(function () {
   if (this.coverImage != null && this.coverImageType != null) {
-    return `data:${this.coverImageType};charset=uft-8;base64,${this.coverImage.toString('base64')}`
+    return `data:${
+      this.coverImageType
+    };charset=uft-8;base64,${this.coverImage.toString("base64")}`;
   }
 });
 
