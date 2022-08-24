@@ -43,6 +43,12 @@ const bookSchema = new mongoose.Schema({
     required: true,
     ref: "Series",
   },
+  tags: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tag",
+    },
+  ],
 });
 
 bookSchema.virtual("coverImagePath").get(function () {

@@ -29,6 +29,12 @@ h2 { text-align: center; }
 
 form textarea { height: 236px; }
 
+form #tags {
+  min-height: 100px;
+}
+p#tags a:not(:last-child) {
+  padding-right: 0.5em;
+}
 .alert {
 	margin-bottom: 2rem;
   padding: 25px 15px;

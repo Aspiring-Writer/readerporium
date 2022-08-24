@@ -4,8 +4,10 @@
   <div class="row">
     <div class="offset-by-one-third one-third column">
       <%- include('_form.ejs') %>
-      <a class="button" href="/series/<%= series.id %>">Cancel</a>
-      <button type="submit">Update</button>
     </div>
+  </div>
+  <div class="btn-group">
+    <a class="button" href="/series/<%= series.id %>">Cancel</a>
+    <button type="submit">Update</button>
   </div>
 </form>

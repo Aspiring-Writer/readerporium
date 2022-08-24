@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
     accessLevel: req.body.accessLevel,
   });
   try {
-    const newSeries = await Series.save();
+    const newSeries = await series.save();
     res.redirect(`series/${newSeries.id}`);
   } catch {
     res.render("series/new", {
@@ -54,11 +54,11 @@ router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
     const books = await Book.find({
       series: series.id,
       accessLevel: { $lte: req.user.accessLevel },
-    })
+    });
     res.render("series/show", {
       user: user,
       series: series,
-      booksByseries: books,
+      booksInSeries: books,
     });
   } catch {
     res.redirect("/");

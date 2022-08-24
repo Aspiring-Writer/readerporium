@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="one-half column">
+  <div class="one-third column">
     <label>Title</label>
     <input
       class="u-full-width"
@@ -8,7 +8,7 @@
       value="<%= book.title %>"
     />
   </div>
-  <div class="one-half column">
+  <div class="three columns">
     <label>Author</label>
     <select name="author" class="u-full-width">
       <% authors.forEach(author => { %> <% if (author.id === book.author) { %>
@@ -21,29 +21,21 @@
       </option>
     </select>
   </div>
-</div>
-<div class="row">
   <div class="one-third column">
-    <label>Publish Date</label>
-    <input
-      class="u-full-width"
-      type="date"
-      name="publishDate"
-      value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>"
-    />
+    <label>Series</label>
+    <select name="series" id="series" class="u-full-width">
+      <% series.forEach(series => { %> <% if (series.id === book.series) { %>
+      <option selected label="<%= series.name %>" value="<%= series.id %>">
+        <% } else { %>
+      </option>
+
+      <option label="<%= series.name %>" value="<%= series.id %>">
+        <% } %> <% }) %>
+      </option>
+    </select>
   </div>
-  <div class="one-third column">
-    <label>Word Count</label>
-    <input
-      class="u-full-width"
-      type="number"
-      min="1"
-      name="wordCount"
-      value="<%= book.wordCount %>"
-    />
-  </div>
-  <div class="one-third column">
-    <label>Access Level</label>
+  <div class="one column">
+    <label>Level</label>
     <input
       class="u-full-width"
       type="number"
@@ -55,7 +47,34 @@
   </div>
 </div>
 <div class="row">
-  <div class="one-half column">
+  <div class="three columns">
+    <label>Publish Date</label>
+    <input
+      class="u-full-width"
+      type="date"
+      name="publishDate"
+      value="<%= book.publishDate == null ? '' : book.publishDate.toISOString().split('T')[0] %>"
+    />
+  </div>
+  <div class="two columns">
+    <label>Word Count</label>
+    <input
+      class="u-full-width"
+      type="number"
+      min="1"
+      name="wordCount"
+      value="<%= book.wordCount %>"
+    />
+  </div>
+  <div class="three columns">
+    <label>Tags</label>
+    <select name="tags" id="tags" class="u-full-width" multiple>
+      <% tags.forEach(tag => { %>
+      <option label="<%= tag.name %>" value="<%= tag.id %>"></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="four columns">
     <label>Cover</label>
     <input type="file" name="cover" class="filepond" />
   </div>

@@ -1,13 +1,13 @@
-<h2>Edit Author</h2>
+<h2>Edit tag</h2>
 
-<form action="/authors/<%= author.id %>?_method=PUT" method="POST">
+<form action="/tags/<%= tag.id %>?_method=PUT" method="POST">
   <div class="row">
     <div class="offset-by-one-third one-third column">
       <%- include('_form.ejs') %>
     </div>
   </div>
   <div class="btn-group">
-    <a class="button" href="/authors/<%= author.id %>">Cancel</a>
+    <a class="button" href="/tags/<%= tag.id %>">Cancel</a>
     <button type="submit">Update</button>
   </div>
 </form>

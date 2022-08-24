@@ -11,11 +11,24 @@
   <div class="one-half column">
     <p>
       <i class="fa-solid fa-user"></i>
-      <a href="/authors/<%= book.author.id %>"> <%= book.author.name %> </a>
+      <a href="/authors/<%= book.author.id %>"><%= book.author.name %> </a>
     </p>
+    <% if (book.series) { %>
+    <p>
+      <i class="fa-solid fa-list-ol"></i>
+      <a href="/series/<%= book.series.id %>"><%= book.series.name %></a>
+    </p>
+    <% } %> <% if (book.tags) { %>
+    <p id="tags">
+      <% book.tags.forEach(tag => { %>
+      <i class="fa-solid fa-tags"></i>
+      <a href="/tags/<%= tag.id %>"> <%= tag.name %> </a>
+      <% }) %>
+    </p>
+    <% } %>
     <p>
       <i class="fa-solid fa-calendar"></i>
-      <%= book.publishDate.toDateString() %>
+      Published: <%= book.publishDate.toDateString() %>
     </p>
     <p>
       <i class="fa-solid fa-arrow-down-1-9"></i>

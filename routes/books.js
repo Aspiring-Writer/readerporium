@@ -3,12 +3,14 @@ const router = express.Router();
 const { isLoggedIn, isAdmin } = require("../auth");
 const Book = require("../models/book");
 const Author = require("../models/author");
+const Series = require("../models/series");
+const Tag = require("../models/tag");
 const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"];
 const User = require("../models/user");
 
 // All Books Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Book.find({ accessLevel: { $lte: req.user.accessLevel }})
+  let query = Book.find({ accessLevel: { $lte: req.user.accessLevel } });
   if (req.query.title != null && req.query.title != "") {
     query = query.regex("title", new RegExp(req.query.title, "i"));
   }
@@ -43,6 +45,8 @@ router.post("/", async (req, res) => {
     wordCount: req.body.wordCount,
     description: req.body.description,
     accessLevel: req.body.accessLevel,
+    series: req.body.series,
+    tags: req.body.tags,
   });
   saveCover(book, req.body.cover);
 
@@ -58,8 +62,15 @@ router.post("/", async (req, res) => {
 router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
   try {
     const user = await User.find({});
-    const book = await Book.findById(req.params.id).populate("author").exec();
-    res.render("books/show", { user: user, book: book });
+    const book = await Book.findById(req.params.id)
+      .populate("author")
+      .populate("series")
+      .populate("tags")
+      .exec();
+    res.render("books/show", {
+      user: user,
+      book: book,
+    });
   } catch {
     res.redirect("/");
   }
@@ -86,6 +97,8 @@ router.put("/:id", async (req, res) => {
     book.wordCount = req.body.wordCount;
     book.description = req.body.description;
     book.accessLevel = req.body.accessLevel;
+    book.series = req.body.series;
+    book.tags = req.body.tags;
     if (req.body.cover != null && req.body.cover != "") {
       saveCover(book, req.body.cover);
     }
@@ -129,9 +142,13 @@ async function renderEditPage(res, book, hasError = false) {
 
 async function renderFormPage(res, book, form, hasError = false) {
   try {
-    const authors = await Author.find({});
+    const authors = await Author.find({}).sort("name");
+    const series = await Series.find({}).sort("name");
+    const tags = await Tag.find({}).sort("name");
     const params = {
       authors: authors,
+      series: series,
+      tags: tags,
       book: book,
     };
     if (hasError) {
