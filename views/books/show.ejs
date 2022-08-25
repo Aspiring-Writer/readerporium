@@ -1,6 +1,6 @@
 <h2><%= book.title %></h2>
 
-<div class="row">
+<div class="row" style="margin-bottom: 2rem;">
   <div class="one-half column">
     <img
       class="u-max-full-width <% if (book.accessLevel == 4) { %>blur<% } %>"
@@ -35,25 +35,14 @@
       <%= book.wordCount %> words
     </p>
     <p>Access Level: <%= book.accessLevel %></p>
-    <% if (user.role = "admin") { %>
-    <div class="row">
-      <div class="one-half column">
-        <a class="button" href="/books/<%= book.id %>/edit">
-          <i class="fa-solid fa-pen fa-lg"></i>
-        </a>
-      </div>
-      <div class="one-half column">
-        <%- include('../partials/deleteForm', { url: `/books/${book.id}` }) %>
-      </div>
-    </div>
-    <% } %>
   </div>
 </div>
 
 <p><%= book.description %></p>
 
-<% if (user.username != "visitor") { %>
-<p class="alert">
+<%- include('../partials/adminButtons.ejs', { url: `/books/${book.id}` }) %> <%
+if (user.username != "visitor") { %>
+<p class="alert text-center">
   To download this e-book, you will need an e-book reading app for your device.
   Popular ones include FBReader, Moon+ Reader, and iBooks.
 </p>
@@ -79,5 +68,5 @@
   </tbody>
 </table>
 <% } else { %>
-<p class="alert">Sorry, visitors can't download books.</p>
+<p class="alert text-center">Sorry, visitors can't download books.</p>
 <% } %>

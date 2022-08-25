@@ -1,45 +1,26 @@
 body { font-size: 1.8rem; }
-header, .btn-group {
-  text-align: center;
-  padding: 2rem;
-  margin-bottom: 4rem;
-}
-header h1 a {
-  text-decoration: none;
-  line-height: 1.5;
-  letter-spacing: -.05rem;
-}
+header { text-align: center; padding-top: 2rem; margin-bottom: 4rem; }
+header h1 a { text-decoration: none; line-height: 1.5; letter-spacing: -.05rem; }
+h2 { text-align: center; }
+.alert { margin-bottom: 2rem; padding: 25px 15px; border: 1px solid #bbb; border-radius: 5px; }
 
 a.cover { text-decoration: none; }
-a.cover img {
-  width: 150px;
-  height: 100%;
-}
+a.cover img { width: 150px; height: 100%; }
 img { border-radius: 5px; }
-img.blur {
-  filter: blur(5px);
-  transition: 0.5s ease-in-out;
-}
-img.blur:hover {
-  filter: blur(0);
-  transition: 0.5s ease-in-out;
-}
-
-h2 { text-align: center; }
+img.blur { filter: blur(5px); transition: 0.5s ease-in-out; }
+img.blur:hover { filter: blur(0); transition: 0.5s ease-in-out; }
 
 form textarea { height: 236px; }
+form #tags { min-height: 100px; }
+p#tags a:not(:last-child) { padding-right: 0.5em; }
 
-form #tags {
-  min-height: 100px;
-}
-p#tags a:not(:last-child) {
-  padding-right: 0.5em;
-}
-.alert {
-	margin-bottom: 2rem;
-  padding: 25px 15px;
-  font-weight: 600;
+.text-center { text-align: center; }
+
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   text-align: center;
-  border: 1px solid #bbb;
-  border-radius: 5px;
+  margin-top: 1em;
 }
