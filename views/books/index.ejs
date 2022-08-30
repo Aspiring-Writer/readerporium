@@ -1,7 +1,7 @@
 <h2>Search Books</h2>
 <form action="/books" method="GET">
   <div class="row">
-    <div class="one-third column">
+    <div class="four columns">
       <label>Name</label>
       <input
         class="u-full-width"
@@ -10,8 +10,26 @@
         value="<%= searchOptions.title %>"
       />
     </div>
-    <div class="one-third column">
-      <label>Published Before</label>
+    <div class="two columns">
+      <label>Min Words</label>
+      <input
+        class="u-full-width"
+        type="number"
+        name="minWordCount"
+        value="<%= searchOptions.minWordCount %>"
+      />
+    </div>
+    <div class="two columns">
+      <label>Max Words</label>
+      <input
+        class="u-full-width"
+        type="number"
+        name="maxWordCount"
+        value="<%= searchOptions.maxWordCount %>"
+      />
+    </div>
+    <div class="two columns">
+      <label>Pub. Before</label>
       <input
         class="u-full-width"
         type="date"
@@ -19,8 +37,8 @@
         value="<%= searchOptions.publishedBefore %>"
       />
     </div>
-    <div class="one-third column">
-      <label>Published After</label>
+    <div class="two columns">
+      <label>Pub. After</label>
       <input
         class="u-full-width"
         type="date"
@@ -34,11 +52,4 @@
   </div>
 </form>
 
-<div>
-  <% books.forEach(book => { %>
-  <a class="cover" href="/books/<%= book.id %>">
-    <img src="<%= book.coverImagePath %>" alt="cover" <% if (book.accessLevel ==
-    4) { %>class="blur"<% } %> />
-  </a>
-  <% }) %>
-</div>
+<%- include('../partials/booksList.ejs') %>

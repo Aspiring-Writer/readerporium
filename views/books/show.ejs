@@ -1,14 +1,14 @@
 <h2><%= book.title %></h2>
 
 <div class="row" style="margin-bottom: 2rem;">
-  <div class="one-half column">
+  <div class="four columns">
     <img
       class="u-max-full-width <% if (book.accessLevel == 4) { %>blur<% } %>"
       src="<%= book.coverImagePath %>"
       alt="cover"
     />
   </div>
-  <div class="one-half column">
+  <div class="eight columns">
     <p>
       <i class="fa-solid fa-user"></i>
       <a href="/authors/<%= book.author.id %>"><%= book.author.name %> </a>
@@ -16,7 +16,9 @@
     <% if (book.series) { %>
     <p>
       <i class="fa-solid fa-list-ol"></i>
-      <a href="/series/<%= book.series.id %>"><%= book.series.name %></a>
+      <a href="/series/<%= book.series.id %>">
+        <%= book.series.name %> #<%= book.seriesIndex %>
+      </a>
     </p>
     <% } %> <% if (book.tags) { %>
     <p id="tags">
@@ -32,16 +34,15 @@
     </p>
     <p>
       <i class="fa-solid fa-arrow-down-1-9"></i>
-      <%= book.wordCount %> words
+      <%= book.wordCount.toLocaleString() %> words
     </p>
     <p>Access Level: <%= book.accessLevel %></p>
   </div>
 </div>
 
-<p><%= book.description %></p>
+<%- description %>
 
-<%- include('../partials/adminButtons.ejs', { url: `/books/${book.id}` }) %> <%
-if (user.username != "visitor") { %>
+<%- include('../partials/adminButtons.ejs', { url: `/books/${book.id}` }) %> <% if (user.username != "visitor") { %>
 <p class="alert text-center">
   To download this e-book, you will need an e-book reading app for your device.
   Popular ones include FBReader, Moon+ Reader, and iBooks.

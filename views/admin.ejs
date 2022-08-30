@@ -1,17 +1,5 @@
 <h2>Admin Dashboard</h2>
 
-<div class="btn-group">
-  <a href="/admin/new" class="button">
-    <i class="fa-solid fa-user fa-lg"></i>
-  </a>
-  <a href="/authors/new" class="button">
-    <i class="fa-solid fa-user-plus fa-lg"></i>
-  </a>
-  <a href="/books/new" class="button">
-    <i class="fa-solid fa-book-medical fa-lg"></i>
-  </a>
-</div>
-
 <table class="u-full-width">
   <thead>
     <tr>
@@ -35,7 +23,11 @@
         <a href="/admin/<%= user.id %>/edit" class="button">
           <i class="fa-solid fa-pen fa-lg"></i>
         </a>
-        <%- include('./partials/deleteForm', { url: `/admin/${user.id}` }) %>
+        <form method="POST" action="/admin/<%= user.id %>?_method=DELETE">
+          <button type="submit">
+            <i class="fa-solid fa-trash fa-lg"></i>
+          </button>
+        </form>
       </td>
     </tr>
     <% }) %>

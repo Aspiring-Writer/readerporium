@@ -43,6 +43,9 @@ const bookSchema = new mongoose.Schema({
     required: true,
     ref: "Series",
   },
+  seriesIndex: {
+    type: Number,
+  },
   tags: [
     {
       type: mongoose.Schema.Types.ObjectId,

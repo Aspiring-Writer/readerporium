@@ -1,10 +1,4 @@
 <h2>Welcome <%= name %></h2>
 <h3>Recently Added</h3>
-<div>
-  <% books.forEach(book => { %>
-  <a class="cover" href="/books/<%= book.id %>">
-    <img src="<%= book.coverImagePath %>" alt="cover" <% if (book.accessLevel ==
-    4) { %>class="blur"<% } %> />
-  </a>
-  <% }) %>
-</div>
+
+<%- include('./partials/booksList.ejs') %>

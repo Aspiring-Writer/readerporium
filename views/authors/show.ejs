@@ -1,12 +1,5 @@
 <h2><%= author.name %></h2>
-
 <%- include('../partials/adminButtons.ejs', { url: `/authors/${author.id}` }) %>
-
-<% if (booksByAuthor.length > 0) { %>
+<% if (books.length > 0) { %>
 <h3>Books by Author</h3>
-<% booksByAuthor.forEach(book => { %>
-<a class="cover" href="/books/<%= book.id %>">
-  <img src="<%= book.coverImagePath %>" alt="cover" <% if (book.accessLevel ==
-  4) { %>class="blur"<% } %> />
-</a>
-<% }) %> <% } %>
+<%- include('../partials/booksList.ejs') %> <% } %>

@@ -1,5 +1,16 @@
 <div class="row">
-  <div class="one-third column">
+  <div class="one column">
+    <label>Level</label>
+    <input
+      class="u-full-width"
+      type="number"
+      min="1"
+      max="4"
+      name="accessLevel"
+      value="<%= book.accessLevel %>"
+    />
+  </div>
+  <div class="four columns">
     <label>Title</label>
     <input
       class="u-full-width"
@@ -21,9 +32,9 @@
       </option>
     </select>
   </div>
-  <div class="one-third column">
+  <div class="four columns">
     <label>Series</label>
-    <select name="series" id="series" class="u-full-width">
+    <select name="series" class="u-full-width">
       <% series.forEach(series => { %> <% if (series.id === book.series) { %>
       <option selected label="<%= series.name %>" value="<%= series.id %>">
         <% } else { %>
@@ -34,20 +45,18 @@
       </option>
     </select>
   </div>
-  <div class="one column">
-    <label>Level</label>
+</div>
+<div class="row">
+  <div class="two columns">
+    <label>Series Index</label>
     <input
       class="u-full-width"
       type="number"
-      min="1"
-      max="4"
-      name="accessLevel"
-      value="<%= book.accessLevel %>"
+      name="seriesIndex"
+      value="<%= book.seriesIndex %>"
     />
   </div>
-</div>
-<div class="row">
-  <div class="three columns">
+  <div class="two columns">
     <label>Publish Date</label>
     <input
       class="u-full-width"
@@ -66,12 +75,17 @@
       value="<%= book.wordCount %>"
     />
   </div>
-  <div class="three columns">
+  <div class="two columns">
     <label>Tags</label>
     <select name="tags" id="tags" class="u-full-width" multiple>
-      <% tags.forEach(tag => { %>
-      <option label="<%= tag.name %>" value="<%= tag.id %>"></option>
-      <% }) %>
+      <% tags.forEach(tag => { %> <% if (tag.id === book.tags) { %>
+      <option selected label="<%= tag.name %>" value="<%= tag.id %>">
+        <% } else { %>
+      </option>
+
+      <option label="<%= tag.name %>" value="<%= tag.id %>">
+        <% } %> <% }) %>
+      </option>
     </select>
   </div>
   <div class="four columns">

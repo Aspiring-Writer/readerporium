@@ -10,11 +10,19 @@ const Book = require("../models/book");
 router.get("/", isLoggedIn, async (req, res) => {
   let books;
   try {
-    books = await Book.find({ accessLevel: { $lte: req.user.accessLevel }}).sort({ createAt: "desc" }).limit(10).exec();
+    books = await Book.find({ accessLevel: { $lte: req.user.accessLevel } })
+      .sort({ createdAt: "desc" })
+      .limit(10)
+      .populate("author")
+      .populate("series")
+      .exec();
   } catch {
     books = [];
   }
-  res.render("index", { name: req.user.name, books: books });
+  res.render("index", {
+    name: req.user.name,
+    books: books,
+  });
 });
 
 router.get("/login", isLoggedOut, (req, res) => {

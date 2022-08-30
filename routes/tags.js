@@ -7,15 +7,13 @@ const User = require("../models/user");
 
 // All Tags Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Tag.find({ accessLevel: { $lte: req.user.accessLevel } });
+  let query = Tag.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("name");
   if (req.query.name != null && req.query.name !== "") {
     query = query.regex("name", new RegExp(req.query.name, "i"));
   }
   try {
-    const user = await User.find({});
     const tags = await query.exec();
     res.render("tags/index", {
-      user: user,
       tags: tags,
       searchOptions: req.query,
     });
@@ -49,7 +47,7 @@ router.post("/", async (req, res) => {
 // Show Tag Route
 router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
   try {
-    const user = await User.find({});
+    const user = await User.findById(req.user.id);
     const tag = await Tag.findById(req.params.id);
     const books = await Book.find({
       tags: tag.id,
@@ -58,7 +56,7 @@ router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
     res.render("tags/show", {
       user: user,
       tag: tag,
-      booksWithTag: books,
+      books: books,
     });
   } catch {
     res.redirect("/");

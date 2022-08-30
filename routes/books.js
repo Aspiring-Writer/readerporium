@@ -8,17 +8,26 @@ const Tag = require("../models/tag");
 const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"];
 const User = require("../models/user");
 
+const MarkdownIt = require('markdown-it'),
+    md = new MarkdownIt();
+
 // All Books Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Book.find({ accessLevel: { $lte: req.user.accessLevel } });
+  let query = Book.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("title");
   if (req.query.title != null && req.query.title != "") {
     query = query.regex("title", new RegExp(req.query.title, "i"));
   }
+  if (req.query.maxWordCount != null && req.query.maxWordCount != "") {
+    query = query.lte("wordCount", req.query.maxWordCount);
+  }
+  if (req.query.minWordCount != null && req.query.minWordCount != "") {
+    query = query.gte("wordCount", req.query.minWordCount);
+  }
   if (req.query.publishedBefore != null && req.query.publishedBefore != "") {
-    query = query.lte("publishedDate", req.query.publishedBefore);
+    query = query.lte("publishDate", req.query.publishedBefore);
   }
   if (req.query.publishedAfter != null && req.query.publishedAfter != "") {
-    query = query.gte("publishedDate", req.query.publishedAfter);
+    query = query.gte("publishDate", req.query.publishedAfter);
   }
   try {
     const books = await query.exec();
@@ -46,6 +55,7 @@ router.post("/", async (req, res) => {
     description: req.body.description,
     accessLevel: req.body.accessLevel,
     series: req.body.series,
+    seriesIndex: req.body.seriesIndex,
     tags: req.body.tags,
   });
   saveCover(book, req.body.cover);
@@ -61,15 +71,17 @@ router.post("/", async (req, res) => {
 // Show Book Route
 router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
   try {
-    const user = await User.find({});
+    const user = await User.findById(req.user.id);
     const book = await Book.findById(req.params.id)
       .populate("author")
       .populate("series")
       .populate("tags")
       .exec();
+    const description = md.render(book.description);
     res.render("books/show", {
       user: user,
       book: book,
+      description: description,
     });
   } catch {
     res.redirect("/");
@@ -98,6 +110,7 @@ router.put("/:id", async (req, res) => {
     book.description = req.body.description;
     book.accessLevel = req.body.accessLevel;
     book.series = req.body.series;
+    book.seriesIndex = req.body.seriesIndex;
     book.tags = req.body.tags;
     if (req.body.cover != null && req.body.cover != "") {
       saveCover(book, req.body.cover);

@@ -7,15 +7,13 @@ const User = require("../models/user");
 
 // All Series Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Series.find({ accessLevel: { $lte: req.user.accessLevel } });
+  let query = Series.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("name");
   if (req.query.name != null && req.query.name !== "") {
     query = query.regex("name", new RegExp(req.query.name, "i"));
   }
   try {
-    const user = await User.find({});
     const series = await query.exec();
     res.render("series/index", {
-      user: user,
       series: series,
       searchOptions: req.query,
     });
@@ -49,16 +47,16 @@ router.post("/", async (req, res) => {
 // Show Series Route
 router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
   try {
-    const user = await User.find({});
+    const user = await User.findById(req.user.id);
     const series = await Series.findById(req.params.id);
     const books = await Book.find({
       series: series.id,
       accessLevel: { $lte: req.user.accessLevel },
-    });
+    }).sort("seriesIndex");
     res.render("series/show", {
       user: user,
       series: series,
-      booksInSeries: books,
+      books: books,
     });
   } catch {
     res.redirect("/");

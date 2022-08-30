@@ -1,0 +1,10 @@
+<div>
+  <% books.forEach(book => { %>
+  <figure>
+    <a class="cover" href="/books/<%= book.id %>">
+      <img src="<%= book.coverImagePath %>" alt="cover" />
+      <figcaption><%= book.title %></figcaption>
+    </a>
+  </figure>
+  <% }) %>
+</div>

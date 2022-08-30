@@ -27,6 +27,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.3",
+    "markdown-it": "^13.0.1",
     "method-override": "^3.0.0",
     "mongoose": "^6.5.2",
     "passport": "^0.6.0",

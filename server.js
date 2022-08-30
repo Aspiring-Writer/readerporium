@@ -93,4 +93,10 @@ app.use("/books", require("./routes/books"));
 app.use("/series", require("./routes/series"));
 app.use("/tags", require("./routes/tags"));
 
+app.all("*", (req, res) => {
+  res
+    .status(404)
+    .render("layouts/layout", { body: "<h2>404! Page not found</h2>" });
+});
+
 app.listen(process.env.PORT || 3000);

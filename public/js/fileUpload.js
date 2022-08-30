@@ -5,8 +5,8 @@ FilePond.registerPlugin(
 );
 
 FilePond.setOptions({
-  imageResizeTargetWidth: 150,
-  imageResizeTargetHeight: 200,
+  imageResizeTargetWidth: 457,
+  imageResizeTargetHeight: 300,
 });
 
 FilePond.parse(document.body);
