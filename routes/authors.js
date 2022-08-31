@@ -7,7 +7,9 @@ const User = require("../models/user");
 
 // All Authors Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Author.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("name");
+  let query = Author.find({ accessLevel: { $lte: req.user.accessLevel } }).sort(
+    "name"
+  );
   if (req.query.name != null && req.query.name !== "") {
     query = query.regex("name", new RegExp(req.query.name, "i"));
   }
@@ -34,14 +36,14 @@ router.post("/", async (req, res) => {
     accessLevel: req.body.accessLevel,
   });
   try {
-    const newAuthor = await author.save();
-    res.redirect(`authors/${newAuthor.id}`);
+    await author.save();
+    req.flash("info", "Author created successfully");
   } catch {
-    res.render("authors/new", {
-      author: author,
-      errorMessage: "Error creating Author",
-    });
+    req.flash("error", "Error creating Author");
   }
+  res.render(`authors/new`, {
+    author: author,
+  });
 });
 
 // Show Author Route
@@ -52,8 +54,7 @@ router.get("/:id", isLoggedIn, hasAccessLevel, async (req, res) => {
     const books = await Book.find({
       author: author.id,
       accessLevel: { $lte: req.user.accessLevel },
-    })
-    .sort("title");
+    }).sort("title");
     res.render("authors/show", {
       user: user,
       author: author,
@@ -87,9 +88,9 @@ router.put("/:id", async (req, res) => {
     if (author == null) {
       res.redirect("/");
     } else {
+      req.flash("error", "Error updating author");
       res.render("authors/edit", {
         author: author,
-        errorMessage: "Error updating author",
       });
     }
   }

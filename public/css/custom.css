@@ -4,7 +4,7 @@ body { font-size: 1.8rem; }
 header { text-align: center; padding-top: 2rem; margin-bottom: 4rem; }
 header h1 a { text-decoration: none; line-height: 1.5; letter-spacing: -.05rem; }
 h2 { text-align: center; }
-.alert { margin-bottom: 2rem; padding: 25px 15px; border: 1px solid #bbb; border-radius: 5px; }
+.alert { margin-bottom: 2rem; padding: 25px 15px; border: 1px solid #bbb; border-radius: 5px; text-align: center; }
 
 figure { position: relative; display: inline-block; margin: 0; }
 figure img { width: 100%; height: 100%; opacity: 0.05; transition: 0.5s ease-in-out; }

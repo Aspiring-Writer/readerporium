@@ -7,7 +7,9 @@ const User = require("../models/user");
 
 // All Tags Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Tag.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("name");
+  let query = Tag.find({ accessLevel: { $lte: req.user.accessLevel } }).sort(
+    "name"
+  );
   if (req.query.name != null && req.query.name !== "") {
     query = query.regex("name", new RegExp(req.query.name, "i"));
   }
@@ -34,14 +36,14 @@ router.post("/", async (req, res) => {
     accessLevel: req.body.accessLevel,
   });
   try {
-    const newTag = await tag.save();
-    res.redirect(`tags/${newTag.id}`);
+    await tag.save();
+    req.flash("info", "Tag saved!");
   } catch {
-    res.render("tags/new", {
-      tag: tag,
-      errorMessage: "Error creating tag",
-    });
+    req.flash("error", "Error creating tag");
   }
+  res.render("tags/new", {
+    tag: tag,
+  });
 });
 
 // Show Tag Route
@@ -86,9 +88,9 @@ router.put("/:id", async (req, res) => {
     if (tag == null) {
       res.redirect("/");
     } else {
+      req.flash("error", "Error updating tag");
       res.render("tags/edit", {
         tag: tag,
-        errorMessage: "Error updating tag",
       });
     }
   }

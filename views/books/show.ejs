@@ -3,7 +3,7 @@
 <div class="row" style="margin-bottom: 2rem;">
   <div class="four columns">
     <img
-      class="u-max-full-width <% if (book.accessLevel == 4) { %>blur<% } %>"
+      class="u-max-full-width"
       src="<%= book.coverImagePath %>"
       alt="cover"
     />
@@ -13,7 +13,7 @@
       <i class="fa-solid fa-user"></i>
       <a href="/authors/<%= book.author.id %>"><%= book.author.name %> </a>
     </p>
-    <% if (book.series) { %>
+    <% if (book.series != '<None>') { %>
     <p>
       <i class="fa-solid fa-list-ol"></i>
       <a href="/series/<%= book.series.id %>">
@@ -43,7 +43,7 @@
 <%- description %>
 
 <%- include('../partials/adminButtons.ejs', { url: `/books/${book.id}` }) %> <% if (user.username != "visitor") { %>
-<p class="alert text-center">
+<p class="alert">
   To download this e-book, you will need an e-book reading app for your device.
   Popular ones include FBReader, Moon+ Reader, and iBooks.
 </p>
@@ -69,5 +69,5 @@
   </tbody>
 </table>
 <% } else { %>
-<p class="alert text-center">Sorry, visitors can't download books.</p>
+<p class="alert">Sorry, visitors can't download books.</p>
 <% } %>

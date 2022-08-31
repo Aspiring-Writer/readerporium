@@ -8,12 +8,14 @@ const Tag = require("../models/tag");
 const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"];
 const User = require("../models/user");
 
-const MarkdownIt = require('markdown-it'),
-    md = new MarkdownIt();
+const MarkdownIt = require("markdown-it"),
+  md = new MarkdownIt();
 
 // All Books Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Book.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("title");
+  let query = Book.find({ accessLevel: { $lte: req.user.accessLevel } }).sort(
+    "title"
+  );
   if (req.query.title != null && req.query.title != "") {
     query = query.regex("title", new RegExp(req.query.title, "i"));
   }
@@ -135,9 +137,9 @@ router.delete("/:id", isLoggedIn, isAdmin, async (req, res) => {
     res.redirect("/books");
   } catch {
     if (book != null) {
+      req.flash("error", "Could not remove book");
       res.render("books/show", {
         book: book,
-        errorMessage: "Could not remove book",
       });
     } else {
       res.redirect("/");
@@ -166,9 +168,9 @@ async function renderFormPage(res, book, form, hasError = false) {
     };
     if (hasError) {
       if (form === "edit") {
-        params.errorMessage = "Error updating book";
+        req.flash("error", "Error updating book");
       } else {
-        params.errorMessage = "Error creating book";
+        req.flash("error", "Error creating book");
       }
     }
     res.render(`books/${form}`, params);

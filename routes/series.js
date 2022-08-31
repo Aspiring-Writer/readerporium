@@ -7,7 +7,9 @@ const User = require("../models/user");
 
 // All Series Route
 router.get("/", isLoggedIn, async (req, res) => {
-  let query = Series.find({ accessLevel: { $lte: req.user.accessLevel } }).sort("name");
+  let query = Series.find({ accessLevel: { $lte: req.user.accessLevel } }).sort(
+    "name"
+  );
   if (req.query.name != null && req.query.name !== "") {
     query = query.regex("name", new RegExp(req.query.name, "i"));
   }
@@ -34,14 +36,14 @@ router.post("/", async (req, res) => {
     accessLevel: req.body.accessLevel,
   });
   try {
-    const newSeries = await series.save();
-    res.redirect(`series/${newSeries.id}`);
+    await series.save();
+    req.flash("info", "Series saved!");
   } catch {
-    res.render("series/new", {
-      series: series,
-      errorMessage: "Error creating series",
-    });
+    req.flash("error", "Error creating series");
   }
+  res.render("series/new", {
+    series: series,
+  });
 });
 
 // Show Series Route
@@ -86,9 +88,9 @@ router.put("/:id", async (req, res) => {
     if (series == null) {
       res.redirect("/");
     } else {
+      req.flash("error", "Error updating series");
       res.render("series/edit", {
         series: series,
-        errorMessage: "Error updating series",
       });
     }
   }

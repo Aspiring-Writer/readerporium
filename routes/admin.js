@@ -64,9 +64,9 @@ router.put("/:id", async (req, res) => {
     if (user == null) {
       res.redirect("/admin");
     } else {
+      req.flash("error", "Error updating user");
       res.render("edit", {
         user: user,
-        errorMessage: "Error updating user",
       });
     }
   }
