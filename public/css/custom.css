@@ -6,26 +6,8 @@ header h1 a { text-decoration: none; line-height: 1.5; letter-spacing: -.05rem; 
 h2 { text-align: center; }
 .alert { margin-bottom: 2rem; padding: 25px 15px; border: 1px solid #bbb; border-radius: 5px; }
 
-img { border-radius: 5px; }
-a.cover { text-decoration: none; }
-a.cover img { max-width: 100%; height: 100%; }
-@media (min-width: 375px) { 
-  a.cover img { width: 175px; }
-}
-@media (min-width: 750px) {
-  a.cover img { width: 200px; }
-}
-@media (min-width: 1200px) {
-  a.cover img { width: 225px; }
-}
-
-
-figure {
-  position: relative;
-  display: inline-block;
-  margin: 0;
-}
-figure img { opacity: 0.1; transition: 0.5s ease-in-out; }
+figure { position: relative; display: inline-block; margin: 0; }
+figure img { width: 100%; height: 100%; opacity: 0.05; transition: 0.5s ease-in-out; }
 figure:hover img { opacity: 1; transition: 0.5s ease-in-out; }
 figcaption {
   position: absolute;
@@ -38,6 +20,9 @@ figcaption {
   width: 75%;
 }
 figure:hover figcaption { opacity: 0; transition: 0.5s ease-in-out; }
+img { border-radius: 5px; }
+a.cover { text-decoration: none; }
+
 form textarea { height: 236px; }
 form #tags { min-height: 100px; }
 p#tags a:not(:last-child) { padding-right: 0.5em; }
@@ -49,3 +34,11 @@ footer {
   width: 100%;
   text-align: center;
 }
+
+@media (min-width: 400px) { figure { max-width: 49%; } }
+
+@media (min-width: 650px) { figure { max-width: 32.5%; } }
+
+@media (min-width: 950px) { figure { max-width: 24%; } }
+
+@media (min-width: 1200px) { figure { max-width: 19.5%; } }
